@@ -1,0 +1,7 @@
+X-Repolib-Name: docker
+URIs: https://download.docker.com/linux/debian
+Suites: trixie
+Components: stable
+Types: deb
+Signed-By: /etc/apt/keyrings/docker.asc
+Enabled: yes
