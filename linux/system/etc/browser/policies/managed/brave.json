@@ -1,0 +1,23 @@
+{
+  "BraveAIChatEnabled": false,
+  "BraveDeAmpEnabled": true,
+  "BraveDebouncingEnabled": true,
+  "BraveNewsDisabled": true,
+  "BraveP3AEnabled": false,
+  "BravePlaylistEnabled": false,
+  "BraveReduceLanguageEnabled": true,
+  "BraveRewardsDisabled": true,
+  "BraveSpeedreaderEnabled": false,
+  "BraveStatsPingEnabled": false,
+  "BraveTalkDisabled": true,
+  "BraveVPNDisabled": true,
+  "BraveWalletDisabled": true,
+  "BraveWaybackMachineEnabled": false,
+  "BraveWebDiscoveryEnabled": false,
+  "PromotionsEnabled": false,
+  "TorDisabled": true,
+}
+
+// https://support.brave.app/hc/en-us/articles/360039248271-Group-Policy
+
+// sudo install -v -D -o root -g root -m 644 ./brave.json /etc/brave/policies/managed/brave.json
