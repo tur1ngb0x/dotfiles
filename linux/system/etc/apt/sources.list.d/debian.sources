@@ -1,0 +1,31 @@
+X-Repolib-Name: trixie
+URIs: https://deb.debian.org/debian
+Suites: trixie
+Components: main contrib non-free non-free-firmware
+Types: deb
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+Enabled: yes
+
+X-Repolib-Name: trixie-updates
+URIs: https://deb.debian.org/debian
+Suites: trixie-updates
+Components: main contrib non-free non-free-firmware
+Types: deb
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+Enabled: yes
+
+X-Repolib-Name: trixie-security
+URIs: https://security.debian.org/debian-security
+Suites: trixie-security
+Components: main contrib non-free non-free-firmware
+Types: deb
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+Enabled: yes
+
+X-Repolib-Name: trixie-backports
+URIs: https://deb.debian.org/debian
+Suites: trixie-backports
+Components: main contrib non-free non-free-firmware
+Types: deb
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+Enabled: yes
