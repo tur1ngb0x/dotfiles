@@ -1,0 +1,39 @@
+X-Repolib-Name: noble
+URIs: http://archive.ubuntu.com/ubuntu
+Suites: noble
+Components: main restricted universe multiverse
+Types: deb
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+Enabled: yes
+
+X-Repolib-Name: noble-updates
+URIs: http://archive.ubuntu.com/ubuntu
+Suites: noble-updates
+Components: main restricted universe multiverse
+Types: deb
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+Enabled: yes
+
+X-Repolib-Name: noble-security
+URIs: http://security.ubuntu.com/ubuntu
+Suites: noble-security
+Components: main restricted universe multiverse
+Types: deb
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+Enabled: yes
+
+X-Repolib-Name: noble-backports
+URIs: http://archive.ubuntu.com/ubuntu
+Suites: noble-backports
+Components: main restricted universe multiverse
+Types: deb
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+Enabled: yes
+
+X-Repolib-Name: noble-proposed
+URIs: http://archive.ubuntu.com/ubuntu
+Suites: noble-proposed
+Components: main restricted universe multiverse
+Types: deb
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+Enabled: yes
