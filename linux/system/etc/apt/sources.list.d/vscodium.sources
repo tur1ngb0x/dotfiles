@@ -1,0 +1,6 @@
+X-Repolib-Name: brave
+Types: deb
+URIs: https://download.vscodium.com/debs
+Suites: vscodium
+Components: main
+Signed-by: /usr/share/keyrings/vscodium-archive-keyring.gpg
