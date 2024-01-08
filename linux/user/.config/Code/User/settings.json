@@ -1,0 +1,131 @@
+{
+	// Audio
+	"audioCues.save": "always",
+	"audioCues.format": "always",
+
+	// Diff Editor
+	"diffEditor.codeLens": true,
+	"diffEditor.ignoreTrimWhitespace": false,
+
+	// Editor
+	"editor.accessibilitySupport": "off",
+	"editor.bracketPairColorization.enabled": true,
+	"editor.cursorBlinking": "phase",
+	"editor.cursorSmoothCaretAnimation": "on",
+	"editor.cursorWidth": 2,
+	"editor.detectIndentation": false,
+	"editor.fontFamily": "'IBM Plex Mono', 'Liberation Mono', Monospace, Consolas",
+	"editor.fontLigatures": false,
+	"editor.fontSize": 18,
+	"editor.insertSpaces": false,
+	"editor.minimap.autohide": true,
+	"editor.minimap.enabled": false,
+	"editor.mouseWheelZoom": true,
+	"editor.renderLineHighlight": "all",
+	"editor.scrollbar.horizontalScrollbarSize": 6,
+	"editor.scrollbar.verticalScrollbarSize": 6,
+	"editor.semanticHighlighting.enabled": true,
+	"editor.smoothScrolling": true,
+	"editor.tabSize": 4,
+
+	// Explorer
+	"explorer.confirmDelete": true,
+	"explorer.openEditors.sortOrder": "alphabetical",
+	"explorer.sortOrder": "filesFirst",
+
+	// Extensions
+	"extensions.autoCheckUpdates": false,
+	"extensions.autoUpdate": "onlyEnabledExtensions",
+	"extensions.ignoreRecommendations": true,
+
+	// Files
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
+	"files.trimTrailingWhitespace": true,
+
+	// Git
+	"git.autofetch": true,
+	"git.confirmSync": false,
+	"git.defaultCloneDirectory": "~/src",
+	"git.enableSmartCommit": true,
+	"git.inputValidation": "always",
+	"git.showPushSuccessNotification": true,
+
+	// Markdown
+	"markdown.preview.breaks": true,
+
+	// Security
+	"security.workspace.trust.enabled": false,
+
+	// Telemetry
+	"telemetry.telemetryLevel": "off",
+
+	// Terminal
+	"terminal.integrated.confirmOnExit": "hasChildProcesses",
+	"terminal.integrated.copyOnSelection": true,
+	"terminal.integrated.cursorBlinking": true,
+	"terminal.integrated.cursorStyle": "line",
+	"terminal.integrated.cursorWidth": 2,
+	"terminal.integrated.defaultProfile.linux": "bash",
+	"terminal.integrated.enableBell": true,
+	"terminal.integrated.fontWeight": "normal",
+	"terminal.integrated.fontWeightBold": "normal",
+	"terminal.integrated.gpuAcceleration": "off",
+
+	// Updates
+	"update.mode": "none",
+	"update.showReleaseNotes": false,
+
+	// Window
+	"window.autoDetectColorScheme": true,
+	"window.commandCenter": false,
+	"window.confirmBeforeClose": "always",
+	"window.dialogStyle": "custom",
+	"window.newWindowDimensions": "maximized",
+	"window.title": "Visual Studio Code",
+	"window.titleBarStyle": "custom",
+
+	// Workbench
+	"workbench.activityBar.location": "top",
+	"workbench.colorTheme": "Default Light Modern",
+	"workbench.editor.highlightModifiedTabs": true,
+	"workbench.editor.pinnedTabSizing": "compact",
+	"workbench.editor.tabSizing": "fixed",
+	"workbench.enableExperiments": false,
+	"workbench.list.smoothScrolling": true,
+	"workbench.startupEditor": "none",
+	"workbench.tree.indent": 20,
+	"workbench.tree.renderIndentGuides": "always",
+
+	// Extension: Code Runner (formulahendry.code-runner)
+	"code-runner.clearPreviousOutput": true,
+	"code-runner.enableAppInsights": false,
+	"code-runner.saveFileBeforeRun": true,
+	"code-runner.executorMap":
+	{
+		"c": "gcc $fullFileName -o /tmp/$fileNameWithoutExt && gnome-terminal --title=$fullFileName --window --hide-menubar -- bash -c '/tmp/$fileNameWithoutExt;read line'",
+		"cpp": "g++ $fullFileName -o /tmp/$fileNameWithoutExt && gnome-terminal --title=$fullFileName --window --hide-menubar -- bash -c '/tmp/$fileNameWithoutExt;read line'",
+		"python": "gnome-terminal --title=$fullFileName --window --hide-menubar -- bash -c 'python $fullFileName;read line'"
+	},
+
+	// Extension: Markdown PDF (yzane.markdown-pdf)
+	"markdown-pdf.breaks": true,
+	"markdown-pdf.convertOnSave": false,
+	"markdown-pdf.displayHeaderFooter": false,
+	"markdown-pdf.emoji": false,
+	"markdown-pdf.footerTemplate": "",
+	"markdown-pdf.format": "A4",
+	"markdown-pdf.headerTemplate": "",
+	"markdown-pdf.margin.bottom": "1cm",
+	"markdown-pdf.margin.left": "1cm",
+	"markdown-pdf.margin.right": "1cm",
+	"markdown-pdf.margin.top": "1cm",
+	"markdown-pdf.outputDirectory": "~/Documents",
+	"markdown-pdf.printBackground": false,
+
+	// Extension: Notes (dionmunk.vscode-notes)
+	"Notes.notesLocation": "~/src/notes",
+
+	// Extension: Material Icons (PKief.material-icon-theme)
+	"material-icon-theme.folders.color": "#42a5f5",
+}
