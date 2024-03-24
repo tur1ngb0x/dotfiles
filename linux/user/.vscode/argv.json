@@ -1,0 +1,6 @@
+{
+	"disable-hardware-acceleration": true,
+	"enable-crash-reporter": false,
+	"force-color-profile": "srgb",
+	"log-level": "off",
+}
