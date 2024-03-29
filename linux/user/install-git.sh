@@ -65,5 +65,5 @@ case "${PKG}" in
 esac
 
 # common
-key_ssh 'github' 'tur1ngb0x'
-key_ssh 'gitlab' 'tur1ngb0x'
+#key_ssh 'github' 'tur1ngb0x'
+#key_ssh 'gitlab' 'tur1ngb0x'
