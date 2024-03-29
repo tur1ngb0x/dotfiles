@@ -41,9 +41,8 @@ export VISUAL="micro"
 # FUNCTIONS
 #######################################################################
 
-codesudo() { sudo code --disable-chromium-sandbox --disable-extensions --disable-gpu --no-sandbox --sync=off --user-data-dir=/tmp "${@}"; }
-codesrc() { code "${HOME}"/src; }
 chkpath() { tr ":" "\n" <<< "${PATH}"; }
+codesrc() { code "${HOME}"/src; }
 now() { date +"%Y%m%d-%H%M%S"; }
 out-clip() { xclip -selection clipboard; }
 out-code() { code -; }
