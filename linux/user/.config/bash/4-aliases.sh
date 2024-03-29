@@ -1,5 +1,4 @@
 
-# defaults
 alias chmod='chmod --verbose'
 alias chown='chown --verbose'
 alias cp='cp --verbose'
@@ -14,10 +13,3 @@ alias rm='rm --verbose'
 alias rmdir='rmdir --verbose'
 alias sudo='sudo '
 alias wget='wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
-
-# custom
-alias chkpath='tr ":" "\n" <<< "${PATH}"'
-alias now='date +"%Y%m%d-%H%M%S"'
-alias out-clip='xclip -selection clipboard'
-alias out-code='code -'
-alias out-curl='curl --form "clbin=<-" https://clbin.com'

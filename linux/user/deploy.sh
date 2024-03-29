@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+LC_ALL=C
+
 text() { tput rev; printf " %s \n" "${1}"; tput sgr0; }
 CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"
 
@@ -13,17 +15,9 @@ folders(){
 
 bash(){
 	text 'bash'
-	mkdir -pv "${HOME}/.config/bash"
 	rm -frv "${HOME}"/.bash_profile
 	ln -fsv "${CWD}"/.bash_logout "${HOME}"/.bash_logout
 	ln -fsv "${CWD}"/.bashrc "${HOME}"/.bashrc
-	ln -fsv "${CWD}"/.config/bash/0-init.sh "${HOME}"/.config/bash/0-init.sh
-	ln -fsv "${CWD}"/.config/bash/1-path.sh "${HOME}"/.config/bash/1-path.sh
-	ln -fsv "${CWD}"/.config/bash/2-variables.sh "${HOME}"/.config/bash/2-variables.sh
-	ln -fsv "${CWD}"/.config/bash/3-functions.sh "${HOME}"/.config/bash/3-functions.sh
-	ln -fsv "${CWD}"/.config/bash/4-aliases.sh "${HOME}"/.config/bash/4-aliases.sh
-	ln -fsv "${CWD}"/.config/bash/5-prompt.sh "${HOME}"/.config/bash/5-prompt.sh
-	ln -fsv "${CWD}"/.config/bash/6-misc.sh "${HOME}"/.config/bash/6-misc.sh
 	ln -fsv "${CWD}"/.inputrc "${HOME}"/.inputrc
 	ln -fsv "${CWD}"/.profile "${HOME}"/.profile
 }
@@ -59,7 +53,7 @@ x11(){
 }
 
 # create folders
-folders
+# folders
 
 # symlink dotfiles
 bash
