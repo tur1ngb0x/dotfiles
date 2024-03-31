@@ -44,7 +44,7 @@ export VISUAL="micro"
 
 chkpath() { command -p tr ":" "\n" <<< "${PATH}"; }
 codesrc() { command -p code "${HOME}"/src; }
-now() { command -p date +"%Y%m%d-%H%M%S"; }
+now() { command -p date +"%Y%m%d-%a-%H%M%S"; }
 out-clip() { command -p xclip -selection clipboard; }
 out-code() { command -p code -; }
 out-curl() { command -p curl --form "clbin=<-" https://clbin.com; }
