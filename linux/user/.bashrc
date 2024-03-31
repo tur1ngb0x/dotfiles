@@ -1,7 +1,7 @@
 
 #######################################################################
 # START
-########################################################################
+#######################################################################
 
 if [[ -z "${PS1}" ]]; then return; fi
 if [[ -r /usr/share/bash-completion/bash_completion ]]; then source /usr/share/bash-completion/bash_completion; fi
@@ -65,7 +65,6 @@ alias mkdir='command -p mkdir --verbose'
 alias mv='command -p mv --verbose'
 alias rm='command -p rm --verbose'
 alias rmdir='command -p rmdir --verbose'
-alias sudo='command -p sudo '
 alias wget='command -p wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
 
 #######################################################################
