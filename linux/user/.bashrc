@@ -1,6 +1,6 @@
 
 #######################################################################
-# START
+# INIT
 #######################################################################
 
 if [[ -z "${PS1}" ]]; then return; fi
@@ -45,9 +45,9 @@ export VISUAL="micro"
 chkpath() { command -p tr ":" "\n" <<< "${PATH}"; }
 codesrc() { command -p code "${HOME}"/src; }
 now() { command -p date +"%Y%m%d-%a-%H%M%S"; }
-out-clip() { command -p xclip -selection clipboard; }
-out-code() { command -p code -; }
-out-curl() { command -p curl --form "clbin=<-" https://clbin.com; }
+outclip() { command -p xclip -selection clipboard; }
+outcode() { command -p code -; }
+outcurl() { command -p curl --form "clbin=<-" https://clbin.com; }
 
 #######################################################################
 # ALIASES
@@ -77,6 +77,7 @@ PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
 #######################################################################
-# END
+# MISC
 #######################################################################
+
 if [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi
