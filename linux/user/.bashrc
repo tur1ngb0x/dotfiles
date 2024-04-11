@@ -5,7 +5,6 @@
 
 if [[ -z "${PS1}" ]]; then return; fi
 if [[ -r /usr/share/bash-completion/bash_completion ]]; then source /usr/share/bash-completion/bash_completion; fi
-
 shopt -s checkwinsize
 shopt -s direxpand
 shopt -s histverify
@@ -21,7 +20,6 @@ PATH="${PATH}:${HOME}/.go/bin"
 PATH="${PATH}:${HOME}/.local/share/JetBrains/Toolbox/scripts"
 PATH="${PATH}:${HOME}/src/scripts/linux"
 PATH="${PATH}:${HOME}/src/binaries"
-
 PATH="$(printf %s "${PATH}" | awk -vRS=: -vORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }' )"
 export PATH
 
@@ -44,7 +42,7 @@ export VISUAL="micro"
 
 chkpath() { command -p tr ":" "\n" <<< "${PATH}"; }
 codesrc() { command -p code "${HOME}"/src; }
-now() { command -p date +"%Y%m%d-%a-%H%M%S"; }
+datenow() { command -p date +"%Y%m%d-%a-%H%M%S"; }
 outclip() { command -p xclip -selection clipboard; }
 outcode() { command -p code -; }
 outcurl() { command -p curl --form "clbin=<-" https://clbin.com; }
@@ -73,7 +71,6 @@ alias wget='command -p wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
 
 PS1='\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ '
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
-
 export PS1
 
 #######################################################################
