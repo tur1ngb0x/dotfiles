@@ -45,6 +45,13 @@ key_ssh(){
     cat "${HOME}/.ssh/${key_public}"
 }
 
+repo_clone(){
+	mkdir "${HOME}"/src
+	pushd "${HOME}"/src || exit
+	git clone "${@}"
+	popd || exit
+}
+
 # detect package managers
 if [[ -f /usr/bin/apt ]]; then
     PKG="apt"
@@ -67,3 +74,9 @@ esac
 # common
 #key_ssh 'github' 'tur1ngb0x'
 #key_ssh 'gitlab' 'tur1ngb0x'
+#repo_clone 'https://github.com/smxi/inxi'
+#repo_clone 'https://github.com/dylanaraps/neofetch'
+#repo_clone 'https://github.com/tur1ngb0x/scripts'
+#repo_clone 'https://github.com/tur1ngb0x/dotfiles'
+#repo_clone 'https://github.com/tur1ngb0x/notes'
+#repo_clone 'https://github.com/tur1ngb0x/binaries'
