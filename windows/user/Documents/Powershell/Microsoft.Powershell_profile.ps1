@@ -1,3 +1,8 @@
+
+#######################################################################
+# INIT
+#######################################################################
+
 # Reference: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles
 
 # PS> update-help -uiculture en-US
@@ -25,13 +30,11 @@ function reboot    { restart-computer -confirm -force }
 function wslbackup { wsl --export "Ubuntu" "$HOME\Desktop\ubuntu-$(get-date -uformat '%Y%m%d-%H%M%S').tar" }
 function wsloff    { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; wsl --list --running; set-psdebug -off }
 
-
 #######################################################################
 # PROMPT
 #######################################################################
 
 function prompt    { "$env:USERNAME@$env:COMPUTERNAME $(get-location)`r`nλ " }
-
 
 #######################################################################
 # MISC
