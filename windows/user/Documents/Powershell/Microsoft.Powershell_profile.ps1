@@ -12,11 +12,29 @@
 # PS7 LINUX> mkdir -pv ~/.config/powershell/
 # PS7 LINUX> nano ~/.config/powershell/Microsoft.Powershell_profile.ps1
 
-function adb-opt { date; adb shell cmd package bg-dexopt-job; date }
-function poweroff { stop-computer -confirm -force }
-function prompt { "$env:USERNAME@$env:COMPUTERNAME $(get-location)`r`n-> " }
-function reboot { restart-computer -confirm -force }
-function wsl-backup { wsl --export "Ubuntu" "$HOME\Desktop\ubuntu-$(get-date -uformat '%Y%m%d-%H%M%S').tar" }
-function wsl-off { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; start-sleep 20; wsl --list --running; set-psdebug -off }
+#######################################################################
+# FUNCTIONS
+#######################################################################
+
+function adbopt    { adb shell cmd package bg-dexopt-job }
+function chkpath   { $env:path -split ";" }
+function codesrc   { code "${HOME}"/src }
+function datenow   { (get-date).tostring("yyyyMMdd-ddd-HHmmss") }
+function poweroff  { stop-computer -confirm -force }
+function reboot    { restart-computer -confirm -force }
+function wslbackup { wsl --export "Ubuntu" "$HOME\Desktop\ubuntu-$(get-date -uformat '%Y%m%d-%H%M%S').tar" }
+function wsloff    { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; wsl --list --running; set-psdebug -off }
+
+
+#######################################################################
+# PROMPT
+#######################################################################
+
+function prompt    { "$env:USERNAME@$env:COMPUTERNAME $(get-location)`r`nλ " }
+
+
+#######################################################################
+# MISC
+#######################################################################
 
 if (get-command starship -erroraction silentlycontinue) { invoke-expression (&starship init powershell) }

@@ -40,12 +40,15 @@ export VISUAL="micro"
 # FUNCTIONS
 #######################################################################
 
-chkpath() { command -p tr ":" "\n" <<< "${PATH}"; }
-codesrc() { command -p code "${HOME}"/src; }
-datenow() { command -p date +"%Y%m%d-%a-%H%M%S"; }
-outclip() { command -p xclip -selection clipboard; }
-outcode() { command -p code -; }
-outcurl() { command -p curl --form "clbin=<-" https://clbin.com; }
+adbopt()   { command -p adb shell cmd package bg-dexopt-job; }
+chkpath()  { command -p tr ":" "\n" <<< "${PATH}"; }
+codesrc()  { command -p code "${HOME}"/src; }
+datenow()  { command -p date +"%Y%m%d-%a-%H%M%S"; }
+outclip()  { command -p xclip -selection clipboard; }
+outcode()  { command -p code -; }
+outcurl()  { command -p curl --form "clbin=<-" https://clbin.com; }
+poweroff() { command -p systemctl poweroff; }
+reboot()   { command -p systemctl reboot; }
 
 #######################################################################
 # ALIASES
