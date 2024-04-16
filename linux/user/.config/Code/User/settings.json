@@ -13,6 +13,7 @@
 	"editor.fontFamily": "'Iosevka Fixed'",
 	"editor.fontLigatures": false,
 	"editor.fontSize": 15,
+	"editor.fontWeight": 300,
 	"editor.insertSpaces": false,
 	"editor.minimap.maxColumn": 80,
 	"editor.minimap.renderCharacters": false,
@@ -70,10 +71,6 @@
 	"terminal.integrated.fontWeightBold": "normal",
 	"terminal.integrated.gpuAcceleration": "off",
 
-	// Updates
-	"update.mode": "none",
-	"update.showReleaseNotes": false,
-
 	// Window
 	"window.autoDetectColorScheme": true,
 	"window.confirmBeforeClose": "always",
@@ -85,6 +82,7 @@
 
 	// Workbench
 	"workbench.activityBar.location": "top",
+	"workbench.colorTheme": "GitHub Dark Default",
 	"workbench.editor.highlightModifiedTabs": true,
 	"workbench.editor.pinnedTabSizing": "compact",
 	"workbench.editor.tabSizing": "fixed",
@@ -132,4 +130,6 @@
 
 	// Extension: WSL (ms-vscode-remote.remote-wsl)
 	"remote.WSL.debug": true,
+
+	// End
 }
