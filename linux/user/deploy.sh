@@ -9,7 +9,7 @@ folders(){
 	text 'folders'
 	mkdir -pv "${HOME}"/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
 	mkdir -pv "${HOME}"/.{cache,config,local/{bin,share,state}}
-	mkdir -pv "${HOME}"/src
+	mkdir -pv "${HOME}"/src/tmp
 	xdg-user-dirs-update
 }
 
