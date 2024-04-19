@@ -53,6 +53,7 @@ outcode()  { command -p code -; }
 outcurl()  { command -p curl --form "clbin=<-" https://clbin.com; }
 poweroff() { command -p systemctl poweroff; }
 reboot()   { command -p systemctl reboot; }
+wsldir()   { explorer.exe "${1}"; }
 
 #######################################################################
 # ALIASES
