@@ -84,5 +84,4 @@ export PS1
 #######################################################################
 # MISC
 #######################################################################
-
-if [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi
+if [[ $(command -v fastfetch) ]]; then fastfetch; elif [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi

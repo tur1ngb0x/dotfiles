@@ -1,7 +1,17 @@
 [wsl2]
+
 processors = 2
 memory = 4GB
 swap = 0
-vmIdleTimeout = 0
-debugConsole = true
+
 kernelCommandLine = audit=0 consoleblank=0 ipv6.disable=1 modprobe.blacklist=nouveau mitigations=off net.ifnames=0 nosgx nowatchdog pci=noaer
+vmIdleTimeout = 0
+
+
+debugConsole = true
+pageReporting = true
+
+guiApplications = false
+nestedVirtualization = false
+
+#safeMode = true
