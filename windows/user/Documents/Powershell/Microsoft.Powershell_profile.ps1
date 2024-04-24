@@ -16,15 +16,33 @@
 # FUNCTIONS
 #######################################################################
 
-function adbopt    { date; adb shell cmd package bg-dexopt-job; date }
-function chkpath   { $env:path -split ";" }
-function codesrc   { code "${HOME}"/src }
-function datenow   { (get-date).tostring("yyyyMMdd-ddd-HHmmss") }
-function poweroff  { stop-computer -confirm -force }
-function prompt    { "$env:USERNAME@$env:COMPUTERNAME $(get-location)`r`nλ " }
-function reboot    { restart-computer -confirm -force }
+function adbopt { date; adb shell cmd package bg-dexopt-job; date }
+function chkpath { $env:path -split ";" }
+function codesrc { code "${HOME}"/src }
+function datenow { (get-date).tostring("yyyyMMdd-ddd-HHmmss") }
+function poweroff { stop-computer -confirm -force }
+function prompt { "$env:USERNAME@$env:COMPUTERNAME $(get-location)`r`nλ " }
+function reboot { restart-computer -confirm -force }
 function wslbackup { wsl --export "Ubuntu" "$HOME\Desktop\ubuntu-$(get-date -uformat '%Y%m%d-%H%M%S').tar" }
-function wsloff    { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; wsl --list --running; set-psdebug -off }
+function wsloff { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; wsl --list --running; set-psdebug -off }
+
+function enable-wsl {
+    write-output 'enabling wsl, disabling vbox'
+    wsl --shutdown
+    dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+    dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+    wsl --shutdown
+    write-output 'reboot immediately for changes to take effect'
+}
+
+function enable-vbox {
+    write-output 'enabling vbox, disabling wsl'
+    wsl --shutdown    
+    dism.exe /online /disable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+    dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /all /norestart
+    wsl --shutdown
+    write-output 'reboot immediately for changes to take effect'
+}
 
 #######################################################################
 # MISC
