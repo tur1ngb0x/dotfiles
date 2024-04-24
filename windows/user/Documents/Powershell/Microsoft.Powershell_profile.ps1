@@ -23,10 +23,10 @@ function datenow { (get-date).tostring("yyyyMMdd-ddd-HHmmss") }
 function poweroff { stop-computer -confirm -force }
 function prompt { "$env:USERNAME@$env:COMPUTERNAME $(get-location)`r`nλ " }
 function reboot { restart-computer -confirm -force }
-function wslbackup { wsl --export "Ubuntu" "$HOME\Desktop\ubuntu-$(get-date -uformat '%Y%m%d-%H%M%S').tar" }
-function wsloff { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; wsl --list --running; set-psdebug -off }
+function wsl-backup { wsl --export "Ubuntu" "$HOME\Desktop\ubuntu-$(get-date -uformat '%Y%m%d-%H%M%S').tar" }
+function wsl-shutdown { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; wsl --list --running; set-psdebug -off }
 
-function enable-wsl {
+function wsl-enable {
     write-output 'enabling wsl, disabling vbox'
     wsl --shutdown
     dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
@@ -35,7 +35,7 @@ function enable-wsl {
     write-output 'reboot immediately for changes to take effect'
 }
 
-function enable-vbox {
+function wsl-disable {
     write-output 'enabling vbox, disabling wsl'
     wsl --shutdown    
     dism.exe /online /disable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
