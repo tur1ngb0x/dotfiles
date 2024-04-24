@@ -44,6 +44,15 @@ function wsl-disable {
     write-output "`nReboot immediately for changes to take effect`n"
 }
 
+function fix-os {
+    dism /online /cleanup-image /restorehealth /norestart
+    sfc /scannow
+    dism /online /cleanup-image /startcomponentcleanup /resetbase /norestart
+    cleanmgr /verylowdisk /sageset:420
+    cleanmgr /verylowdisk /sagerun:420
+    defrag c: /optimize /printprogress /verbose
+}
+
 #######################################################################
 # MISC
 #######################################################################
