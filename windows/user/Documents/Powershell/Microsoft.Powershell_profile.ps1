@@ -27,21 +27,21 @@ function wsl-backup { wsl --export "Ubuntu" "$HOME\Desktop\ubuntu-$(get-date -uf
 function wsl-shutdown { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; wsl --list --running; set-psdebug -off }
 
 function wsl-enable {
-    write-output '\nEnabling WSL, Disabling Virtualbox\n'
+    write-output "`nEnabling WSL, Disabling Virtualbox`n"
     wsl --shutdown
     dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
     dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
     wsl --shutdown
-    write-output '\nReboot immediately for changes to take effect\n'
+    write-output "`nReboot immediately for changes to take effect`n"
 }
 
 function wsl-disable {
-    write-output '\nDisabling WSL, Enabling Virtualbox\n'
+    write-output "`nDisabling WSL, Enabling Virtualbox`n"
     wsl --shutdown    
     dism.exe /online /disable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
     dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /all /norestart
     wsl --shutdown
-     write-output '\nReboot immediately for changes to take effect\n'
+    write-output "`nReboot immediately for changes to take effect`n"
 }
 
 #######################################################################
