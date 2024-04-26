@@ -73,16 +73,17 @@
 
 	// Window
 	"window.autoDetectColorScheme": true,
+	"window.commandCenter": false,
 	"window.confirmBeforeClose": "always",
+	"window.customTitleBarVisibility": "auto",
 	"window.dialogStyle": "custom",
 	"window.newWindowDimensions": "maximized",
 	"window.title": "${dirty}${remoteName}${separator}${activeEditorLong}",
 	"window.titleBarStyle": "custom",
-	"window.commandCenter": false,
 
 	// Workbench
 	"workbench.activityBar.location": "top",
-	"workbench.colorTheme": "GitHub Dark Default",
+	"workbench.colorTheme": "Monokai",
 	"workbench.editor.highlightModifiedTabs": true,
 	"workbench.editor.pinnedTabSizing": "compact",
 	"workbench.editor.tabSizing": "fixed",

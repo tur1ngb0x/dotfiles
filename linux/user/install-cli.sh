@@ -5,7 +5,6 @@ mkdir -pv "${HOME}"/Applications
 mkdir -pv "${HOME}"/.local/bin
 mkdir -pv "${HOME}"/.local/share/applications
 
-
 cli_golang()
 {
 	permalink="https://go.dev/dl"

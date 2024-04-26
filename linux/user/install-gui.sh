@@ -5,7 +5,7 @@ mkdir -pv "${HOME}"/Applications
 mkdir -pv "${HOME}"/.local/bin
 mkdir -pv "${HOME}"/.local/share/applications
 
-app_code() {
+gui_code() {
 	[[ -f "${HOME}"/Applications/VSCode-linux-x64/bin/code ]] && echo "already installed ${HOME}/Applications/VSCode-linux-x64/bin/code" && return
 	mkdir -pv "${HOME}"/Applications
 	wget -4O- 'https://code.visualstudio.com/sha/download?build=stable&os=linux-x64' | tar -vxz -C "${HOME}"/Applications
@@ -42,7 +42,7 @@ app_code() {
 	#mkdir -pv "${HOME}"/Applications/VSCode-linux-x64/data/tmp
 }
 
-app_firefox() {
+gui_firefox() {
 	[[ -f "${HOME}"/Applications/firefox/firefox ]] && echo "already installed: ${HOME}/Applications/firefox/firefox" && return
 	mkdir -pv "${HOME}"/Applications
 	wget -4O- 'https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US' | tar -xvjC "${HOME}"/Applications
@@ -63,7 +63,7 @@ $ sudo pacman -S dbus-glib
 EOF
 }
 
-app_thunderbird() {
+gui_thunderbird() {
 	[[ -f "${HOME}"/Applications/thunderbird/thunderbird ]] && echo "already installed: ${HOME}/Applications/thunderbird/thunderbird" && return
 	mkdir -pv "${HOME}"/Applications
 	wget -4O- 'https://download.mozilla.org/?product=thunderbird-latest-ssl&os=linux64&lang=en-US' | tar -xvjC "${HOME}"/Applications
@@ -76,7 +76,7 @@ app_thunderbird() {
 	sed -i "s|Icon=/opt/thunderbird/chrome/icons/default/default128.png|Icon=${HOME}/Applications/thunderbird/chrome/icons/default/default128.png|g" "${HOME}"/.local/share/applications/thunderbird.desktop
 }
 
-app_telegram()
+gui_telegram()
 {
 	wget -4O- 'https://telegram.org/dl/desktop/linux' | tar -xvJ -C "${HOME}"/Applications && (nohup "${HOME}"/Applications/Telegram/Telegram &) &> /tmp/telegram.out
 	wget -4O /tmp/telegram.tar.xz 'https://telegram.org/dl/desktop/linux'
@@ -84,7 +84,7 @@ app_telegram()
 	(nohup "${HOME}"/Applications/Telegram/Telegram &) &> /tmp/telegram.txt
 }
 
-app_toolbox()
+gui_toolbox()
 {
 	wget -4O- 'https://data.services.jetbrains.com/products/download?platform=linux&code=TBA' | tar -xvz --strip-components=1 -C /tmp && (nohup /tmp/jetbrains-toolbox &) &> /tmp/jetbrains-toolbox.out
 	wget -4O /tmp/toolbox.tar.gz 'https://data.services.jetbrains.com/products/download?platform=linux&code=TBA'
@@ -93,8 +93,8 @@ app_toolbox()
 }
 
 # begin script from here
-app_code
-app_firefox
-app_thunderbird
-app_telegram
-app_toolbox
+gui_code
+gui_firefox
+gui_thunderbird
+gui_telegram
+gui_toolbox
