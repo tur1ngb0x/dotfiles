@@ -2,7 +2,8 @@
 #######################################################################
 # INIT
 #######################################################################
-
+# shellcheck disable=SC2148
+# shellcheck disable=SC1091
 if [[ -z "${PS1}" ]]; then return; fi
 if [[ -r /usr/share/bash-completion/bash_completion ]]; then source /usr/share/bash-completion/bash_completion; fi
 shopt -s checkwinsize
@@ -81,5 +82,3 @@ export PS1
 # MISC
 #######################################################################
 if [[ $(command -v fastfetch) ]]; then fastfetch; elif [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi
-# shellcheck disable=SC2148
-# shellcheck disable=SC1091

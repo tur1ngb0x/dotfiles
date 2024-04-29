@@ -131,6 +131,7 @@
 
 	// Extension: WSL (ms-vscode-remote.remote-wsl)
 	"remote.WSL.debug": true,
+	"remoteHub.commitDirectlyWarning": "off",
 
 	// End
 }
