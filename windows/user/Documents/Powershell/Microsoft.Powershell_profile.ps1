@@ -56,6 +56,22 @@ function fix-disk {
     defrag c: /optimize /printprogress /verbose
 }
 
+function clean-chrome {
+    taskkill /f /t /im chrome.exe
+    rmdir /s %HOMEPATH%\AppData\Local\Google\Chrome\
+}
+
+function clean-edge {
+    taskkill /f /t /im msedge.exe
+    rmdir /s %HOMEPATH%\AppData\Local\Microsoft\Edge\
+}
+
+function clean-firefox {
+    taskkill /f /t /im firefox.exe
+    rmdir /s %HOMEPATH%\AppData\Local\Mozilla\Firefox\
+    rmdir /s %HOMEPATH%\AppData\Roaming\Mozilla\Firefox\
+}
+
 #######################################################################
 # MISC
 #######################################################################
