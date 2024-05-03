@@ -58,18 +58,18 @@ function fix-disk {
 
 function clean-chrome {
     taskkill /f /t /im chrome.exe
-    rmdir /s %HOMEPATH%\AppData\Local\Google\Chrome\
+    remove-item -literalpath $HOME\AppData\Local\Google\Chrome\
 }
 
 function clean-edge {
     taskkill /f /t /im msedge.exe
-    rmdir /s %HOMEPATH%\AppData\Local\Microsoft\Edge\
+    remove-item -literalpath $HOME\AppData\Local\Microsoft\Edge\ -confirm -force -recurse 
 }
 
 function clean-firefox {
     taskkill /f /t /im firefox.exe
-    rmdir /s %HOMEPATH%\AppData\Local\Mozilla\Firefox\
-    rmdir /s %HOMEPATH%\AppData\Roaming\Mozilla\Firefox\
+    remove-item -literalpath $HOME\AppData\Local\Mozilla\Firefox\ -confirm -force -recurse
+    remove-item -literalpath $HOME\AppData\Roaming\Mozilla\Firefox\ -confirm -force -recurse
 }
 
 #######################################################################
