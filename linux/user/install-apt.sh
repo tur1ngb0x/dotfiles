@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-codename="$(source /etc/os-release; echo "${VERSION_CODENAME}")"
+#codename="$(awk -F= '/UBUNTU_CODENAME/{print $2}' /etc/os-release)"
+codename="$(source /etc/os-release; echo "${UBUNTU_CODENAME}")"
 readonly codename
 
 function apt_chrome {
@@ -19,7 +20,7 @@ function apt_docker {
 	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 	sudo chmod a+r /etc/apt/keyrings/docker.asc
 	cat <<-EOF | sudo tee /etc/apt/sources.list.d/docker.list
-	deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable
+	deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu/ ${codename} stable
 	EOF
 	sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 	sudo groupadd -f docker && sudo usermod -aG docker "${USER}"
