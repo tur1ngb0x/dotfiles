@@ -37,13 +37,13 @@ function wsl-enable {
 
 function wsl-disable {
     write-output "`nDisabling WSL, Enabling Virtualbox`n"
-    wsl --shutdown    
+    wsl --shutdown
     dism.exe /online /disable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
     dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /all /norestart
     wsl --shutdown
     write-output "`nReboot immediately for changes to take effect`n"
 }
-    
+
 function fix-os {
     dism /online /cleanup-image /restorehealth /norestart
     sfc /scannow
@@ -58,12 +58,13 @@ function fix-disk {
 
 function clean-chrome {
     taskkill /f /t /im chrome.exe
-    remove-item -literalpath $HOME\AppData\Local\Google\Chrome\
+    remove-item -literalpath $HOME\AppData\Local\Google\Chrome\ -confirm -force -recurse
 }
 
 function clean-edge {
     taskkill /f /t /im msedge.exe
-    remove-item -literalpath $HOME\AppData\Local\Microsoft\Edge\ -confirm -force -recurse 
+	taskkill /f /t /im msedgewebview2.exe
+	remove-item -literalpath $HOME\AppData\Local\Microsoft\Edge\ -confirm -force -recurse
 }
 
 function clean-firefox {
