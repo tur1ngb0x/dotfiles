@@ -52,6 +52,7 @@ function outcurl { curl --form "clbin=<-" https://clbin.com; }
 function poweroff { systemctl poweroff; }
 function reboot { systemctl reboot; }
 function wslexp { explorer.exe .; }
+function inxifull { sudo inxi -a -F -r -t -xxx -y1 -z; }
 
 #######################################################################
 # ALIASES
@@ -75,7 +76,7 @@ alias wget='wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
 # PROMPT
 #######################################################################
 
-PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n λ "
+PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
