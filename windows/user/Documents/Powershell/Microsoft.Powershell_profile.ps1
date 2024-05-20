@@ -21,7 +21,7 @@ function chkpath { $env:path -split ";" }
 function codesrc { code "${HOME}"/src }
 function datenow { (get-date).tostring("yyyyMMdd-ddd-HHmmss") }
 function poweroff { stop-computer -confirm -force }
-function prompt { "$env:USERNAME@$env:COMPUTERNAME $(get-location)`r`nλ " }
+function prompt { "$env:USERNAME@$(hostname) $(get-location)`r`n$ " }
 function reboot { restart-computer -confirm -force }
 function wsl-backup { wsl --export "Ubuntu" "$HOME\Desktop\ubuntu-$(get-date -uformat '%Y%m%d-%H%M%S').tar" }
 function wsl-shutdown { set-psdebug -trace 1; wsl --list --running; wsl --shutdown; wsl --list --running; set-psdebug -off }
@@ -54,6 +54,15 @@ function fix-disk {
     cleanmgr /verylowdisk /sageset:420
     cleanmgr /verylowdisk /sagerun:420
     defrag c: /optimize /printprogress /verbose
+}
+
+function fix-network {
+	ipconfig /release
+	ipconfig /release6
+	ipconfig /flushdns
+	ipconfig /renew
+	ipconfig /renew6
+	ipconfig /registerdns
 }
 
 function clean-chrome {
