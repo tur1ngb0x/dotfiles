@@ -74,8 +74,7 @@ function fix-os {
 
 function fix-disk {
 	set-psdebug -trace 1
-    #cleanmgr /verylowdisk /sageset:420
-    cleanmgr /verylowdisk /sagerun:420
+	cleanmgr /verylowdisk /tuneup:420 | Out-Null
     defrag c: /optimize /printprogress /verbose
 	set-psdebug -off
 }
