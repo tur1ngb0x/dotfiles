@@ -18,7 +18,7 @@
 
 function adbopt { date; adb shell cmd package bg-dexopt-job; date }
 function chkpath { $env:path -split ";" }
-function codesrc { code "${HOME}"/src }
+function codesrc { code $HOME/src }
 function datenow { (get-date).tostring("yyyyMMdd-ddd-HHmmss") }
 function poweroff { stop-computer -confirm -force }
 function prompt { "$env:USERNAME@$(hostname) $(get-location)`r`n$ " }
