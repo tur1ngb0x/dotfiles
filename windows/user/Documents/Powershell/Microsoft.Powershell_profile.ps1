@@ -46,8 +46,8 @@ function wsl-enable {
 	set-psdebug -trace 1
     write-output "`nEnabling WSL, Disabling Virtualbox`n"
     wsl --shutdown
-    dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-    dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+    dism /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+    dism /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
     wsl --shutdown
     write-output "`nReboot immediately for changes to take effect`n"
 	set-psdebug -off
@@ -57,8 +57,8 @@ function wsl-disable {
 	set-psdebug -trace 1
     write-output "`nDisabling WSL, Enabling Virtualbox`n"
     wsl --shutdown
-    dism.exe /online /disable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-    dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /all /norestart
+    dism /online /disable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+    dism /online /disable-feature /featurename:VirtualMachinePlatform /all /norestart
     wsl --shutdown
     write-output "`nReboot immediately for changes to take effect`n"
 	set-psdebug -off
