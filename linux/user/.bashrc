@@ -75,14 +75,20 @@ alias wget='wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
 #######################################################################
 # PROMPT
 #######################################################################
-PS1="$(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release 2>/dev/null) \u@\h \w $(git branch --show-current 2>/dev/null)\n~>"
+_distro_="($(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release))"
+_username_="\u"
+_hostname_="\h"
+_directory_="\w"
+_newline_="\n"
+_at_="@"
+_symbol_="$"
+PS1="${_distro_} ${_username_}${_at_}${_hostname_} ${_directory_}${_newline_}${_symbol_} "
 #PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
 #PS1="${distro} \u@\h \w\n $ "
 #PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
-
 #######################################################################
 # MISC
 #######################################################################
-#if [[ $(command -v fastfetch) ]]; then fastfetch; elif [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi
+if [[ $(command -v fastfetch) ]]; then fastfetch; elif [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi
