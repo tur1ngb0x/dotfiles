@@ -76,13 +76,50 @@ alias wget='wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
 # PROMPT
 #######################################################################
 _distro_="($(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release))"
-_username_="\u"
-_hostname_="\h"
-_directory_="\w"
-_newline_="\n"
-_at_="@"
-_symbol_="~>"
-PS1="${_distro_} ${_username_}${_at_}${_hostname_} ${_directory_}${_newline_}${_symbol_} "
+
+DISTRO()
+{
+	if [[ -f /etc/os-release ]]; then
+		printf " (%s) " "$(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release)"
+	else
+		return
+	fi
+}
+
+USER()
+{
+	\u
+}
+
+HOST()
+{
+	\h
+}
+
+DIR()
+{
+	\w
+}
+
+GIT()
+{
+	if [[ -f /usr/bin/git ]]; then
+		if [[ $(git branch 2>/dev/null) ]]; then
+			printf " (%s) " "$(git branch --show-current)"
+		else
+			return
+		fi
+	else
+		return
+	fi
+}
+
+SIGN()
+{
+	printf "%s" "~>"
+}
+
+PS1=" ${DISTRO} ${USER}@${HOST} ${GIT}\n${SIGN} "
 unset distro username hostname directory newline at symbol
 #PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
 #PS1="${distro} \u@\h \w\n $ "
