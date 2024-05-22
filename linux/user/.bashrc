@@ -106,11 +106,12 @@ SIGN()
 
 NEWLINE="\n"
 USERNAME="\u"
+ATSIGN="@"
 HOSTNAME="\h"
 DIRECTORY="\w"
-SIGN="~>"
+ENDSIGN="~>"
 
-PS1="$(DISTRO) ${USERNAME}@${HOSTNAME} ${DIRECTORY} $(GIT)\n${SIGN} "
+PS1="$(DISTRO) ${USERNAME}${ATSIGN}${HOSTNAME} ${DIRECTORY} $(GIT)${NEWLINE}${ENDSIGN} "
 #PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
 #PS1="${distro} \u@\h \w\n $ "
 #PS1="\[\e]0;\u@\h \w\a\]${PS1}"
