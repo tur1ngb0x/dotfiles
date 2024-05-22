@@ -44,7 +44,7 @@ export VISUAL="micro"
 function adbopt { adb shell cmd package bg-dexopt-job; }
 function chkpath { tr ":" "\n" <<< "${PATH}"; }
 function chkmem { watch --interval 1 'free --mebi --lohi --total --wide'; }
-function checkip { curl ifconfig.me/all; }
+function chkip { curl ifconfig.me/all; }
 function codesrc { code "${HOME}"/src; }
 function datenow { date +"%Y%m%d-%a-%H%M%S"; }
 function outclip { xclip -selection clipboard; }
