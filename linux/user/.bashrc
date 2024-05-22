@@ -82,12 +82,10 @@ _directory_="\w"
 _newline_="\n"
 _at_="@"
 _symbol_="$"
-
 PS1="${_distro_} ${_username_}${_at_}${_hostname_} ${_directory_}${_newline_}${_symbol_} "
-
 #PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
 #PS1="${distro} \u@\h \w\n $ "
-PS1="\[\e]0;\u@\h \w\a\]${PS1}"
+#PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
 #######################################################################
