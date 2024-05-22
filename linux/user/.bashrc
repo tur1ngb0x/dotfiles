@@ -104,7 +104,13 @@ SIGN()
 	printf "%s" "~>"
 }
 
-PS1="$(DISTRO) \u@\h \w $(GIT)\n$(SIGN) "
+NEWLINE="\n"
+USERNAME="\u"
+HOSTNAME="\h"
+DIRECTORY="\w"
+SIGN="~>"
+
+PS1="$(DISTRO) [${USERNAME}@${HOSTNAME}:${DIRECTORY}] $(GIT)\n${SIGN} "
 #PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
 #PS1="${distro} \u@\h \w\n $ "
 #PS1="\[\e]0;\u@\h \w\a\]${PS1}"
