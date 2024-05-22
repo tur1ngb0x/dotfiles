@@ -79,7 +79,17 @@ alias wget='wget --inet4-only'
 # PROMPT
 #######################################################################
 #PS1="\[\e[94;1;7m\] $(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release) \[\e[93;1;7m\] \u@\h \[\e[92;1;7m\] \w \[\e[0m\]\n~> "
-PS1="\[\e[94;1;7m\] $(source /etc/os-release; echo "${ID}-${VERSION_ID}") \[\e[93;1;7m\] \u@\h \[\e[92;1;7m\] \w \[\e[0m\]\n$ "
+
+__git_repo__()
+{
+	if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
+		git branch --show-current
+	else
+		return
+	fi
+}
+
+PS1="\[\e[94;1;7m\] $(source /etc/os-release; echo "${ID}-${VERSION_ID}") \[\e[93;1;7m\] \u@\h \[\e[92;1;7m\] \w \[\e[0m\]$(git branch --show-current 2>/dev/null)\n$ "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
