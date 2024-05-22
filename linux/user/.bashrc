@@ -86,12 +86,6 @@ DISTRO()
 	fi
 }
 
-USER="\u"
-
-HOST="\h"
-
-DIR="\w"
-
 GIT()
 {
 	if [[ -f /usr/bin/git ]]; then
@@ -110,7 +104,7 @@ SIGN()
 	printf "%s" "~>"
 }
 
-PS1="$(DISTRO)@${USER}@${HOST}:${DIR} $(GIT)\n$(SIGN) "
+PS1="$(DISTRO) \u@\h \w $(GIT)\n$(SIGN) "
 unset distro username hostname directory newline at symbol
 #PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
 #PS1="${distro} \u@\h \w\n $ "
