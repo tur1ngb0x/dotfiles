@@ -90,7 +90,7 @@ __git_repo__()
 }
 
 OSINFO="$(source /etc/os-release; echo "${ID}-${VERSION_ID}")"
-GITREPO="$(git branch --show-current 2>/dev/null)"
+GITINFO="$(git branch --show-current 2>/dev/null)"
 
 PS1="\[\e[94;1;7m\] ${OSINFO} \[\e[93;1;7m\] \u@\h \[\e[92;1;7m\] \w \[\e[0m\] ${GITINFO}\n$ "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
