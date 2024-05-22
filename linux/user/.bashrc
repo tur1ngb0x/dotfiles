@@ -78,12 +78,12 @@ alias wget='wget --inet4-only'
 #######################################################################
 # PROMPT
 #######################################################################
-PS1='\[\e[96m\]\u@\h \[\e[92m\]\W\[\e[0m\] \$ '
+PS1='\[\e[96m\]\u@\h \[\e[92m\]\W\[\e[0m\]\n\$ '
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
 #######################################################################
 # MISC
 #######################################################################
+#if [[ $(command -v fastfetch) ]]; then fastfetch; elif [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi
 #if [[ $(command -v starship) ]]; then eval "$(starship init bash)"; fi
-if [[ $(command -v fastfetch) ]]; then fastfetch; elif [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi
