@@ -75,16 +75,8 @@ alias wget='wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
 #######################################################################
 # PROMPT
 #######################################################################
-_distro_="($(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release))"
-_username_="\u"
-_hostname_="\h"
-_directory_="\w"
-_git_="($(git --no-pager branch --show-current 2>/dev/null))"
-_newline_="\n"
-_at_="@"
-_symbol_="$"
 #PS1="${_distro_} ${_username_}${_at_}${_hostname_} ${_directory_} ${_git_}${_newline_}${_symbol_} "
-PS1="\[\e[94;1;7m\] $(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release) \[\e[93;1;7m\] \u@\h \[\e[92;1;7m\] \w \[\e[0m\] $(git --no-pager  branch --color=never --show-current)\n $ "
+PS1="\[\e[94;1;7m\] $(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release) \[\e[93;1;7m\] \u@\h \[\e[92;1;7m\] \w \[\e[0m\] $(git --no-pager branch --show-current 2> /dev/null)\n $ "
 #PS1="${distro} \u@\h \w\n $ "
 #PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
