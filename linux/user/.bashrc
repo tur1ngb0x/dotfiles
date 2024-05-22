@@ -75,8 +75,9 @@ alias wget='wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
 #######################################################################
 # PROMPT
 #######################################################################
-distro="$(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release)"
-PS1="${distro} \[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
+distro="($(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release))"
+PS1="\[\e[94;1;7m\] \u@\h \w \[\e[0m\]\n $ "
+PS1="${distro} \u@\h \w\n $ "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
