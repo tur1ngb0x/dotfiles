@@ -80,7 +80,7 @@ _distro_="($(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release)
 DISTRO()
 {
 	if [[ -f /etc/os-release ]]; then
-		printf " (%s) " "$(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release)"
+		printf "(%s)" "$(awk -F'=' '/^NAME=/ {gsub(/"/, "", $2); print $2}' /etc/os-release)"
 	else
 		return
 	fi
@@ -90,7 +90,7 @@ GIT()
 {
 	if [[ -f /usr/bin/git ]]; then
 		if [[ $(git branch 2>/dev/null) ]]; then
-			printf " (%s) " "$(git branch --show-current)"
+			printf "(%s)" "$(git branch --show-current)"
 		else
 			return
 		fi
