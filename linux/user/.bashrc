@@ -61,7 +61,7 @@ function inxifull { sudo inxi -a -F -r -t -xxx -y1 -z; }
 alias chmod='chmod --verbose'
 alias chown='chown --verbose'
 alias cp='cp --verbose'
-alias curl='curl --ipv4 --verbose'
+alias curl='curl --ipv4'
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias ln='ln --verbose'
@@ -70,7 +70,7 @@ alias mkdir='mkdir --verbose'
 alias mv='mv --verbose'
 alias rm='rm --verbose'
 alias rmdir='rmdir --verbose'
-alias wget='wget --inet4-only --hsts-file /tmp/wget-hsts --verbose'
+alias wget='wget --inet4-only'
 
 #######################################################################
 # PROMPT
