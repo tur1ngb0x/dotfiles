@@ -1,0 +1,36 @@
+format = """$time$username$hostname$directory$git_branch$line_break$character """
+add_newline = false
+
+[username]
+disabled = false
+format = '[$user](bold cyan)'
+show_always = true
+
+[hostname]
+disabled = false
+format = '[@$hostname](bold cyan) '
+ssh_only = false
+
+[directory]
+disabled = false
+truncation_length = 0
+truncate_to_repo = false
+format = '[$path](bold green) '
+
+[git_branch]
+disabled = false
+always_show_remote = true
+format = '[$branch](yellow)'
+
+[git_status]
+disabled = false
+format = '([\[$all_status$ahead_behind\]](red) )'
+
+[time]
+disabled = false
+format = '[$time](yellow)'
+time_format = "%Y-%m-%d "
+
+[character]
+disabled = false
+format = '[\$](white)'
