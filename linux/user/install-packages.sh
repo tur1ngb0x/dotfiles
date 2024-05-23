@@ -24,6 +24,12 @@ pkgs_flatpak=(
 	org.videolan.VLC
 )
 
+ppas_ubuntu=(
+	'ppa:flatpak/stable'
+	'ppa:git-core/ppa'
+	'ppa:papirus/papirus'
+)
+
 pkgs_ubuntu=(
 	atool
 	bash-completion
@@ -48,24 +54,7 @@ pkgs_ubuntu=(
 	virt-manager
 )
 
-ppa_ubuntu=(
-	'ppa:flatpak/stable'
-	'ppa:git-core/ppa'
-	'ppa:papirus/papirus'
-)
-
-text 'pkgs_snap';        for pkg in "${pkgs_snap[@]}";       do echo "${pkg}"; done
-text 'pkgs_flatpak';     for pkg in "${pkgs_flatpak[@]}";    do echo "${pkg}"; done
-text 'ppa_ubuntu';       for ppa in "${ppa_ubuntu[@]}";      do echo "${ppa}"; done
-text 'pkgs_ubuntu';      for pkg in "${pkgs_ubuntu[@]}";     do echo "${pkg}"; done
-
-text 'pkgs_snap';        for pkg in "${pkgs_snap[@]}";       do sudo snap install           "${pkg}";   done
-text 'pkgs_flatpak';     for pkg in "${pkgs_flatpak[@]}";    do flatpak install -y          "${pkg}";   done
-text 'ppa_ubuntu';       for ppa in "${ppa_ubuntu[@]}";      do sudo apt-add-repository -y  "${ppa}";   done
-text 'pkgs_ubuntu';      for pkg in "${pkgs_ubuntu[@]}";     do sudo apt-get install -y     "${pkg}";   done
-
-post_virt-manager()
-{
+function post_virt-manager {
 	sudo groupadd -f kvm
 	sudo usermod -aG kvm "${USER}"
 	sudo groupadd -f libvirt
@@ -83,21 +72,24 @@ post_virt-manager()
 	EOF
 }
 
-post_mysql()
-{
+function post_mysql {
 	mysql --show-warnings --user root --password --execute "\
-	DROP USER IF EXISTS user@localhost;\
-	CREATE USER IF NOT EXISTS user@localhost IDENTIFIED BY '1234567890';\
-	GRANT ALL PRIVILEGES ON *.* TO user@localhost;\
-	FLUSH PRIVILEGES;\
+		DROP USER IF EXISTS user@localhost;\
+		CREATE USER IF NOT EXISTS user@localhost IDENTIFIED BY '1234567890';\
+		GRANT ALL PRIVILEGES ON *.* TO user@localhost;\
+		FLUSH PRIVILEGES;\
 	"
 	mysql --show-warnings --user root --password --execute "\
 		SELECT user,host,plugin,password_expired FROM mysql.user;\
 	"
 }
 
-post_docker()
-{
-	sudo groupadd -f docker
-	sudo usermod -aG docker "${USER}"
-}
+# text 'pkgs_snap''        for pkg in "${pkgs_snap[@]}";       do echo "${pkg}"; done
+# text 'pkgs_flatpak';     for pkg in "${pkgs_flatpak[@]}";    do echo "${pkg}"; done
+# text 'ppa_ubuntu';       for ppa in "${ppa_ubuntu[@]}";      do echo "${ppa}"; done
+# text 'pkgs_ubuntu';      for pkg in "${pkgs_ubuntu[@]}";     do echo "${pkg}"; done
+
+#text 'pkgs_snap';        for pkg in "${pkgs_snap[@]}";       do sudo snap install           "${pkg}";   done
+#text 'pkgs_flatpak';     for pkg in "${pkgs_flatpak[@]}";    do flatpak install -y          "${pkg}";   done
+#text 'ppa_ubuntu';       for ppa in "${ppa_ubuntu[@]}";      do sudo apt-add-repository -y  "${ppa}";   done
+#text 'pkgs_ubuntu';      for pkg in "${pkgs_ubuntu[@]}";     do sudo apt-get install -y     "${pkg}";   done
