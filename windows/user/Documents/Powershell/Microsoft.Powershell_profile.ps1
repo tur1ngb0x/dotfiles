@@ -90,6 +90,11 @@ function fix-network {
 	set-psdebug -off
 }
 
+function fix-firefox {
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+    iwr "https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.ps1" -useb | iex
+}
+
 function clean-chrome {
 	set-psdebug -trace 1
     taskkill /f /t /im chrome.exe

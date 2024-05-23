@@ -42,20 +42,21 @@ export VISUAL="micro"
 #######################################################################
 
 function adbopt { adb shell cmd package bg-dexopt-job; }
-function chkpath { tr ":" "\n" <<< "${PATH}"; }
-function chkmem { watch --interval 1 'free --mebi --lohi --total --wide'; }
 function chkip { curl ifconfig.me/all; }
+function chkmem { watch --interval 1 'free --mebi --lohi --total --wide'; }
+function chkpath { tr ":" "\n" <<< "${PATH}"; }
 function chkping { ping -4 "${@}"; }
 function chkroute { traceroute -4 "${@}"; }
 function codesrc { code "${HOME}"/src; }
 function datenow { date +"%Y%m%d-%a-%H%M%S"; }
+function ffuifix { bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"; }
+function inxifull { sudo inxi -a -F -r -t -xxx -y1 -z; }
 function outclip { xclip -selection clipboard; }
 function outcode { code -; }
 function outcurl { curl --form "clbin=<-" https://clbin.com; }
 function poweroff { systemctl poweroff; }
 function reboot { systemctl reboot; }
 function wslexp { explorer.exe .; }
-function inxifull { sudo inxi -a -F -r -t -xxx -y1 -z; }
 
 #######################################################################
 # ALIASES
