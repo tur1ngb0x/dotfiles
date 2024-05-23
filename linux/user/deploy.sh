@@ -13,13 +13,15 @@ folders(){
 	xdg-user-dirs-update
 }
 
-bash(){
-	text 'bash'
+shell(){
+	text 'shell'
+	mkdir -pv "${HOME}"/.config
 	rm -frv "${HOME}"/.bash_profile
 	ln -fsv "${CWD}"/.bash_logout "${HOME}"/.bash_logout
 	ln -fsv "${CWD}"/.bashrc "${HOME}"/.bashrc
 	ln -fsv "${CWD}"/.inputrc "${HOME}"/.inputrc
 	ln -fsv "${CWD}"/.profile "${HOME}"/.profile
+	ln -fsv "${CWD}"/.config/starship.toml "${HOME}"/.config/starship.toml
 }
 
 code(){
@@ -56,7 +58,7 @@ x11(){
 # folders
 
 # symlink dotfiles
-bash
+shell
 code
 fonts
 git
