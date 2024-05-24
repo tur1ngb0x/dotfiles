@@ -1,5 +1,19 @@
-format = """$time$username$hostname$directory$git_branch$line_break$character """
+format = """\
+$time\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$line_break\
+$character\
+"""
+
 add_newline = false
+
+[time]
+disabled = false
+format = '[$time](yellow)'
+time_format = "%Y-%m-%d "
 
 [username]
 disabled = false
@@ -26,11 +40,13 @@ format = '[$branch](yellow)'
 disabled = false
 format = '([\[$all_status$ahead_behind\]](red) )'
 
-[time]
-disabled = false
-format = '[$time](yellow)'
-time_format = "%Y-%m-%d "
-
 [character]
 disabled = false
-format = '[\$](white)'
+format = '[\$](white) '
+
+[custom.os]
+disabled = false
+command = 'source /etc/os-release && echo "${ID}-${VERSION_ID}"'
+format = '[$output](white) '
+shell = ['bash', '-c']
+when = true
