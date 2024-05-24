@@ -42,20 +42,27 @@ export VISUAL="micro"
 #######################################################################
 
 function adbopt { adb shell cmd package bg-dexopt-job; }
-function chkip { curl ifconfig.me/all; }
-function chkmem { watch --interval 1 'free --mebi --lohi --total --wide'; }
-function chkpath { tr ":" "\n" <<< "${PATH}"; }
-function chkping { ping -4 "${@}"; }
-function chkroute { traceroute -4 "${@}"; }
+function cfg-sys-fstab { sudoedit /etc/fstab; }
+function cfg-sys-grub { sudoedit /etc/default/grub; }
+function cfg-sys-ssh { sudoedit /etc/ssh/ssh_config ;}
+function cfg-sys-sshd { sudoedit /etc/ssh/sshd_config ;}
+function cfg-user-bash { "${EDITOR}" "${HOME}"/.bashrc ;}
+function cfg-user-profile { "${EDITOR}" "${HOME}"/.profile ;}
+function chk-ip { curl ifconfig.me/all; }
+function chk-mem { watch --interval 1 'free --mebi --lohi --total --wide'; }
+function chk-path { tr ":" "\n" <<< "${PATH}"; }
+function chk-ping { ping -4 "${@}"; }
+function chk-route { traceroute -4 "${@}"; }
 function codesrc { code "${HOME}"/src; }
 function datenow { date +"%Y%m%d-%a-%H%M%S"; }
 function ffuifix { bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"; }
 function inxifull { sudo inxi -a -F -r -t -xxx -y1 -z; }
-function outclip { xclip -selection clipboard; }
-function outcode { code -; }
-function outcurl { curl --form "clbin=<-" https://clbin.com; }
+function out-clip { xclip -selection clipboard; }
+function out-code { code -; }
+function out-curl { curl --form "clbin=<-" https://clbin.com; }
 function poweroff { systemctl poweroff; }
 function reboot { systemctl reboot; }
+function refreshell { clear; reset; source "${HOME}"/.bashrc; }
 function wslexp { explorer.exe .; }
 
 #######################################################################
