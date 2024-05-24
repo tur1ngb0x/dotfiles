@@ -10,7 +10,7 @@
 	"editor.cursorSmoothCaretAnimation": "on",
 	"editor.cursorWidth": 2,
 	"editor.detectIndentation": false,
-	"editor.fontFamily": "'Iosevka Fixed'",
+	"editor.fontFamily": "Consolas",
 	"editor.fontLigatures": false,
 	"editor.fontSize": 15,
 	"editor.fontWeight": 300,
@@ -70,9 +70,6 @@
 	"terminal.integrated.fontWeight": "normal",
 	"terminal.integrated.fontWeightBold": "normal",
 	"terminal.integrated.gpuAcceleration": "off",
-
-	// Window
-	"window.autoDetectColorScheme": true,
 	"window.commandCenter": false,
 	"window.confirmBeforeClose": "always",
 	"window.customTitleBarVisibility": "auto",
@@ -121,17 +118,28 @@
 	"markdown-pdf.margin.top": "1cm",
 	"markdown-pdf.outputDirectory": "~/Documents",
 	"markdown-pdf.printBackground": false,
+	"markdown-pdf.highlightStyle": "github.css",
+	"markdown-pdf.type": ["pdf","html","png","jpg"],
 
-	// Extension: Markdown Preview Enhanced (shd101wyy.markdown-preview-enhanced)
-	"markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true,
-	"markdown-preview-enhanced.previewMode": "Multiple Previews",
+	// Extension: Markdown PDF Enhanced (hd101wyy.markdown-preview-enhanced)
+	"markdown-preview-enhanced.enableEmojiSyntax": false,
+	"markdown-preview-enhanced.enableLinkify": false,
+	"markdown-preview-enhanced.enableWikiLinkSyntax": false,
+	"markdown-preview-enhanced.HTML5EmbedUseImageSyntax": false,
+	"markdown-preview-enhanced.mathRenderingOption": "MathJax",
+	"markdown-preview-enhanced.previewColorScheme": "editorColorScheme",
+	"markdown-preview-enhanced.useGitHubStylePipedLink": true,
 
 	// Extension: Material Icons (PKief.material-icon-theme)
 	"material-icon-theme.folders.color": "#42a5f5",
 
 	// Extension: WSL (ms-vscode-remote.remote-wsl)
 	"remote.WSL.debug": true,
-	"remoteHub.commitDirectlyWarning": "off",
+	"remote.SSH.enableX11Forwarding": false,
+	"remote.SSH.maxReconnectionAttempts": 8,
+	"remote.SSH.remotePlatform": {
+		"a5": "linux"
+	},
 
 	// End
 }
