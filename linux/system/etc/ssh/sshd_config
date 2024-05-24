@@ -1,0 +1,14 @@
+AddressFamily inet
+Banner none
+ClientAliveCountMax 0
+ClientAliveInterval 0
+Compression no
+MaxSessions 10
+PermitEmptyPasswords no
+PermitRootLogin no
+Port 52420
+PrintMotd no
+PrintLastLog no
+Protocol 2
+TCPKeepAlive yes
+UseDNS no

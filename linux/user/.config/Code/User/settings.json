@@ -10,7 +10,7 @@
 	"editor.cursorSmoothCaretAnimation": "on",
 	"editor.cursorWidth": 2,
 	"editor.detectIndentation": false,
-	"editor.fontFamily": "Consolas",
+	"editor.fontFamily": "'Cascadia Code Light', 'Consolas'",
 	"editor.fontLigatures": false,
 	"editor.fontSize": 15,
 	"editor.fontWeight": 300,
