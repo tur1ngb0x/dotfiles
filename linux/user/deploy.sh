@@ -55,7 +55,7 @@ x11(){
 }
 
 # create folders
-# folders
+folders
 
 # symlink dotfiles
 shell
