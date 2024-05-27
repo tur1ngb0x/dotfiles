@@ -4,42 +4,43 @@ $username\
 $hostname\
 $directory\
 $git_branch\
+$git_status\
 $line_break\
 $character\
 """
 
 [time]
 disabled = true
-format = '[$time](bold yellow)'
+format = '[$time](yellow)'
 time_format = "%Y-%m-%d %a %H:%M:%S "
 
 [username]
 disabled = false
-format = '[$user](bold cyan)'
+format = '[$user](cyan)'
 show_always = true
 
 [hostname]
 disabled = false
-format = '[@$hostname](bold cyan) '
+format = '[@$hostname](cyan) '
 ssh_only = false
 
 [directory]
 disabled = false
-format = '[$path](bold green) '
+format = '[$path](green) '
 truncate_to_repo = false
 truncation_length = 0
 
 [git_branch]
 disabled = false
 always_show_remote = true
-format = '[$branch](bold yellow)'
+format = '[$branch](yellow) '
 
 [git_status]
 disabled = false
-format = '([\[$all_status$ahead_behind\]](bold red) )'
+format = '[$all_status$ahead_behind](red) '
 
 [character]
 disabled = false
 format = '[$symbol](green) '
-success_symbol = '[\$](bold white)'
-error_symbol =  '[\$](bold red)'
+success_symbol = '[\$](white)'
+error_symbol =  '[\$](red)'
