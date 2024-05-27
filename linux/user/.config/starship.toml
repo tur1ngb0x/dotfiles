@@ -8,12 +8,10 @@ $line_break\
 $character\
 """
 
-add_newline = false
-
 [time]
-disabled = false
-format = '[$time](yellow)'
-time_format = "%Y-%m-%d "
+disabled = true
+format = '[$time](bold yellow)'
+time_format = "%Y-%m-%d %a %H:%M:%S "
 
 [username]
 disabled = false
@@ -27,26 +25,21 @@ ssh_only = false
 
 [directory]
 disabled = false
-truncation_length = 0
-truncate_to_repo = false
 format = '[$path](bold green) '
+truncate_to_repo = false
+truncation_length = 0
 
 [git_branch]
 disabled = false
 always_show_remote = true
-format = '[$branch](yellow)'
+format = '[$branch](bold yellow)'
 
 [git_status]
 disabled = false
-format = '([\[$all_status$ahead_behind\]](red) )'
+format = '([\[$all_status$ahead_behind\]](bold red) )'
 
 [character]
 disabled = false
-format = '[\$](white) '
-
-[custom.os]
-disabled = false
-command = 'source /etc/os-release && echo "${ID}-${VERSION_ID}"'
-format = '[$output](white) '
-shell = ['bash', '-c']
-when = true
+format = '[$symbol](green) '
+success_symbol = '[\$](bold white)'
+error_symbol =  '[\$](bold red)'
