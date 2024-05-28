@@ -13,7 +13,6 @@
 	"editor.fontFamily": "'LiterationMono Nerd Font'",
 	"editor.fontLigatures": false,
 	"editor.fontSize": 15,
-	"editor.fontWeight": 200,
 	"editor.insertSpaces": false,
 	"editor.minimap.maxColumn": 80,
 	"editor.minimap.renderCharacters": false,
@@ -28,7 +27,9 @@
 
 	// Explorer
 	"explorer.confirmDelete": true,
+	"explorer.incrementalNaming": "smart",
 	"explorer.openEditors.sortOrder": "alphabetical",
+	"explorer.openEditors.visible": 8,
 	"explorer.sortOrder": "filesFirst",
 
 	// Extensions
@@ -133,13 +134,18 @@
 	// Extension: Material Icons (PKief.material-icon-theme)
 	"material-icon-theme.folders.color": "#42a5f5",
 
-	// Extension: WSL (ms-vscode-remote.remote-wsl)
-	"remote.WSL.debug": true,
-	"remote.SSH.enableX11Forwarding": false,
+	// Extension: Remote Explorer (ms-vscode.remote-explorer)
+	"remote-explorer.foldersSortOrder": "alphabetical",
+
+	// Extension: Remote SSH (ms-vscode-remote.remote-ssh)
+	"remote.SSH.connectTimeout": 60,
+	"remote.SSH.enableRemoteCommand": true,
 	"remote.SSH.maxReconnectionAttempts": 8,
-	"remote.SSH.remotePlatform": {
-		"a5": "linux"
-	},
+	"remote.SSH.remotePlatform": { "a5": "linux" },
+	"remote.SSH.showLoginTerminal": true,
+
+	// Extension: Remote WSL (ms-vscode-remote.remote-wsl)
+	"remote.WSL.debug": true,
 
 	// End
 }
