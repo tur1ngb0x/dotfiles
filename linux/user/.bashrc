@@ -60,8 +60,8 @@ function inxifull { sudo inxi -a -F -r -t -xxx -y1 -z; }
 function out-clip { xclip -selection clipboard; }
 function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
-function poweroff { systemctl poweroff; }
-function reboot { systemctl reboot; }
+function poweroff { sudo systemctl poweroff; }
+function reboot { sudo systemctl reboot; }
 function refreshell { clear; reset; source "${HOME}"/.bashrc; }
 function wslexp { explorer.exe .; }
 
