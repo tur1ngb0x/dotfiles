@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# override locale
 LC_ALL=C
 
 text() { tput rev; printf " %s \n" "${1}"; tput sgr0; }
