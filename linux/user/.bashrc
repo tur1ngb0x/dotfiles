@@ -87,7 +87,9 @@ alias wget='wget --inet4-only'
 #######################################################################
 # PROMPT
 #######################################################################
-PS1='\[\e[96m\]\u@\h \[\e[92m\]\w \[\e[0m\]\n \$ '
+function osinfo() { source /etc/os-release; echo "${ID}-${VERSION_ID}"; }; export -f osinfo
+function gitinfo() { git branch --show-current 2>/dev/null; }; export -f gitinfo
+PS1='$(osinfo) \u@\h \w $(gitinfo)\n\$ '
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
@@ -95,4 +97,4 @@ export PS1
 # MISC
 #######################################################################
 #if [[ $(command -v fastfetch) ]]; then fastfetch; elif [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh; fi
-if [[ $(command -v starship) ]]; then eval "$(starship init bash)"; fi
+#if [[ $(command -v starship) ]]; then eval "$(starship init bash)"; fi
