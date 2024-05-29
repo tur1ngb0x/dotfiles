@@ -85,7 +85,7 @@
 	"window.titleBarStyle": "custom",
 
 	// Workbench
-	"workbench.activityBar.location": "top",
+	"workbench.activityBar.location": "default",
 	"workbench.colorTheme": "Monokai",
 	"workbench.editor.highlightModifiedTabs": true,
 	"workbench.editor.pinnedTabSizing": "compact",
