@@ -45,10 +45,15 @@
 	// Git
 	"git.autofetch": true,
 	"git.confirmSync": false,
+	"git.defaultCloneDirectory": "$HOME/src/",
 	"git.enableSmartCommit": true,
 	"git.inputValidation": true,
 	"git.postCommitCommand": "sync",
+	"git.scanRepositories": [ "$HOME/src" ],
 	"git.showPushSuccessNotification": true,
+	"git.supportCancellation": true,
+	"git.terminalGitEditor": true,
+	"git.timeline.showUncommitted": true,
 
 	// Markdown
 	"markdown.preview.breaks": true,
