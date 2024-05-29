@@ -1,4 +1,6 @@
 format = """\
+${custom.os}\
+$line_break\
 $time\
 $username\
 $hostname\
@@ -9,10 +11,17 @@ $line_break\
 $character\
 """
 
+[custom.os]
+disabled = false
+command = 'source /etc/os-release; echo "${ID}-${VERSION_ID}"'
+format = '[$output](white) '
+shell = ['bash', '-c']
+use_stdin = false
+
 [time]
-disabled = true
+disabled = false
 format = '[$time](yellow)'
-time_format = "%Y-%m-%d %a %H:%M:%S "
+time_format = '%Y-%m-%d %a %H:%M:%S '
 
 [username]
 disabled = false

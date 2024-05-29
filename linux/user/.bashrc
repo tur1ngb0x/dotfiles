@@ -55,13 +55,14 @@ function chk-ping { ping -4 "${@}"; }
 function chk-route { traceroute -4 "${@}"; }
 function codesrc { code "${HOME}"/src; }
 function datenow { date +"%Y%m%d-%a-%H%M%S"; }
-function ffuifix { bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"; }
-function inxifull { sudo inxi -a -F -r -t -xxx -y1 -z; }
+function fix-ffui { bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"; }
+function fix-ssh { sudo bash -c 'systemctl stop --force --now NetworkManager sshd ssh; systemctl restart --force --now NetworkManager sshd ssh'; }
+function inxifull { sudo bash -c 'inxi -a -F -r -t -xxx -y1 -z'; }
 function out-clip { xclip -selection clipboard; }
 function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
-function poweroff { sudo systemctl poweroff; }
-function reboot { sudo systemctl reboot; }
+function poweroff { sudo bash -c 'systemctl poweroff'; }
+function reboot { sudo bash -c 'systemctl reboot'; }
 function refreshell { clear; reset; source "${HOME}"/.bashrc; }
 function wslexp { explorer.exe .; }
 
