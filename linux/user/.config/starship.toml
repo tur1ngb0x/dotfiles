@@ -2,6 +2,7 @@ format = """\
 $time\
 ${custom.ssh}\
 ${custom.os}\
+$line_break\
 $username\
 $hostname\
 $directory\
@@ -10,7 +11,6 @@ $git_status\
 $line_break\
 $character\
 """
-
 
 [custom.ssh]
 disabled = false
@@ -23,7 +23,7 @@ when = true
 [custom.os]
 disabled = false
 command = 'source /etc/os-release; echo "${ID}-${VERSION_ID}"'
-format = '[$output](dimmed white) '
+format = '[$output](dimmed white)'
 shell = ['bash', '-c']
 use_stdin = false
 when = true

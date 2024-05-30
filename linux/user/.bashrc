@@ -21,7 +21,7 @@ _SET_BASHCOMP_="Y"
 _SET_FETCH_="N"
 _SET_FUNCTIONS_="Y"
 _SET_PATH_="Y"
-_SET_PROMPT_="Y"
+_SET_PROMPT_="N"
 _SET_STARSHIP_="N"
 _SET_VARIABLES_="Y"
 
@@ -137,7 +137,7 @@ if [[ ${_SET_PROMPT_} == 'Y' ]]; then
 	col_cyan="$(tput setaf 14)"
 	col_white="$(tput setaf 15)"
 	col_reset="$(tput sgr0)"
-	PS1='${col_black}$(info_datetime) $(info_ssh)$(info_os)${col_reset} ${col_cyan}\u@\h${col_reset} ${col_green}\w${col_reset} ${col_red}$(info_git)${col_reset}\n${col_black}\$${col_reset} '
+	PS1='${col_black}$(info_datetime) $(info_ssh)$(info_os)${col_reset}\n${col_cyan}\u@\h${col_reset} ${col_green}\w${col_reset} ${col_red}$(info_git)${col_reset}\n${col_black}\$${col_reset} '
 	PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 	export PS1
 fi
