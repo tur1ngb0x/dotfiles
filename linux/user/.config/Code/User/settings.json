@@ -44,9 +44,9 @@
 
 	// Git
 	"git.autofetch": true,
-	"git.confirmSync": false,
-	"git.defaultCloneDirectory": "$HOME/src/",
+    "git.confirmSync": false,
 	"git.enableSmartCommit": true,
+	"git.defaultCloneDirectory": "$HOME/src/",
 	"git.inputValidation": true,
 	"git.postCommitCommand": "sync",
 	"git.scanRepositories": [ "$HOME/src" ],
@@ -148,6 +148,7 @@
 	"remote.SSH.maxReconnectionAttempts": 8,
 	"remote.SSH.remotePlatform": { "a5": "linux" },
 	"remote.SSH.showLoginTerminal": true,
+	"remote.SSH.useLocalServer": false,
 
 	// Extension: Remote WSL (ms-vscode-remote.remote-wsl)
 	"remote.WSL.debug": true,
