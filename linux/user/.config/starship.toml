@@ -14,43 +14,42 @@ $character\
 [custom.os]
 disabled = false
 command = 'source /etc/os-release; echo "${ID}-${VERSION_ID}"'
-format = '[$output](yellow) '
+format = '[$output](dimmed white) '
 shell = ['bash', '-c']
 use_stdin = false
 when = true
 
 [time]
 disabled = false
-format = '[$time](yellow)'
-time_format = '%Y-%m-%d %a %H:%M:%S '
+format = '[$time](dimmed white)'
+time_format = '%Y-%m-%d_%H:%M:%S'
 
 [username]
 disabled = false
-format = '[$user](cyan)'
+format = '[$user](bright-cyan)'
 show_always = true
 
 [hostname]
 disabled = false
-format = '[@$hostname](cyan) '
+format = '[@$hostname](bright-cyan) '
 ssh_only = false
 
 [directory]
 disabled = false
-format = '[$path](green) '
+format = '[$path](bright-green) '
 truncate_to_repo = false
 truncation_length = 0
 
 [git_branch]
 disabled = false
 always_show_remote = true
-format = '[$branch](red) '
+format = '[$branch](bright-yellow) '
 
 [git_status]
 disabled = false
-format = '[$all_status$ahead_behind](red) '
+format = '[$all_status$ahead_behind](bright-red) '
 
 [character]
 disabled = false
-format = '[$symbol](green) '
 success_symbol = '[\$](white)'
 error_symbol =  '[\$](red)'

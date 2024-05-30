@@ -7,50 +7,72 @@
 # shellcheck disable=SC1091
 
 if [[ -z "${PS1}" ]]; then return; fi
-if [[ -r /usr/share/bash-completion/bash_completion ]]; then source /usr/share/bash-completion/bash_completion; fi
 
 shopt -s checkwinsize
 shopt -s direxpand
 shopt -s histverify
 
-SET_SCRIPT_FETCH="Y"
-SET_PROMPT_CUSTOM="N"
-SET_PROMPT_STARSHIP="N"
-SET_CUSTOM_FUNCTIONS="N"
-SET_CUSTOM_ALIASES="N"
+#######################################################################
+# FEATURES (Y to enable, anything else to disable)
+#######################################################################
+
+_SET_ALIASES_="Y"
+_SET_BASHCOMP_="Y"
+_SET_FETCH_="Y"
+_SET_FUNCTIONS_="Y"
+_SET_PATH_="Y"
+_SET_PROMPT_="Y"
+_SET_STARSHIP_="N"
+_SET_VARIABLES_="Y"
+
+#######################################################################
+# COMPLETION
+#######################################################################
+
+if [[ ${_SET_BASHCOMP_} == 'Y' ]]; then
+	if [[ -r /usr/share/bash-completion/bash_completion ]]; then
+		source /usr/share/bash-completion/bash_completion
+	else
+		echo 'bash-completion package is not installed'
+	fi
+fi
 
 #######################################################################
 # PATH
 #######################################################################
 
-PATH="${PATH}:${HOME}/.local/bin"
-PATH="${PATH}:${HOME}/.anaconda/bin"
-PATH="${PATH}:${HOME}/.cargo/bin"
-PATH="${PATH}:${HOME}/.go/bin"
-PATH="${PATH}:${HOME}/.local/share/JetBrains/Toolbox/scripts"
-PATH="${PATH}:${HOME}/src/scripts/linux"
-PATH="${PATH}:${HOME}/src/binaries"
-PATH="$(printf %s "${PATH}" | awk -vRS=: -vORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }' )"
-export PATH
+if [[ ${_SET_PATH_} == 'Y' ]]; then
+	PATH="${PATH}:${HOME}/.local/bin"
+	PATH="${PATH}:${HOME}/.anaconda/bin"
+	PATH="${PATH}:${HOME}/.cargo/bin"
+	PATH="${PATH}:${HOME}/.go/bin"
+	PATH="${PATH}:${HOME}/.local/share/JetBrains/Toolbox/scripts"
+	PATH="${PATH}:${HOME}/src/scripts/linux"
+	PATH="${PATH}:${HOME}/src/binaries"
+	PATH="$(printf %s "${PATH}" | awk -vRS=: -vORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }' )"
+	export PATH
+fi
 
 #######################################################################
 # VARIABLES
 #######################################################################
 
-export EDITOR="micro"
-export HISTCONTROL="ignoreboth:erasedups"
-export HISTFILESIZE="10000"
-export HISTSIZE="2000"
-export HISTTIMEFORMAT="%Y-%m-%d %a %H:%M:%S    "
-export MANPAGER="most -s -t4 -w"
-export PAGER="most -s -t4 -w"
-export VISUAL="micro"
+if [[ ${_SET_VARIABLES_} == 'Y' ]]; then
+	export EDITOR="micro"
+	export HISTCONTROL="ignoreboth:erasedups"
+	export HISTFILESIZE="10000"
+	export HISTSIZE="2000"
+	export HISTTIMEFORMAT="%Y-%m-%d %a %H:%M:%S    "
+	export MANPAGER="most -s -t4 -w"
+	export PAGER="most -s -t4 -w"
+	export VISUAL="micro"
+fi
 
 #######################################################################
 # FUNCTIONS
 #######################################################################
 
-if [[ ${SET_CUSTOM_FUNCTIONS} == 'Y' ]]; then
+if [[ ${_SET_FUNCTIONS_} == 'Y' ]]; then
 	function adbopt { adb shell cmd package bg-dexopt-job; }
 	function cfg-sys-fstab { sudoedit /etc/fstab; }
 	function cfg-sys-grub { sudoedit /etc/default/grub; }
@@ -81,7 +103,7 @@ fi
 # ALIASES
 #######################################################################
 
-if [[ ${SET_CUSTOM_ALIASES} == 'Y' ]]; then
+if [[ ${_SET_ALIASES_} == 'Y' ]]; then
 	alias chmod='chmod --verbose'
 	alias chown='chown --verbose'
 	alias cp='cp --verbose'
@@ -101,9 +123,10 @@ fi
 # PROMPT
 #######################################################################
 
-if [[ ${SET_PROMPT_CUSTOM} == 'Y' ]]; then
-	function info_os() { source /etc/os-release; echo "${ID}-${VERSION_ID}"; }
+if [[ ${_SET_PROMPT_} == 'Y' ]]; then
 	function info_git() { git branch --show-current 2>/dev/null; }
+	function info_os() { source /etc/os-release; echo "${ID}-${VERSION_ID}"; }
+	function info_ssh() { [[ -n "${SSH_TTY}" ]]  && echo "ssh/"; }
 	col_black="$(tput setaf 8)"
 	col_red="$(tput setaf 9)"
 	col_green="$(tput setaf 10)"
@@ -113,11 +136,7 @@ if [[ ${SET_PROMPT_CUSTOM} == 'Y' ]]; then
 	col_cyan="$(tput setaf 14)"
 	col_white="$(tput setaf 15)"
 	col_reset="$(tput sgr0)"
-	PS1='${col_yellow}$(info_os)${col_reset} ${col_cyan}\u@\h${col_reset} ${col_green}\w${col_reset} ${col_red}$(info_git)${col_reset}\n${col_white}\$${col_reset} '
-	PS1="\[\e]0;\u@\h \w\a\]${PS1}"
-	export PS1
-else
-	PS1='\u@\h \w\n\$ '
+	PS1='${col_yellow}$(info_ssh)$(info_os)${col_reset} ${col_cyan}\u@\h${col_reset} ${col_green}\w${col_reset} ${col_red}$(info_git)${col_reset}\n${col_white}\$${col_reset} '
 	PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 	export PS1
 fi
@@ -126,14 +145,16 @@ fi
 # MISC
 #######################################################################
 
-if [[ "${SET_SCRIPT_FETCH}" == 'Y' ]]; then
+if [[ "${_SET_FETCH_}" == 'Y' ]]; then
 	if [[ $(command -v distrofetch.sh) ]]; then
 		distrofetch.sh
 	fi
 fi
 
-if [[ "${SET_PROMPT_STARSHIP}" == 'Y' ]]; then
+if [[ "${_SET_STARSHIP_}" == 'Y' ]]; then
 	if [[ $(command -v starship) ]]; then
+		function set_win_title(){ echo -ne "\033]0; $(whoami)@$(hostname) $(basename "$PWD") \007"; }
 		eval "$(starship init bash)"
+		starship_precmd_user_func="set_win_title"
 	fi
 fi
