@@ -1,7 +1,7 @@
 format = """\
-${custom.os}\
 $time\
-$line_break\
+${custom.ssh}\
+${custom.os}\
 $username\
 $hostname\
 $directory\
@@ -10,6 +10,15 @@ $git_status\
 $line_break\
 $character\
 """
+
+
+[custom.ssh]
+disabled = false
+command = '[[ -n "${SSH_TTY}" ]]  && echo "ssh@"'
+format = '[$output](dimmed white)'
+shell = ['bash', '-c']
+use_stdin = false
+when = true
 
 [custom.os]
 disabled = false
@@ -21,35 +30,35 @@ when = true
 
 [time]
 disabled = false
-format = '[$time](dimmed white)'
-time_format = '%Y-%m-%d_%H:%M:%S'
+format = '[$time](dimmed white) '
+time_format = '%Y%m%d-%a-%H%M%S'
 
 [username]
 disabled = false
-format = '[$user](bright-cyan)'
+format = '[$user](bold bright-cyan)'
 show_always = true
 
 [hostname]
 disabled = false
-format = '[@$hostname](bright-cyan) '
+format = '[@$hostname](bold bright-cyan) '
 ssh_only = false
 
 [directory]
 disabled = false
-format = '[$path](bright-green) '
+format = '[$path](bold bright-green) '
 truncate_to_repo = false
 truncation_length = 0
 
 [git_branch]
 disabled = false
 always_show_remote = true
-format = '[$branch](bright-yellow) '
+format = '[$branch](bold bright-yellow) '
 
 [git_status]
 disabled = false
-format = '[$all_status$ahead_behind](bright-red) '
+format = '[$all_status$ahead_behind](bold bright-red) '
 
 [character]
 disabled = false
-success_symbol = '[\$](white)'
-error_symbol =  '[\$](red)'
+success_symbol = '[\$](dimmed white)'
+error_symbol =  '[\$](dimmed red)'

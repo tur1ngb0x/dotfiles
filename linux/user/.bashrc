@@ -18,7 +18,7 @@ shopt -s histverify
 
 _SET_ALIASES_="Y"
 _SET_BASHCOMP_="Y"
-_SET_FETCH_="Y"
+_SET_FETCH_="N"
 _SET_FUNCTIONS_="Y"
 _SET_PATH_="Y"
 _SET_PROMPT_="Y"
@@ -126,7 +126,8 @@ fi
 if [[ ${_SET_PROMPT_} == 'Y' ]]; then
 	function info_git() { git branch --show-current 2>/dev/null; }
 	function info_os() { source /etc/os-release; echo "${ID}-${VERSION_ID}"; }
-	function info_ssh() { [[ -n "${SSH_TTY}" ]]  && echo "ssh/"; }
+	function info_datetime() { date +"%Y%m%d-%a-%H%M%S"; }
+	function info_ssh() { [[ -n "${SSH_TTY}" ]]  && echo "ssh@"; }
 	col_black="$(tput setaf 8)"
 	col_red="$(tput setaf 9)"
 	col_green="$(tput setaf 10)"
@@ -136,7 +137,7 @@ if [[ ${_SET_PROMPT_} == 'Y' ]]; then
 	col_cyan="$(tput setaf 14)"
 	col_white="$(tput setaf 15)"
 	col_reset="$(tput sgr0)"
-	PS1='${col_yellow}$(info_ssh)$(info_os)${col_reset} ${col_cyan}\u@\h${col_reset} ${col_green}\w${col_reset} ${col_red}$(info_git)${col_reset}\n${col_white}\$${col_reset} '
+	PS1='${col_black}$(info_datetime) $(info_ssh)$(info_os)${col_reset} ${col_cyan}\u@\h${col_reset} ${col_green}\w${col_reset} ${col_red}$(info_git)${col_reset}\n${col_black}\$${col_reset} '
 	PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 	export PS1
 fi
