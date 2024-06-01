@@ -95,6 +95,13 @@ function fix-firefox {
     iwr "https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.ps1" -useb | iex
 }
 
+function clean-brave {
+	set-psdebug -trace 1
+    taskkill /f /t /im brave.exe
+    remove-item -literalpath $HOME\AppData\Local\BraveSoftware\Brave-Browser\ -confirm -force -recurse
+	set-psdebug -off
+}
+
 function clean-chrome {
 	set-psdebug -trace 1
     taskkill /f /t /im chrome.exe
