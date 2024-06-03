@@ -1,8 +1,8 @@
 # bash
-if test -n "${BASH_VERSION}" && test -f "${HOME}"/.bashrc; then . "${HOME}"/.bashrc; fi
+source "${HOME}"/.bashrc
 
 # qt5ct
-if test -f /usr/bin/qt5ct; then export QT_QPA_PLATFORMTHEME="qt5ct"; fi
+export QT_QPA_PLATFORMTHEME="qt5ct"
 
-# $HOME/.xsession-errors fix
-export ERRFILE="/tmp/xsession-errors.log"; fi
+# xsession
+export ERRFILE="/tmp/xsession-errors.log"
