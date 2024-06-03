@@ -1,3 +1,4 @@
+# shellcheck disable=SC2148
 
 # enable up/down history search
 "\e[A": history-search-backward
