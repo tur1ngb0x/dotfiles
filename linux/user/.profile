@@ -1,3 +1,5 @@
+# shellcheck disable=SC2148,1091
+
 # bash
 source "${HOME}"/.bashrc
 
