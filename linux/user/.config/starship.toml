@@ -1,7 +1,9 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 format = """\
 $time\
-${custom.ssh}\
 ${custom.os}\
+${custom.ssh}\
 $line_break\
 $username\
 $hostname\
@@ -12,17 +14,17 @@ $line_break\
 $character\
 """
 
-[custom.ssh]
+[custom.os]
 disabled = false
-command = '[[ -n "${SSH_TTY}" ]]  && echo "ssh@"'
-format = '[$output](dimmed white)'
+command = 'source /etc/os-release; echo "${ID}-${VERSION_ID}"'
+format = '[$output](dimmed white) '
 shell = ['bash', '-c']
 use_stdin = false
 when = true
 
-[custom.os]
+[custom.ssh]
 disabled = false
-command = 'source /etc/os-release; echo "${ID}-${VERSION_ID}"'
+command = '[[ -n "${SSH_TTY}" ]]  && echo "ssh"'
 format = '[$output](dimmed white)'
 shell = ['bash', '-c']
 use_stdin = false
@@ -31,7 +33,7 @@ when = true
 [time]
 disabled = false
 format = '[$time](dimmed white) '
-time_format = '%Y%m%d-%a-%H%M%S'
+time_format = '%Y-%m-%d %a %H:%M:%S'
 
 [username]
 disabled = false
@@ -60,5 +62,5 @@ format = '[$all_status$ahead_behind](bold bright-red) '
 
 [character]
 disabled = false
-success_symbol = '[\$](dimmed white)'
-error_symbol =  '[\$](dimmed red)'
+success_symbol = '[λ](bold dimmed white)'
+error_symbol =  '[λ](bold dimmed red)'
