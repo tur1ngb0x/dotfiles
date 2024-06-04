@@ -24,11 +24,11 @@ when = '[[ -f /etc/os-release ]]'
 
 [custom.ssh]
 disabled = false
-command = '[[ -n "${SSH_TTY}" ]]  && echo "ssh"'
+command = 'echo ssh"'
 format = '[$output](dimmed white)'
 shell = ['bash', '-c']
 use_stdin = false
-when = true
+when = '[[ -n "${SSH_TTY}" ]]'
 
 [time]
 disabled = false
