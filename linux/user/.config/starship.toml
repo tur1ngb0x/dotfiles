@@ -20,7 +20,7 @@ command = 'source /etc/os-release; echo "${ID}-${VERSION_ID}"'
 format = '[$output](dimmed white) '
 shell = ['bash', '-c']
 use_stdin = false
-when = '-f /etc/os-release'
+when = '[[ -f /etc/os-release ]]'
 
 [custom.ssh]
 disabled = false
