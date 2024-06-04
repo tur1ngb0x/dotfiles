@@ -16,7 +16,7 @@ $character\
 
 [custom.os]
 disabled = false
-command = '[[ -f /etc/os-release]] && source /etc/os-release && echo "${ID}-${VERSION_ID}"'
+command = '[[ -f /etc/os-release ]] && source /etc/os-release && echo "${ID}-${VERSION_ID}"'
 format = '[$output](dimmed white) '
 shell = ['bash', '-c']
 use_stdin = false
