@@ -1,2 +1,2 @@
-linux/* text eol=lf
-windows/* text eol=crlf
+linux/* eol=lf
+windows/* eol=crlf
