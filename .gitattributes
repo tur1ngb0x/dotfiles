@@ -1,0 +1,2 @@
+linux/* text eol=lf
+windows/* text eol=crlf
