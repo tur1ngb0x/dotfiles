@@ -1,0 +1,75 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """\
+$time\
+${custom.os-windows}\
+${custom.os-linux}\
+${custom.ssh}\
+$line_break\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$line_break\
+$character\
+"""
+
+[custom.os-windows]
+disabled = false
+command = '(Get-WmiObject -class Win32_OperatingSystem).Caption.Replace(" ", "-").ToLower() + "-" + (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\").CurrentBuild'
+format = '[($output)](dimmed white) '
+shell = ['powershell', '-command']
+use_stdin = false
+when = true
+
+[custom.os-linux]
+disabled = false
+command = 'source /etc/os-release && echo "${ID}-${VERSION_ID}"'
+format = '[($output)](dimmed white) '
+shell = ['bash', '-c']
+use_stdin = false
+when = true
+
+[custom.ssh]
+disabled = false
+command = '[[ -n "${SSH_TTY}" ]] && echo ssh'
+format = '[$output](dimmed white)'
+shell = ['bash', '-c']
+use_stdin = false
+when = true
+
+[time]
+disabled = false
+format = '[$time](dimmed white) '
+time_format = '%Y-%m-%d %a %H:%M:%S'
+
+[username]
+disabled = false
+format = '[$user](bold bright-cyan)'
+show_always = true
+
+[hostname]
+disabled = false
+format = '[@$hostname](bold bright-cyan) '
+ssh_only = false
+
+[directory]
+disabled = false
+format = '[$path](bold bright-green) '
+truncate_to_repo = false
+truncation_length = 0
+
+[git_branch]
+disabled = false
+always_show_remote = true
+format = '[$branch](bold bright-yellow) '
+
+[git_status]
+disabled = false
+format = '[$all_status$ahead_behind](bold bright-red) '
+
+[character]
+disabled = false
+success_symbol = '[λ](bold dimmed white)'
+error_symbol =  '[λ](bold dimmed red)'
