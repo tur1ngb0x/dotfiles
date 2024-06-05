@@ -2,7 +2,8 @@
 
 format = """\
 $time\
-${custom.os}\
+${custom.os-windows}\
+${custom.os-linux}\
 ${custom.ssh}\
 $line_break\
 $username\
@@ -14,10 +15,19 @@ $line_break\
 $character\
 """
 
-[custom.os]
+[custom.os-windows]
+disabled = false
+#command = '(Write-Output "windows") + "-"  + (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\").CurrentBuild'
+command = '(Get-WmiObject -class Win32_OperatingSystem).Caption.Replace(" ", "-").ToLower() + "-" + (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\").CurrentBuild'
+format = '[($output)](dimmed white) '
+shell = ['powershell', '-command']
+use_stdin = false
+when = true
+
+[custom.os-linux]
 disabled = false
 command = '[[ -f /etc/os-release ]] && source /etc/os-release && echo "${ID}-${VERSION_ID}"'
-format = '[$output](dimmed white) '
+format = '[($output)](dimmed white) '
 shell = ['bash', '-c']
 use_stdin = false
 when = true
