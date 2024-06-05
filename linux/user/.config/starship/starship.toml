@@ -2,7 +2,6 @@
 
 format = """\
 $time\
-${custom.os-windows}\
 ${custom.os-linux}\
 ${custom.ssh}\
 $line_break\
