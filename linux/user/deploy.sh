@@ -47,7 +47,7 @@ deploy_bash(){
 deploy_starship()
 {
 	text 'starship'
-	mkdir -pv "${HOME}"/.config
+	mkdir -pv "${HOME}"/.config/starship
 	ln -fsv "${CWD}"/.config/starship/starship.toml "${HOME}"/.config/starship/starship.toml
 }
 

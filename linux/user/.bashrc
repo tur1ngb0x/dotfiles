@@ -59,7 +59,7 @@ PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
 # STARSHIP
-if [[ $(command -v starship) ]] && [[ -f "${HOME}"/.config/starship.toml ]]; then eval "$(starship init bash)"; fi
+if [[ $(command -v starship) ]]; then eval "$(starship init bash)"; fi
 
 # FETCH
 if [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh --short; fi
