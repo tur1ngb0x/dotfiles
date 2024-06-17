@@ -7,6 +7,7 @@ old.reddit.com##.crosspost-button
 old.reddit.com##.default-header
 old.reddit.com##.domain
 old.reddit.com##.flairemoji
+old.reddit.com##.flairtoggle.toggle
 old.reddit.com##.footer-parent
 old.reddit.com##.giftgold
 old.reddit.com##.grippy
@@ -18,3 +19,4 @@ old.reddit.com##.premium-banner
 old.reddit.com##.rank
 old.reddit.com##.report-button
 old.reddit.com##.state-button
+old.reddit.com##.tagline
