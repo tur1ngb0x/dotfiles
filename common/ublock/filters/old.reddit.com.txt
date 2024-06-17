@@ -1,0 +1,20 @@
+! https://old.reddit.com
+old.reddit.com##.beta-link
+old.reddit.com##.commentsignupbar
+old.reddit.com##.create.sidebox
+old.reddit.com##.crosspost-badge
+old.reddit.com##.crosspost-button
+old.reddit.com##.default-header
+old.reddit.com##.domain
+old.reddit.com##.flairemoji
+old.reddit.com##.footer-parent
+old.reddit.com##.giftgold
+old.reddit.com##.grippy
+old.reddit.com##.initialized.listing-chooser
+old.reddit.com##.linkflairlabel
+old.reddit.com##.listingsignupbar
+old.reddit.com##.mobile-web-redirect-bar
+old.reddit.com##.premium-banner
+old.reddit.com##.rank
+old.reddit.com##.report-button
+old.reddit.com##.state-button
