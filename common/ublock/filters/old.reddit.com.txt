@@ -1,4 +1,3 @@
-! https://old.reddit.com
 old.reddit.com##.beta-link
 old.reddit.com##.commentsignupbar
 old.reddit.com##.create.sidebox
@@ -6,19 +5,22 @@ old.reddit.com##.crosspost-badge
 old.reddit.com##.crosspost-button
 old.reddit.com##.default-header
 old.reddit.com##.domain
-old.reddit.com##.expando-button
+old.reddit.com##.embed-comment
+old.reddit.com##.flair
 old.reddit.com##.flairemoji
 old.reddit.com##.flairtoggle.toggle
 old.reddit.com##.footer-parent
 old.reddit.com##.giftgold
 old.reddit.com##.grippy
-old.reddit.com##.listing-chooser
+old.reddit.com##.initialized.listing-chooser
 old.reddit.com##.linkflairlabel
 old.reddit.com##.listingsignupbar
 old.reddit.com##.mobile-web-redirect-bar
+old.reddit.com##.panestack-title
 old.reddit.com##.premium-banner
 old.reddit.com##.rank
+old.reddit.com##.reddiquette
 old.reddit.com##.report-button
-old.reddit.com##.spoiler-stamp
 old.reddit.com##.state-button
-old.reddit.com##.tagline
+old.reddit.com##.titlebox > .tagline
+old.reddit.com##.toggle.help-toggle
