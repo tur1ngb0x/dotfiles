@@ -12,12 +12,13 @@ old.reddit.com##.flairtoggle.toggle
 old.reddit.com##.footer-parent
 old.reddit.com##.giftgold
 old.reddit.com##.grippy
-old.reddit.com##.initialized.listing-chooser
+old.reddit.com##.listing-chooser
 old.reddit.com##.linkflairlabel
 old.reddit.com##.listingsignupbar
 old.reddit.com##.mobile-web-redirect-bar
 old.reddit.com##.premium-banner
 old.reddit.com##.rank
 old.reddit.com##.report-button
+old.reddit.com##.spoiler-stamp
 old.reddit.com##.state-button
 old.reddit.com##.tagline
