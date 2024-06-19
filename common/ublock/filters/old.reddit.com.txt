@@ -6,6 +6,7 @@ old.reddit.com##.crosspost-badge
 old.reddit.com##.crosspost-button
 old.reddit.com##.default-header
 old.reddit.com##.domain
+old.reddit.com##.expando-button
 old.reddit.com##.flairemoji
 old.reddit.com##.flairtoggle.toggle
 old.reddit.com##.footer-parent
