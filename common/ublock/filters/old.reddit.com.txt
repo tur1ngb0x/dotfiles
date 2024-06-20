@@ -3,6 +3,7 @@ old.reddit.com##.commentsignupbar
 old.reddit.com##.create.sidebox
 old.reddit.com##.crosspost-badge
 old.reddit.com##.crosspost-button
+old.reddit.com##.debuginfo
 old.reddit.com##.default-header
 old.reddit.com##.domain
 old.reddit.com##.embed-comment
