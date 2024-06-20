@@ -21,5 +21,6 @@ old.reddit.com##.rank
 old.reddit.com##.reddiquette
 old.reddit.com##.report-button
 old.reddit.com##.state-button
+old.reddit.com##.stickied-tagline
 old.reddit.com##.titlebox > .tagline
 old.reddit.com##.toggle.help-toggle
