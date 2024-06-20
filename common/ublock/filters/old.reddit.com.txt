@@ -16,7 +16,6 @@ old.reddit.com##.initialized.listing-chooser
 old.reddit.com##.linkflairlabel
 old.reddit.com##.listingsignupbar
 old.reddit.com##.mobile-web-redirect-bar
-old.reddit.com##.panestack-title
 old.reddit.com##.premium-banner
 old.reddit.com##.rank
 old.reddit.com##.reddiquette
