@@ -26,3 +26,4 @@ old.reddit.com##.state-button
 old.reddit.com##.stickied-tagline
 old.reddit.com##.titlebox > .tagline
 old.reddit.com##.toggle.help-toggle
+old.reddit.com###redesign-beta-optin-btn
