@@ -6,12 +6,6 @@ swap = 0
 
 kernelCommandLine = audit=0 consoleblank=0 ipv6.disable=1 modprobe.blacklist=nouveau mitigations=off net.ifnames=0 nosgx nowatchdog pci=noaer
 vmIdleTimeout = 0
-
-
 debugConsole = true
-pageReporting = true
-
 guiApplications = false
 nestedVirtualization = false
-
-#safeMode = true
