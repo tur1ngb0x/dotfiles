@@ -1,0 +1,4 @@
+! music.youtube.com
+music.youtube.com##.ytmusic-nav-bar.style-scope.cast-button
+music.youtube.com##.ytmusic-nav-bar.style-scope.history-button
+music.youtube.com##.ytmusic-player-bar.style-scope.repeat
