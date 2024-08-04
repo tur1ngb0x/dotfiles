@@ -62,4 +62,4 @@ export PS1
 if [[ $(command -v starship) ]]; then eval "$(starship init bash)"; fi
 
 # FETCH
-if [[ $(command -v distrofetch.sh) ]]; then distrofetch.sh --short; fi
+if [[ $(command -v fetch.sh) ]]; then fetch.sh --short; fi
