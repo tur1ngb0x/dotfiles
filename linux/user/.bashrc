@@ -17,7 +17,7 @@ export PATH
 
 # VARIABLES
 EDITOR="micro"
-HISTCONTROL="ignoreboth:erasedups"
+HISTCONTROL="ignorespace:ignoredups:erasedups"
 HISTFILESIZE="10000"
 HISTSIZE="2000"
 HISTTIMEFORMAT="%Y-%m-%d %a %H:%M:%S    "
@@ -30,14 +30,9 @@ export EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER ST
 # FUNCTIONS
 function adbopt { adb shell cmd package bg-dexopt-job; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S"; }
-function fix-ff { bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"; }
-function fix-ssh { sudo bash -c 'systemctl stop --force --now NetworkManager sshd ssh; systemctl restart --force --now NetworkManager sshd ssh'; }
-function inxi-full { sudo bash -c 'inxi -a -F -r -t -xxx -y1 -z'; }
 function out-clip { xclip -selection clipboard; }
 function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
-function poweroff { sudo bash -c 'systemctl poweroff'; }
-function reboot { sudo bash -c 'systemctl reboot'; }
 function refreshell { clear; reset; source "${HOME}"/.bashrc; }
 
 # ALIASES
@@ -54,7 +49,7 @@ alias rm='rm --verbose'
 alias rmdir='rmdir --verbose'
 
 # PS1
-PS1='\[\e[1;7m\] \u@\h \w \[\e[0m\]\n\$ '
+PS1="\u@\h \w $(git branch --show-current 2>/dev/null)\n\$ "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
