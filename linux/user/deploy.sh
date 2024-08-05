@@ -61,8 +61,8 @@ deploy_code(){
 	lns "${CWD}"/.config/Code/User/settings.json "${HOME}"/.var/app/com.visualstudio.code/config/Code/User/settings.json
 	mkd "${HOME}"/.vscode-server/data/Machine # wsl/ssh
 	lns "${CWD}"/.config/Code/User/settings.json "${HOME}"/.vscode-server/data/Machine/settings.json
-	mkd "${HOME}"/Applications/vscode/data/tmp/User #portable
-	lns "${CWD}"/.config/Code/User/settings.json "${HOME}"/Applications/vscode/data/tmp/User/settings.json
+	mkd "${HOME}"/Apps/vscode/data/tmp/User #portable
+	lns "${CWD}"/.config/Code/User/settings.json "${HOME}"/Apps/vscode/data/tmp/User/settings.json
 }
 
 deploy_fonts(){
