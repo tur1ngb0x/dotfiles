@@ -1,5 +1,3 @@
-# shellcheck disable=SC2148,1091
-
 # INIT
 if [[ -z "${PS1}" ]]; then return; fi
 if [[ -f /usr/share/bash-completion/bash_completion ]]; then source /usr/share/bash-completion/bash_completion; fi
@@ -8,10 +6,6 @@ shopt -s checkwinsize direxpand histverify
 # PATH
 PATH="${PATH}:${HOME}/.local/bin"
 PATH="${PATH}:${HOME}/src/scripts/linux"
-#PATH="${PATH}:${HOME}/.anaconda/bin"
-#PATH="${PATH}:${HOME}/.cargo/bin"
-#PATH="${PATH}:${HOME}/.go/bin"
-#PATH="${PATH}:${HOME}/.local/share/JetBrains/Toolbox/scripts"
 PATH="$(printf %s "${PATH}" | awk -vRS=: -vORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }' )"
 export PATH
 
@@ -49,9 +43,9 @@ alias rm='rm --verbose'
 alias rmdir='rmdir --verbose'
 
 # PS1
-PS1="\u@\h \w $(git branch --show-current 2>/dev/null)\n\$ "
-PS1="\[\e]0;\u@\h \w\a\]${PS1}"
-export PS1
+PS1="\n \u@\h:\w\n \$ "
+PS1="\[\e]0;\u@\h:\w\a\]${PS1}"
+export PS1;
 
 # STARSHIP
 if [[ $(command -v starship) ]]; then eval "$(starship init bash)"; fi
