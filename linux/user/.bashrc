@@ -43,7 +43,7 @@ alias rm='rm --verbose'
 alias rmdir='rmdir --verbose'
 
 # PS1
-PS1='\[\e[7m\]\n $(source /etc/os-release; echo ${ID}-${VERSION_ID}) \u@\h \w $(git branch --show-current 2>/dev/null)\n \$ \[\e[0m\] '
+PS1='\[\e[7m\] \u@\h \w \[\e[0m\] $(git branch --no-color --show-current 2>/dev/null)\n \$ '
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
