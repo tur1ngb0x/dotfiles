@@ -47,11 +47,5 @@ PS1='\[\e[7m\] \u@\h \w \[\e[0m\] $(git branch --no-color --show-current 2>/dev/
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
-# FETCH
-[[ $(command -v fetch.sh) ]] && fetch.sh --short
-
 # PIPX
-[[ $(command -v pipx) ]] && eval "$(register-python-argcomplete3 pipx)"
-
-# STARSHIP
-[[ $(command -v starship) ]] && eval "$(starship init bash)"
+eval "$(register-python-argcomplete3 pipx)"
