@@ -1,6 +1,6 @@
 # INIT
-if [[ -z "${PS1}" ]]; then return; fi
-if [[ -f /usr/share/bash-completion/bash_completion ]]; then source /usr/share/bash-completion/bash_completion; fi
+[[ -z "${PS1}" ]] && return
+source /usr/share/bash-completion/bash_completion
 shopt -s checkwinsize direxpand histverify
 
 # PATH
@@ -47,13 +47,11 @@ PS1='\[\e[7m\] \u@\h \w \[\e[0m\] $(git branch --no-color --show-current 2>/dev/
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
-# STARSHIP
-if [[ $(command -v starship) ]]; then eval "$(starship init bash)"; fi
+# FETCH
+[[ $(command -v fetch.sh) ]] && fetch.sh --short
 
 # PIPX
-if [[ $(command -v pipx) ]]; then eval "$(register-python-argcomplete3 pipx)"; fi
+[[ $(command -v pipx) ]] && eval "$(register-python-argcomplete3 pipx)"
 
-# FETCH
-if [[ $(command -v fetch.sh) ]]; then fetch.sh --short; fi
-
-export PATH=$PATH:/home/pd/.spicetify
+# STARSHIP
+[[ $(command -v starship) ]] && eval "$(starship init bash)"
