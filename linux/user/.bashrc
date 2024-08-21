@@ -50,5 +50,10 @@ export PS1
 # STARSHIP
 if [[ $(command -v starship) ]]; then eval "$(starship init bash)"; fi
 
+# PIPX
+if [[ $(command -v pipx) ]]; then eval "$(register-python-argcomplete3 pipx)"; fi
+
 # FETCH
 if [[ $(command -v fetch.sh) ]]; then fetch.sh --short; fi
+
+export PATH=$PATH:/home/pd/.spicetify
