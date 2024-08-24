@@ -48,4 +48,4 @@ PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
 
 # PIPX
-eval "$(register-python-argcomplete3 pipx)"
+eval "$(register-python-argcomplete pipx)"
