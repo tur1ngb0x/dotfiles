@@ -10,11 +10,20 @@ rmd() { rm -frv "${@}"; }
 rmf() { rm -fv "${@}"; }
 lns() { ln -fsv "${1}" "${2}"; }
 
+function prompt_user
+{
+	MSG="$(tput rev; printf ' Press Y/y to deploy, any other key to exit: '; tput sgr0) "
+	read -p "${MSG}" -n 1 -r answer; echo
+	if [[ ! "${answer}" =~ ^[Yy]$ ]]; then
+		exit
+	fi
+}
+
 function deploy_xdg {
 	header 'folders'
 	mkd "${HOME}"/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos} && find "${HOME}"/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos} -maxdepth 0 -type d
 	mkd "${HOME}"/.{cache,config,local/{bin,share,state}} && find "${HOME}"/.{cache,config,local/{bin,share,state}} -maxdepth 0 -type d
-	mkd "${HOME}"/src/tmp && find "${HOME}"/src -maxdepth 0 -type d
+	mkd "${HOME}"/src/tmp && find "${HOME}"/src/tmp -maxdepth 0 -type d
 }
 
 function deploy_shell {
@@ -67,6 +76,7 @@ function deploy_x11 {
 }
 
 function main {
+	prompt_user
 	# essential
 	deploy_xdg
 	deploy_shell
