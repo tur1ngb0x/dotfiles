@@ -3,6 +3,13 @@
 source /usr/share/bash-completion/bash_completion
 shopt -s checkwinsize direxpand histverify
 
+# CHECKS
+for i in adb code curl ffmpeg flatpak mediainfo git micro most pipx snap vim wget xclip ; do
+	if [[ ! $(command -v "${i}") ]]; then
+		echo "${i} not found in PATH"
+	fi
+done
+
 # PATH
 PATH="${PATH}:${HOME}/.local/bin"
 PATH="${PATH}:${HOME}/src/scripts/linux"
@@ -17,9 +24,8 @@ HISTSIZE="2000"
 HISTTIMEFORMAT="%Y-%m-%d %a %H:%M:%S    "
 MANPAGER="most -s -t4 -w"
 PAGER="most -s -t4 -w"
-STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 VISUAL="micro"
-export EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER STARSHIP_CONFIG VISUAL
+export EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER VISUAL
 
 # FUNCTIONS
 function adbopt { adb shell cmd package bg-dexopt-job; }
@@ -46,6 +52,3 @@ alias rmdir='rmdir --verbose'
 PS1='\[\e[92;1;7m\] \u@\h \w \[\e[0m\] $(git branch --no-color --show-current 2>/dev/null)\n \$ '
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 export PS1
-
-# PIPX
-eval "$(register-python-argcomplete pipx)"
