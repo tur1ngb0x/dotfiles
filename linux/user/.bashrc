@@ -3,13 +3,6 @@
 source /usr/share/bash-completion/bash_completion
 shopt -s checkwinsize direxpand histverify
 
-# CHECKS
-for i in adb code curl ffmpeg flatpak mediainfo git micro most pipx snap vim wget xclip ; do
-	if [[ ! $(command -v "${i}") ]]; then
-		echo "${i} not found in PATH"
-	fi
-done
-
 # PATH
 PATH="${PATH}:${HOME}/.local/bin"
 PATH="${PATH}:${HOME}/src/scripts/linux"
