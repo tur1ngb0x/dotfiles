@@ -9,6 +9,7 @@ ppas_apt=(
 )
 
 pkgs_apt=(
+	android-sdk-platform-tools
 	atool
 	bash-completion
 	build-essential
@@ -31,49 +32,10 @@ pkgs_apt=(
 	xclip
 )
 
-pkgs_dnf=(
-		atool
-		bash-completion
-		base-devel
-		curl
-		dos2unix
-		ffmpeg
-		git
-		mediainfo
-		most
-		nano
-		p7zip
-		pipx
-		tree
-		vim
-		wget
-		xclip
-		virt-manager
-)
-
-pkgs_pacman=(
-	atool
-	bash-completion
-	base-devel
-	curl
-	dos2unix
-	ffmpeg
-	git
-	mediainfo
-	most
-	nano
-	p7zip
-	pipx
-	tree
-	vim
-	wget
-	xclip
-	virt-manager
-)
-
 pkgs_snap=(
 	pieces-os
 	pieces-for-developers
+	powershell -
 )
 
 pkgs_flatpak=(
@@ -93,17 +55,16 @@ pkgs_flatpak=(
 	org.videolan.VLC
 )
 
-function install_apt {
-	sudo apt-get install -y "${pkgs_apt[@]}"
-}
-
-function install_dnf {
-	sudo dnf install -y "${pkgs_dnf[@]}"
-}
-
-function install_pacman {
-	sudo pacman -S --needed ---noconfirm "${pkgs_pacman[@]}"
-}
+pkgs_pipx=(
+	gallery-dl
+	glances
+	mycli
+	ps_mem
+	shellcheck-py
+	speedtest-cli
+	tldr
+	yt-dlp
+)
 
 function post_virt-manager {
 	[[ ! -f /usr/bin/virt-manager ]] && echo 'virt-manager is not installed' && return
@@ -138,39 +99,11 @@ function post_mysql {
 	"
 }
 
+text 'ppa_apt';          for ppa in "${ppas_apt[@]}";        do sudo apt-add-repository -y    "${ppa}";   done
+text 'pkgs_apt';         for pkg in "${pkgs_apt[@]}";        do sudo apt-get install -y       "${pkg}";   done
+
+text 'pkgs_pipx';        for pkg in "${pkgs_pipx[@]}";       do pipx install --verbose        "${pkg}";   done
+
 text 'pkgs_snap';        for pkg in "${pkgs_snap[@]}";       do sudo snap install             "${pkg}";   done
 text 'pkgs_flatpak';     for pkg in "${pkgs_flatpak[@]}";    do flatpak --user install -y     "${pkg}";   done
-text 'ppa_apt';      for ppa in "${ppas_apt[@]}";    do sudo apt-add-repository -y    "${ppa}";   done
-text 'pkgs_apt';     for pkg in "${pkgs_apt[@]}";   do sudo apt-get install -y       "${pkg}";   done
 
-function main {
-	if [[ -f /usr/bin/apt ]]; then
-		upgrade_apt
-	elif [[ -f /usr/bin/dnf ]]; then
-		upgrade_dnf
-	elif [[ -f /usr/bin/pacman ]]; then
-		upgrade_pacman
-	else
-		text 'only apt/dnf/pacman are supported.'
-	fi
-
-	if [[ -f /usr/bin/snap ]]; then
-		upgrade_snap
-	fi
-
-	if [[ -f /usr/bin/flatpak ]]; then
-		upgrade_flatpak
-	fi
-
-	if [[ -f /usr/bin/code ]]; then
-		upgrade_code
-	fi
-
-	if [[ -f /usr/bin/docker ]]; then
-		upgrade_docker
-	fi
-
-	if [[ -f /usr/bin/pipx ]]; then
-		upgrade_pipx
-	fi
-}
