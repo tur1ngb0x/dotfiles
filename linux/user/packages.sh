@@ -33,12 +33,12 @@ pkgs_apt=(
 )
 
 pkgs_snap=(
-	pieces-os
-	pieces-for-developers
-	powershell -
+	'pieces-os'
+	'pieces-for-developers'
+	'powershell'
 )
 
-pkgs_flatpak=(
+pkgs_flatpak_kde=(
 	com.authy.Authy
 	com.bitwarden.desktop
 	com.discordapp.Discord
@@ -53,6 +53,29 @@ pkgs_flatpak=(
 	org.qbittorrent.qBittorrent
 	org.telegram.desktop
 	org.videolan.VLC
+)
+
+pkgs_flatpak_gnome=(
+	'org.gnome.Epiphany'	# Browser
+	'org.gnome.Calculator'	# Calculator
+	'org.gnome.Calendar'	# Calendar
+	'org.gnome.Snapshot'	# Camera
+	'org.gnome.Characters'	# Characters
+	'org.gnome.clocks'		# Clock
+	'org.gnome.Connections'	# Connections
+	'org.gnome.Contacts'	# Contacts
+	'org.gnome.baobab'		# Disk
+	'ca.desrt.dconf-editor'	# Dconf
+	'org.gnome.Evince'		# Documents
+	'org.gnome.TextEditor'	# Editor
+	'org.gnome.Extensions'	# Extensions
+	'org.gnome.Loupe'		# Image
+	'org.gnome.Logs'		# Logs
+	'org.gnome.Maps'		# Maps
+	'org.gnome.Papers'		# Reader
+	'org.gnome.SimpleScan'	# Scanner
+	'org.gnome.Boxes'		# Virtualization
+	'org.gnome.Weather'		# Weather
 )
 
 pkgs_pipx=(
@@ -99,11 +122,13 @@ function post_mysql {
 	"
 }
 
-text 'ppa_apt';          for ppa in "${ppas_apt[@]}";        do sudo apt-add-repository -y    "${ppa}";   done
-text 'pkgs_apt';         for pkg in "${pkgs_apt[@]}";        do sudo apt-get install -y       "${pkg}";   done
+function post_pieces {
+	[[ ! $(snap list pieces-os) ]] && echo 'pieces-os is not installed' && return
+	sudo snap connect pieces-os:process-control :process-control
+}
 
-text 'pkgs_pipx';        for pkg in "${pkgs_pipx[@]}";       do pipx install --verbose        "${pkg}";   done
-
-text 'pkgs_snap';        for pkg in "${pkgs_snap[@]}";       do sudo snap install             "${pkg}";   done
-text 'pkgs_flatpak';     for pkg in "${pkgs_flatpak[@]}";    do flatpak --user install -y     "${pkg}";   done
-
+text 'ppa_apt'; for ppa in "${ppas_apt[@]}"; do sudo apt-add-repository -yn "${ppa}"; done
+text 'pkgs_apt'; for pkg in "${pkgs_apt[@]}"; do sudo apt-get install -y "${pkg}"; done
+text 'pkgs_pipx'; for pkg in "${pkgs_pipx[@]}"; do pipx install "${pkg}"; done
+text 'pkgs_snap'; for pkg in "${pkgs_snap[@]}"; do sudo snap install "${pkg}" --classic;   done
+text 'pkgs_flatpak'; for pkg in "${pkgs_flatpak_gnome[@]}"; do flatpak --user install -y "${pkg}";   done
