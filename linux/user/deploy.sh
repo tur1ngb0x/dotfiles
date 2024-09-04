@@ -2,17 +2,18 @@
 
 LC_ALL=C
 CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"
-function header	{ tput rev; printf " %s \n" "${1}"; tput sgr0; }
+function header	{ tput rev; printf " # %s \n" "${1}"; tput sgr0; }
 function tex	{ printf " %s \n" "${1}"; }
 function mkd	{ mkdir -pv "${@}"; }
 function mkf	{ touch "${@}"; }
 function rmd	{ rm -frv "${@}"; }
 function rmf	{ rm -fv "${@}"; }
 function lns	{ ln -fsv "${1}" "${2}"; }
+function pet	{ tput rev bold; printf " %s \\n" "${@}"; tput sgr0; eval "${@}" 2>&1 || return; }
 
 function prompt_user {
-	MSG="$(tput rev; printf ' Press Y/y to deploy, any other key to exit: '; tput sgr0) "
-	read -p "${MSG}" -n 1 -r answer; echo
+	echo 'Deploying configuration files, do you want to continue?'
+	read -p "Press Y or y to continue, N or n to cancel: " -n 1 -r answer; echo
 	if [[ ! "${answer}" =~ ^[Yy]$ ]]; then
 		exit
 	fi
@@ -27,14 +28,10 @@ function deploy_bash {
 
 function deploy_code {
 	header 'code'
-	mkd "${HOME}"/.config/Code/User #native
-	lns "${CWD}"/.config/Code/User/settings.json "${HOME}"/.config/Code/User/settings.json
-	mkd "${HOME}"/.var/app/com.visualstudio.code/config/Code/User #flatpak
-	lns "${CWD}"/.config/Code/User/settings.json "${HOME}"/.var/app/com.visualstudio.code/config/Code/User/settings.json
-	mkd "${HOME}"/.vscode-server/data/Machine # wsl/ssh
-	lns "${CWD}"/.config/Code/User/settings.json "${HOME}"/.vscode-server/data/Machine/settings.json
-	mkd "${HOME}"/Apps/vscode/data/tmp/User #portable
-	lns "${CWD}"/.config/Code/User/settings.json "${HOME}"/Apps/vscode/data/tmp/User/settings.json
+	mkd "${HOME}"/.config/Code/User									#native
+	mkd "${HOME}"/.var/app/com.visualstudio.code/config/Code/User	#flatpak
+	mkd "${HOME}"/.vscode-server/data/Machine						#wsl/ssh
+	mkd "${HOME}"/Apps/vscode/data/tmp/User							#portable
 }
 
 function deploy_fonts {
@@ -69,9 +66,12 @@ function deploy_x11 {
 
 function deploy_xdg {
 	header 'folders'
-	mkd "${HOME}"/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos} && find "${HOME}"/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos} -maxdepth 0 -type d
-	mkd "${HOME}"/.{cache,config,local/{bin,share,state}} && find "${HOME}"/.{cache,config,local/{bin,share,state}} -maxdepth 0 -type d
-	mkd "${HOME}"/src/tmp && find "${HOME}"/src/tmp -maxdepth 0 -type d
+	mkd "${HOME}"/{Apps,Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
+	find "${HOME}"/{Apps,Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos} -maxdepth 0 -type d
+	mkd "${HOME}"/.{cache,config,local/{bin,share,state}}
+	find "${HOME}"/.{cache,config,local/{bin,share,state}} -maxdepth 0 -type d
+	mkd "${HOME}"/src/tmp
+	find "${HOME}"/src/tmp -maxdepth 0 -type d
 }
 
 function main {
@@ -79,7 +79,6 @@ function main {
 	deploy_xdg
 	deploy_shell
 	deploy_bash
-	#deploy_code
 	deploy_fonts
 	deploy_git
 	deploy_micro

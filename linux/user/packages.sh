@@ -38,7 +38,7 @@ pkgs_snap=(
 	'powershell'
 )
 
-pkgs_flatpak_kde=(
+pkgs_flatpak_common=(
 	com.authy.Authy
 	com.bitwarden.desktop
 	com.discordapp.Discord
@@ -56,26 +56,32 @@ pkgs_flatpak_kde=(
 )
 
 pkgs_flatpak_gnome=(
-	'org.gnome.Epiphany'	# Browser
+	'ca.desrt.dconf-editor'	# Dconf
+	'org.gnome.baobab'		# Disk Analyzer
+	'org.gnome.Boxes'		# Virtual Machines
 	'org.gnome.Calculator'	# Calculator
 	'org.gnome.Calendar'	# Calendar
-	'org.gnome.Snapshot'	# Camera
 	'org.gnome.Characters'	# Characters
 	'org.gnome.clocks'		# Clock
 	'org.gnome.Connections'	# Connections
 	'org.gnome.Contacts'	# Contacts
-	'org.gnome.baobab'		# Disk
-	'ca.desrt.dconf-editor'	# Dconf
-	'org.gnome.Evince'		# Documents
-	'org.gnome.TextEditor'	# Editor
-	'org.gnome.Extensions'	# Extensions
-	'org.gnome.Loupe'		# Image
-	'org.gnome.Logs'		# Logs
-	'org.gnome.Maps'		# Maps
-	'org.gnome.Papers'		# Reader
-	'org.gnome.SimpleScan'	# Scanner
-	'org.gnome.Boxes'		# Virtualization
-	'org.gnome.Weather'		# Weather
+	'org.gnome.Epiphany'	# Browser
+	'org.gnome.Evince'		# Documents Viewer
+	'org.gnome.Extensions'	# Extensions Manager
+	'org.gnome.Logs'		# Logs Viewer
+	'org.gnome.Loupe'		# Image Viewer
+	'org.gnome.Papers'		# Book Reader
+	'org.gnome.TextEditor'	# Text Editor
+)
+
+pkgs_flatpak_kde=(
+	'org.kde.ark'			# Archiver
+	'org.kde.kclock'		# Clock
+	'org.kde.kcalc'			# Calculator
+	'org.kde.gwenview'		# Image Viewer
+	'org.kde.kolourpaint'	# Image Editor
+	'org.kde.kwrite'		# Text Editor
+	'org.kde.okular'		# Document Viewer
 )
 
 pkgs_pipx=(
