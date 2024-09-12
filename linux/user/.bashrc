@@ -48,7 +48,7 @@ function ps1_git {
 		git_branch="$(git branch --no-color --show-current)"
 		if [[ $(git status --porcelain | wc -l) -ne 0 ]]; then
 			git_status="$(git status --porcelain | wc -l)"
-			printf '\e[93;1;7m %s %s \e[0m' "${git_branch}" "!${git_status}"
+			printf '\e[93;1;7m %s %s \e[0m' "${git_branch}" "${git_status}"
 		fi
 	fi
 }
