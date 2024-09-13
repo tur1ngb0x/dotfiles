@@ -90,6 +90,7 @@ pkgs_pipx=(
 	mycli
 	ps_mem
 	shellcheck-py
+	sherlock-project
 	speedtest-cli
 	tldr
 	yt-dlp

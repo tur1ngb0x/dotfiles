@@ -46,8 +46,10 @@ alias rmdir='rmdir --verbose'
 function ps1_git {
 	if [[ $(git rev-parse --is-inside-git-repository 2> /dev/null) ]]; then
 		git_branch="$(git branch --no-color --show-current)"
-		if [[ $(git status --porcelain | wc -l) -ne 0 ]]; then
-			git_status="$(git status --porcelain | wc -l)"
+		git_status="$(git status --porcelain | wc -l)"
+		if [[ "${git_status}" -eq 0 ]]; then
+			printf '\e[93;1;7m %s \e[0m' "${git_branch}"
+		else
 			printf '\e[93;1;7m %s %s \e[0m' "${git_branch}" "${git_status}"
 		fi
 	fi
