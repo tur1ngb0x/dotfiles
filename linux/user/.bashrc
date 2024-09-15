@@ -1,16 +1,16 @@
-# INIT
+# init
 [[ -z "${PS1}" ]] && return
 source /usr/share/bash-completion/bash_completion
-shopt -s checkwinsize direxpand histverify
+shopt -s autocd checkwinsize direxpand histappend histverify
 
-# PATH
+# path
 PATH="${PATH}:${HOME}/.local/bin"
 PATH="${PATH}:${HOME}/src/scripts/linux"
 PATH="${PATH}:${HOME}/.local/share/flatpak/exports/share"
 PATH="$(printf %s "${PATH}" | awk -vRS=: -vORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }' )"
 export PATH
 
-# VARIABLES
+# variables
 EDITOR="micro"
 HISTCONTROL="ignorespace:ignoredups:erasedups"
 HISTFILESIZE="10000"
@@ -19,9 +19,15 @@ HISTTIMEFORMAT="%Y-%m-%d %a %H:%M:%S    "
 MANPAGER="most -s -t4 -w"
 PAGER="most -s -t4 -w"
 VISUAL="micro"
+PROMPT_COMMAND="history -a"
 export EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER VISUAL
+dot="${HOME}/src/dotfiles"
+scr="${HOME}/src/scripts"
+src="${HOME}/src"
+tmp="${HOME}/src/tmp"
+export dot scr src tmp
 
-# FUNCTIONS
+# functions
 function adbopt { adb shell cmd package bg-dexopt-job; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S"; }
 function out-clip { xclip -selection clipboard; }
@@ -29,19 +35,22 @@ function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
 function refreshell { clear; reset; source "${HOME}"/.bashrc; }
 
-# ALIASES
+# aliases
 alias chmod='chmod --verbose'
 alias chown='chown --verbose'
 alias cp='cp --verbose'
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias ln='ln --verbose'
-alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y-%m-%d %a %H:%M:%S" --color=auto'
+#alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y-%m-%d %a %H:%M:%S" --color=auto'
 alias mkdir='mkdir --verbose'
 alias mv='mv --verbose'
 alias rm='rm --verbose'
 alias rmdir='rmdir --verbose'
 
+if [[ $(command -v lsd) ]]; then
+	alias ls='lsd --classify --human-readable --long'
+fi
 # shell prompt
 function ps1_git {
 	if [[ $(git rev-parse --is-inside-git-repository 2> /dev/null) ]]; then
