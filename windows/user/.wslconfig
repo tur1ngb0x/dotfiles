@@ -1,11 +1,29 @@
 [wsl2]
 
+# How many logical processors to assign to the WSL 2 VM.
 processors = 2
+
+# How much memory to assign to the WSL 2 VM.
 memory = 4GB
+
+# How much swap space to add to the WSL 2 VM, 0 for no swap file. Swap storage is disk-based RAM used when memory demand exceeds limit on hardware device.
 swap = 0
 
+# Set the Virtual Hard Disk (VHD) size that stores the Linux distribution (for example, Ubuntu) file system. Can be used to limit the maximum size that a distribution file system is allowed to take up
+# 50GB
+defaultVhdSize = 53687091200
+
+# Additional kernel command line arguments.
 kernelCommandLine = audit=0 consoleblank=0 ipv6.disable=1 modprobe.blacklist=nouveau mitigations=off net.ifnames=0 nosgx nowatchdog pci=noaer
+
+# The number of milliseconds that a VM is idle, before it is shut down. Only available for Windows 11.
 vmIdleTimeout = 0
+
+# Boolean to turn on an output console Window that shows the contents of dmesg upon start of a WSL 2 distro instance. Only available for Windows 11.
 debugConsole = true
+
+# Boolean to turn on or off support for GUI applications (WSLg) in WSL.
 guiApplications = false
+
+# Boolean to turn on or off nested virtualization, enabling other nested VMs to run inside WSL 2. Only available for Windows 11.
 nestedVirtualization = false

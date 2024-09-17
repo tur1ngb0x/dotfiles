@@ -1,8 +1,8 @@
 blocks:
   - user
   - group
-#  - permission
-#  - size
+  - permission
+  - size
   - date
   - git
   - name
