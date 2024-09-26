@@ -75,22 +75,25 @@ else
 fi
 
 # #####################################################################
-# git prompt
-# #####################################################################
-function ps1_git {
-	if [[ $(git rev-parse --is-inside-git-repository 2> /dev/null) ]]; then
-		git_branch="$(git branch --no-color --show-current)"
-		git_status="$(git status --porcelain | wc -l)"
-		if [[ "${git_status}" -eq 0 ]]; then
-			printf '\e[93;1;7m %s \e[0m' "${git_branch}"
-		else
-			printf '\e[93;1;7m %s %s \e[0m' "${git_branch}" "${git_status}"
-		fi
-	fi
-}
-
-# #####################################################################
 # shell prompt
 # #####################################################################
-PS1='\[\e[92;1;7m\] \u@\h \[\e[0m\] \[\e[96;1;7m\] \w \[\e[0m\] $(ps1_git)\n\\$ '
+# function ps1_datime { printf '%s' "$(date +'%Y-%m-%d %a %H:%M:%S')"; }
+# function ps1_status { printf '%s' "${?}"; }
+# function ps1_git {
+# 	if [[ $(git rev-parse --is-inside-git-repository 2> /dev/null) ]]; then
+# 		git_branch="$(git branch --no-color --show-current)"
+# 		git_status="$(git status --porcelain | wc -l)"
+# 		if [[ "${git_status}" -eq 0 ]]; then
+# 			printf '\e[93;1;7m %s \e[0m' "${git_branch}"
+# 		else
+# 			printf '\e[93;1;7m %s %s \e[0m' "${git_branch}" "${git_status}"
+# 		fi
+# 	fi
+# }
+
+function ps1_userhost { printf '\e[92;1;7m %s@%s \e[0m' "$(id --user --name)" "$(hostname --short)"; }
+function ps1_dir { printf '\e[94;1;7m %s \e[0m' "$(pwd -L)"; }
+function ps1_git { printf '%s' "$(git branch --no-color --show-current 2> /dev/null)"; }
+function ps1_sign { printf '%s' "$"; }
+PS1='$(ps1_userhost) $(ps1_dir) $(ps1_git)\n$(ps1_sign) '
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
