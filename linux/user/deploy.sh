@@ -58,6 +58,12 @@ function deploy_shell {
 	lns "${CWD}"/.profile "${HOME}"/.profile
 }
 
+function deploy_starship {
+	header 'starship'
+	mkd "${HOME}"/.config/starship
+	lns "${CWD}"/.config/starship/starship.toml "${HOME}"/.config/starship/starship.toml
+}
+
 function deploy_x11 {
 	header 'x11'
 	lns "${CWD}"/.xprofile "${HOME}"/.xprofile
@@ -79,6 +85,7 @@ function main {
 	deploy_xdg
 	deploy_shell
 	deploy_bash
+	deploy_starship
 	deploy_fonts
 	deploy_git
 	deploy_micro

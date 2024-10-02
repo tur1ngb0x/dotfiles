@@ -97,3 +97,8 @@ function ps1_git { printf '%s' "$(git branch --no-color --show-current 2> /dev/n
 function ps1_sign { printf '%s' "$"; }
 PS1='$(ps1_userhost) $(ps1_dir) $(ps1_git)\n$(ps1_sign) '
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
+
+# #####################################################################
+# misc
+# #####################################################################
+eval "$(starship init bash)" 2>/dev/null

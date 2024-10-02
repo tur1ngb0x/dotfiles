@@ -15,15 +15,15 @@ $character\
 """
 
 [custom.windows]
-disabled = false
-command = '(Get-WmiObject -class Win32_OperatingSystem).Caption.Replace(" ", "-").ToLower() + "-" + (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\").CurrentBuild'
+disabled = true
+command = '(Get-CIMInstance -ClassName Win32_OperatingSystem).Caption.Replace(" ", "-").ToLower() + "-" + (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\").CurrentBuild'
 format = '[($output)](dimmed white) '
 shell = ['powershell', '-command']
 use_stdin = false
 when = true
 
 [custom.linux]
-disabled = false
+disabled = true
 command = 'source /etc/os-release && echo "${ID}-${VERSION_ID}"'
 format = '[($output)](dimmed white) '
 shell = ['bash', '-c']
@@ -31,7 +31,7 @@ use_stdin = false
 when = true
 
 [custom.ssh]
-disabled = false
+disabled = true
 command = '[[ -n "${SSH_TTY}" ]] && echo ssh'
 format = '[$output](dimmed white)'
 shell = ['bash', '-c']
