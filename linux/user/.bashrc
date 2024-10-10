@@ -45,6 +45,9 @@ function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
 function refreshell { clear; reset; source "${HOME}"/.bashrc; }
 function path { echo "${PATH}" | sed 's|:|\n|g'; }
+#function gitlog { git --no-pager log --date='format:%Y-%m-%d %a %H:%M:%S' --pretty='format:| %C(red)%h%C(reset) | %C(blue)%ad%C(reset) | %C(green)%s%C(reset) | %C(yellow)%an%C(reset) |'; }
+function gitlog { git --no-pager log --date='format:%Y-%m-%d %H:%M:%S' --pretty='format:%C(red)%h%C(reset) %C(blue)%ad%C(reset) %C(green)%s%C(reset) %C(yellow)(%an)%C(reset)'; }
+
 
 # #####################################################################
 # aliases
