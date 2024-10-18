@@ -1,0 +1,25 @@
+blocks:
+  - user
+  - group
+  - permission
+  - size
+  - date
+  - git
+  - name
+
+date: +%Y-%m-%d %a %H:%M:%S
+
+display: almost-all
+
+icons:
+  when: auto
+  theme: unicode
+  separator: " "
+
+indicators: true
+
+permission: rwx
+
+no-symlink: true
+
+header: true

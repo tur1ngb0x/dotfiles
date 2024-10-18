@@ -1,0 +1,18 @@
+[credential]
+	#pacman = /usr/lib/git-core/git-credential-libsecret
+	#apt = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+	#dnf = /usr/libexec/git-core/git-credential-libsecret
+	#wsl_winget= "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
+	#helper = "/mnt/c/Users/user/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe"
+	#other = cache --timeout=21600
+
+[gpg]
+	format = ssh
+
+[init]
+	defaultbranch = main
+
+[user]
+	name = tur1ngb0x
+	email = 25666761+tur1ngb0x@users.noreply.github.com
+	signingkey = ~/.ssh/github-tur1ngb0x.pub

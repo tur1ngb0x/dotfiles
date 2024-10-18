@@ -1,0 +1,17 @@
+
+# codename="$(source /etc/os-release; echo "${VERSION_CODENAME}")"; echo $codename
+# codename="$(source /etc/os-release; echo "${UBUNTU_CODENAME}"); echo $codename
+
+# ubuntu
+deb http://archive.ubuntu.com/ubuntu noble main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu noble-backports main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu noble-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu noble-updates main restricted universe multiverse
+deb http://archive.canonical.com/ubuntu noble partner
+
+# debian
+deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian bookworm-proposed-updates main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware

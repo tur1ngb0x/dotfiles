@@ -1,0 +1,17 @@
+
+# system ext4 disk
+UUID=								/boot/efi			vfat	defaults,noatime,x-gvfs-show,x-gvfs-name=esp 0 0
+UUID=								/					ext4	defaults,noatime,x-gvfs-show,x-gvfs-name=root 0 0
+UUID=								/home				ext4	defaults,noatime,x-gvfs-show,x-gvfs-name=home 0 0
+
+# internal ext4 disk
+UUID=								/linuxdata			ext4	defaults,noatime,x-gvfs-show,x-gvfs-name=linuxdata 0 0
+
+# external ext4 disk
+UUID=								/mnt/linuxbackup	ext4	defaults,noatime,noauto,nofail,user,x-systemd.device-timeout=1ms,x-gvfs-icon=drive-harddisk-solidstate-symbolic,x-gvfs-symbolic-icon=drive-harddisk-solidstate-symbolic,x-gvfs-show,x-gvfs-name=linuxbackup 0 0
+
+# external exfat disk
+UUID=								/mnt/elements		exfat	defaults,noatime,noauto,nofail,user,uid=1000,gid=1000,umask=0022,iocharset=utf8,x-systemd.device-timeout=1ms,x-gvfs-icon=drive-harddisk-solidstate-symbolic,x-gvfs-symbolic-icon=drive-harddisk-solidstate-symbolic,x-gvfs-show,x-gvfs-name=elements 0 0
+
+# external ntfs disk
+UUID=								/mnt/windowsbackup	ntfs-3g	defaults,noatime,noauto,nofail,user,uid=1000,gid=1000,umask=0022,windows_names,iocharset=utf8,x-systemd.device-timeout=1ms,x-gvfs-icon=drive-harddisk-solidstate-symbolic,x-gvfs-symbolic-icon=drive-harddisk-solidstate-symbolic,x-gvfs-show,x-gvfs-name=windowsbackup 0 0

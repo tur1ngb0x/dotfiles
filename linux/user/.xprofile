@@ -1,0 +1,7 @@
+# shellcheck disable=SC2148,1091
+
+# rgb color range - Automatic, Full, Limited 16:235
+xrandr --output 'HDMI-1' --set 'Broadcast RGB' 'Full' 2> /dev/null
+
+# audio output - off, on
+xrandr --output 'HDMI-1' --set 'audio' 'on' 2> /dev/null
