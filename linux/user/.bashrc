@@ -30,7 +30,7 @@ LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 MANPAGER="most -s -t4 -w"
 PAGER="most -s -t4 -w"
 PROMPT_COMMAND="history -a"
-PS1='\n$(tput rev) \u@\h \w $(tput sgr0) $(git branch --show-current 2>/dev/null)\n\$ '; PS1="\[\e]0;\u@\h \w\a\]${PS1}"
+PS1='\n$(tput rev) \u@\h \w $(tput sgr0)\n\$ '; PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 VISUAL="micro"
 export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLORS MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
@@ -46,7 +46,6 @@ function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
 function refreshell { clear; reset; source "${HOME}"/.bashrc; }
 function path { echo "${PATH}" | sed 's|:|\n|g'; }
-function gitlog { git --no-pager log --date='format:%Y-%m-%d %H:%M:%S' --pretty='format:%C(red)%h%C(reset) | %C(blue)%ad%C(reset) | %C(yellow)(%an)%C(reset) | %C(green)%s%C(reset) '; printf "\n";}
 
 # #####################################################################
 # aliases
@@ -80,4 +79,4 @@ fi
 # #####################################################################
 # shell
 # #####################################################################
-source "${HOME}/src/scripts/linux/promptbash.sh" 2>/dev/null
+#source "${HOME}/src/scripts/linux/promptbash.sh" 2>/dev/null
