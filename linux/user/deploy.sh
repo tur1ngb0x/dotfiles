@@ -2,7 +2,7 @@
 
 LC_ALL=C
 CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"
-function header	{ tput rev; printf " # %s \n" "${1}"; tput sgr0; }
+function hed	{ tput rev; printf " # %s \n" "${1}"; tput sgr0; }
 function tex	{ printf " %s \n" "${1}"; }
 function mkd	{ mkdir -pv "${@}"; }
 function mkf	{ touch "${@}"; }
@@ -20,14 +20,14 @@ function prompt_user {
 }
 
 function deploy_bash {
-	header 'bash'
+	hed 'bash'
 	rmf "${HOME}"/.bash_profile
 	lns "${CWD}"/.bash_logout "${HOME}"/.bash_logout
 	lns "${CWD}"/.bashrc "${HOME}"/.bashrc
 }
 
 function deploy_code {
-	header 'code'
+	hed 'code'
 	mkd "${HOME}"/.config/Code/User									#native
 	mkd "${HOME}"/.var/app/com.visualstudio.code/config/Code/User	#flatpak
 	mkd "${HOME}"/.vscode-server/data/Machine						#wsl/ssh
@@ -35,43 +35,43 @@ function deploy_code {
 }
 
 function deploy_fonts {
-	header 'fonts'
+	hed 'fonts'
 	mkd "${HOME}"/.config/fontconfig
 	lns "${CWD}"/.config/fontconfig/fonts.conf "${HOME}"/.config/fontconfig/fonts.conf
 }
 
 function deploy_git {
-	header 'git'
+	hed 'git'
 	mkd "${HOME}"/.config/git
 	lns "${CWD}"/.config/git/config "${HOME}"/.config/git/config
 }
 
 function deploy_micro {
-	header 'micro'
+	hed 'micro'
 	mkd "${HOME}"/.config/micro
 	lns "${CWD}"/.config/micro/settings.json "${HOME}"/.config/micro/settings.json
 }
 
 function deploy_shell {
-	header 'shell'
+	hed 'shell'
 	lns "${CWD}"/.inputrc "${HOME}"/.inputrc
 	lns "${CWD}"/.profile "${HOME}"/.profile
 }
 
 function deploy_starship {
-	header 'starship'
+	hed 'starship'
 	mkd "${HOME}"/.config/starship
 	lns "${CWD}"/.config/starship/starship.toml "${HOME}"/.config/starship/starship.toml
 }
 
 function deploy_x11 {
-	header 'x11'
+	hed 'x11'
 	lns "${CWD}"/.xprofile "${HOME}"/.xprofile
 	lns "${CWD}"/.Xresources "${HOME}"/.Xresources
 }
 
 function deploy_xdg {
-	header 'folders'
+	hed 'folders'
 	mkd "${HOME}"/{Apps,Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
 	find "${HOME}"/{Apps,Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos} -maxdepth 0 -type d
 	mkd "${HOME}"/.{cache,config,local/{bin,share,state}}
