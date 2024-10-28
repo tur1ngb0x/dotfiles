@@ -45,7 +45,7 @@ function out-clip { xclip -selection clipboard; }
 function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
 function refreshell { clear; reset; source "${HOME}"/.bashrc; }
-function path { echo "${PATH}" | sed 's|:|\n|g'; }
+function path { printf "%s\n" "${PATH//:/$'\n'}"; }
 
 # #####################################################################
 # aliases
