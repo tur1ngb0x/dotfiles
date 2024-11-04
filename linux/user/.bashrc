@@ -40,12 +40,13 @@ export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLOR
 # #####################################################################
 function adbopt { adb shell cmd package bg-dexopt-job; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S"; }
-function stext { grep --color=always --ignore-case --binary-files=without-match --with-filename --recursive --line-number "${1}" . | less -r; }
 function out-clip { xclip -selection clipboard; }
 function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
-function refreshell { clear; reset; source "${HOME}"/.bashrc; }
 function path { printf "%s\n" "${PATH//:/$'\n'}"; }
+function pyv { source "${PWD}"/bin/activate; }
+function refreshell { clear; reset; source "${HOME}"/.bashrc; }
+function stext { grep --color=always --ignore-case --binary-files=without-match --with-filename --recursive --line-number "${1}" . | less -r; }
 
 # #####################################################################
 # aliases
