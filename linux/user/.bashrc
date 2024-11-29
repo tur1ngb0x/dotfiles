@@ -40,7 +40,6 @@ export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLOR
 # #####################################################################
 function adbopt { adb shell cmd package bg-dexopt-job; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S"; }
-#function ls { command ls --almost-all --classify --format=verbose --group-directories-first --human-readable --time-style=+'%Y%m%d-%a-%H%M%S' --color=always | awk 'NR > 1 {print $6, $7, $8, $9}' | column -t; }
 function out-clip { xclip -selection clipboard; }
 function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
@@ -70,15 +69,16 @@ alias rmdir='command rmdir --verbose'
 # #####################################################################
 # better ls
 # #####################################################################
+
+if [[ $(command -v ls.sh) ]]; then
+	alias ls='ls.sh'
+	function cd { builtin cd "$@" && ls.sh; }
+else
+	alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"'
+	function cd { builtin cd "$@" && command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"; }
+fi
+
 # if [[ $(command -v lsd) ]]; then
 # 	alias ls='command lsd --almost-all --classify --human-readable --long'
 # 	function cd { builtin cd "$@" && lsd --almost-all --classify --human-readable --long; }
-# else
-# 	alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"'
-# 	function cd { builtin cd "$@" && command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"; }
 # fi
-
-# #####################################################################
-# shell
-# #####################################################################
-#source "${HOME}/src/scripts/linux/promptbash.sh" 2>/dev/null
