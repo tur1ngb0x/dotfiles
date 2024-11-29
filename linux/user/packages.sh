@@ -134,7 +134,7 @@ function post_pieces {
 	sudo snap connect pieces-os:process-control :process-control
 }
 
-#text 'ppa_apt'; for ppa in "${ppas_apt[@]}"; do sudo apt-add-repository -yn "${ppa}"; done
+text 'ppa_apt'; for ppa in "${ppas_apt[@]}"; do sudo apt-add-repository -yn "${ppa}"; done
 text 'pkgs_apt'; for pkg in "${pkgs_apt[@]}"; do sudo apt-get install -y "${pkg}"; done
 text 'pkgs_pipx'; for pkg in "${pkgs_pipx[@]}"; do pipx install "${pkg}"; done
 #text 'pkgs_snap'; for pkg in "${pkgs_snap[@]}"; do sudo snap install "${pkg}" --classic;   done

@@ -40,6 +40,7 @@ export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLOR
 # #####################################################################
 function adbopt { adb shell cmd package bg-dexopt-job; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S"; }
+#function ls { command ls --almost-all --classify --format=verbose --group-directories-first --human-readable --time-style=+'%Y%m%d-%a-%H%M%S' --color=always | awk 'NR > 1 {print $6, $7, $8, $9}' | column -t; }
 function out-clip { xclip -selection clipboard; }
 function out-code { code -; }
 function out-curl { curl --form "clbin=<-" https://clbin.com; }
@@ -51,31 +52,31 @@ function stext { grep --color=always --ignore-case --binary-files=without-match 
 # #####################################################################
 # aliases
 # #####################################################################
-alias apt='sudo apt'
-alias apt-get='sudo apt-get'
-alias dnf='sudo dnf'
-alias pacman='sudo pacman'
+alias apt-get='sudo command apt-get'
+alias apt='sudo command apt'
 alias chmod='command chmod --verbose'
 alias chown='command chown --verbose'
 alias cp='command cp --verbose'
 alias diff='command diff --color=auto'
+alias dnf='command sudo command dnf'
 alias grep='command grep --color=auto'
 alias ln='command ln --verbose'
 alias mkdir='command mkdir --verbose'
 alias mv='command mv --verbose'
+alias pacman='sudo command pacman'
 alias rm='command rm --verbose'
 alias rmdir='command rmdir --verbose'
 
 # #####################################################################
 # better ls
 # #####################################################################
-if [[ $(command -v lsd) ]]; then
-	alias ls='command lsd --almost-all --classify --human-readable --long'
-	function cd { builtin cd "$@" && lsd --almost-all --classify --human-readable --long; }
-else
-	alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y-%m-%d %a %H:%M:%S" --color=auto'
-	function cd { builtin cd "$@" && command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y-%m-%d %a %H:%M:%S" --color=auto; }
-fi
+# if [[ $(command -v lsd) ]]; then
+# 	alias ls='command lsd --almost-all --classify --human-readable --long'
+# 	function cd { builtin cd "$@" && lsd --almost-all --classify --human-readable --long; }
+# else
+# 	alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"'
+# 	function cd { builtin cd "$@" && command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"; }
+# fi
 
 # #####################################################################
 # shell
