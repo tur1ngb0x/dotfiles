@@ -150,7 +150,7 @@
 $CWD = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 
 # wsl
-New-Item -ItemType SymbolicLink -Force -Path "$CWD\.wslconfig" -Target "$env:USERPROFILE\.wslconfig"
+New-Item -ItemType SymbolicLink -Force -Path "$CWD\.wslconfig" -Target "$env:USERPROFILE"
 
 # git
-New-Item -ItemType SymbolicLink -Force -Path "$CWD\.gitconfig" -Target "$env:USERPROFILE\.gitconfig"
+New-Item -ItemType SymbolicLink -Force -Path "$CWD\.gitconfig" -Target "$env:USERPROFILE"
