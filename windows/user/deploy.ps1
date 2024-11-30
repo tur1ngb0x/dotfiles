@@ -175,6 +175,6 @@ sudo New-Item -ItemType SymbolicLink `
 
 # git
 sudo New-Item -ItemType SymbolicLink `
-	-Path "$env:userprofile\.wslconfig" `
+	-Path "$env:userprofile\.gitconfig" `
 	-Target "$CWD\.gitconfig" `
 	-Force
