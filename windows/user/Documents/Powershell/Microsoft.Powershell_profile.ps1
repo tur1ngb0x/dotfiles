@@ -29,9 +29,9 @@ function prompt {
 	$pwsh_user = $env:username
 	$pwsh_host = $env:computername.tolower()
 	$pwsh_dir = get-location | select-object -expandproperty path
-    Write-Host "$pwsh_user@$pwsh_host" -backgroundcolor green -foregroundcolor black -nonewline
+    Write-Host " $pwsh_user@$pwsh_host " -backgroundcolor green -foregroundcolor black -nonewline
     Write-Host " " -nonewline
-    Write-Host "$pwsh_dir" -backgroundcolor blue -foregroundcolor black -nonewline
+    Write-Host " $pwsh_dir " -backgroundcolor blue -foregroundcolor black -nonewline
     return "`n $ "
 }
 
