@@ -169,12 +169,12 @@ $CWD = (Get-Location).Path
 
 # wsl
 New-Item -ItemType SymbolicLink `
-	-Path "$env:userprofile\.wslconfig"
-	-Target "$CWD\.wslconfig"
+	-Path "$env:userprofile\.wslconfig" `
+	-Target "$CWD\.wslconfig" `
 	-Force
 
 # git
 New-Item -ItemType SymbolicLink `
-	-Path "$env:userprofile\.wslconfig"
-	-Target "$CWD\.gitconfig"
+	-Path "$env:userprofile\.wslconfig" `
+	-Target "$CWD\.gitconfig" `
 	-Force
