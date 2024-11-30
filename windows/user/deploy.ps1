@@ -147,10 +147,25 @@
 # main
 
 # current directory
-$CWD = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+$cwd = split-path -path $myinvocation.mycommand.definition -parent
+
+# Create the directory
+New-Item -ItemType Directory `
+    -Path "$HOME\Documents\WindowsPowerShell" `
+    -Force
+
+# Create the symbolic link
+sudo New-Item -ItemType SymbolicLink `
+    -Path "$env:userprofile\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" `
+    -Target "$env:userprofile\src\dotfiles\windows\user\Documents\PowerShell\Microsoft.PowerShell_profile.ps1" `
+    -Force
+
+# powershell 7
+new-item -itemtype directory -path "$env:userprofile\documents\powershell\"
+new-item -path "$env:userprofile\documents\powershell\microsoft.powershell_profile.ps1" -itemtype symboliclink -target ".\documents\powershell\microsoft.powershell_profile.ps1" -force
 
 # wsl
-New-Item -ItemType SymbolicLink -Force -Path "$CWD\.wslconfig" -Target "$env:USERPROFILE"
+new-item -path "$env:userprofile\.wslconfig" -itemtype symboliclink -target ".\wslconfig"
 
 # git
-New-Item -ItemType SymbolicLink -Force -Path "$CWD\.gitconfig" -Target "$env:USERPROFILE"
+new-item -path "$env:userprofile\.gitconfig" -itemtype symboliclink -target ".\gitconfig"
