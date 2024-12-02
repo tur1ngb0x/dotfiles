@@ -58,11 +58,11 @@ function deploy_desktop {
     New-Item -ItemType Directory `
         -Path "$env:USERPROFILE\Desktop" `
         -Force
-    New-Item -ItemType SymbolicLink `
+    sudo New-Item -ItemType SymbolicLink `
         -Path "$env:USERPROFILE\Desktop\code-linux.code-workspace" `
         -Target "$CWD\Desktop\code-linux.code-workspace" `
         -Force
-    New-Item -ItemType SymbolicLink `
+    sudo New-Item -ItemType SymbolicLink `
         -Path "$env:USERPROFILE\Desktop\code-windows.code-workspace" `
         -Target "$CWD\Desktop\code-windows.code-workspace" `
         -Force
