@@ -1,9 +1,0 @@
-{
-	"folders": [
-		{
-			"name": "tur1ngb0x@a5",
-			"uri": "vscode-remote://ssh-remote+a5/home/tur1ngb0x"
-		}
-	],
-	"remoteAuthority": "ssh-remote+a5",
-}
