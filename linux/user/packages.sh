@@ -3,9 +3,9 @@
 function text { tput rev; printf "\n %s \n" "${1}"; tput sgr0; }
 
 ppas_apt=(
-	'ppa:flatpak/stable'
+	#'ppa:flatpak/stable'
 	'ppa:git-core/ppa'
-	'ppa:papirus/papirus'
+	#'ppa:papirus/papirus'
 )
 
 pkgs_apt=(
