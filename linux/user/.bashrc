@@ -72,10 +72,8 @@ alias rmdir='command rmdir --verbose'
 
 if [[ $(command -v ls.sh) ]]; then
 	alias ls='ls.sh'
-	function cd { builtin cd "$@" && ls.sh; }
 else
 	alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"'
-	function cd { builtin cd "$@" && command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"; }
 fi
 
 # if [[ $(command -v lsd) ]]; then
