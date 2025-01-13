@@ -30,7 +30,7 @@ LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 MANPAGER="most -s -t4 -w"
 PAGER="most -s -t4 -w"
 PROMPT_COMMAND="history -a"
-PS1='\n$(tput rev) \u@\h \w $(tput sgr0)\n\$ '; PS1="\[\e]0;\u@\h \w\a\]${PS1}"
+PS1='$(tput rev) \u@\h \w $(tput sgr0)\n\$ '; PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 VISUAL="micro"
 export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLORS MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
@@ -60,23 +60,9 @@ alias diff='command diff --color=auto'
 alias dnf='command sudo command dnf'
 alias grep='command grep --color=auto'
 alias ln='command ln --verbose'
+alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always'
 alias mkdir='command mkdir --verbose'
 alias mv='command mv --verbose'
 alias pacman='sudo command pacman'
 alias rm='command rm --verbose'
 alias rmdir='command rmdir --verbose'
-
-# #####################################################################
-# better ls
-# #####################################################################
-
-if [[ $(command -v ls.sh) ]]; then
-	alias ls='ls.sh'
-else
-	alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always awk "NR > 1 {print $1, $6, $7}"'
-fi
-
-# if [[ $(command -v lsd) ]]; then
-# 	alias ls='command lsd --almost-all --classify --human-readable --long'
-# 	function cd { builtin cd "$@" && lsd --almost-all --classify --human-readable --long; }
-# fi
