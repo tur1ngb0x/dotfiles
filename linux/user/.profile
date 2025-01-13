@@ -7,10 +7,10 @@ if [[ -f /usr/bin/qt5ct ]]; then QT_QPA_PLATFORMTHEME="qt5ct"; export QT_QPA_PLA
 # fonts
 unset FREETYPE_PROPERTIES
 FREETYPE_PROPERTIES=""
-FREETYPE_PROPERTIES+="autofitter:no-stem-darkening=0 "     # enables stem darkening
-FREETYPE_PROPERTIES+="autofitter:warping=0 "               # enable font warping
-FREETYPE_PROPERTIES+="cff:no-stem-darkening=0 "            # enables stem darkening
-FREETYPE_PROPERTIES+="truetype:interpreter-version=40"     # enables cleartype hinting
+FREETYPE_PROPERTIES+="autofitter:no-stem-darkening=0 "     # enable stem darkening for non-CFF fonts (e.g., TTF, TTC, bitmap fonts)
+FREETYPE_PROPERTIES+="cff:no-stem-darkening=0 "            # enable stem darkening for CFF fonts (e.g., OTF with PostScript outlines)
+FREETYPE_PROPERTIES+="autofitter:warping=0 "               # disable font warping for non-CFF fonts (e.g., TTF, TTC, bitmap fonts)
+FREETYPE_PROPERTIES+="truetype:interpreter-version=40"     # enable cleartype hinting for TTF, TTC fonts
 export FREETYPE_PROPERTIES
 
 # xdg
