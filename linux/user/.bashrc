@@ -30,7 +30,7 @@ LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 MANPAGER="most -s -t4 -w"
 PAGER="most -s -t4 -w"
 PROMPT_COMMAND="history -a"
-PS1='$(tput rev) \u@\h \w $(tput sgr0)\n\$ '; PS1="\[\e]0;\u@\h \w\a\]${PS1}"
+PS1='\n$(tput rev) \u@\h \w $(tput sgr0)\n\$ '; PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 VISUAL="micro"
 export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLORS MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
