@@ -16,6 +16,7 @@ pkgs_apt=(
     curl
     dos2unix
     ffmpeg
+	fzf
     git
     mediainfo
     most
