@@ -39,10 +39,10 @@ export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLOR
 # functions
 # #####################################################################
 function adbopt { adb shell cmd package bg-dexopt-job; }
-function datenow { date +"%Y-%m-%d %a %H:%M:%S"; }
-function out-clip { xclip -selection clipboard; }
-function out-code { code -; }
-function out-curl { curl --form "clbin=<-" https://clbin.com; }
+function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
+function outclip { xclip -selection clipboard; }
+function outcode { code -; }
+function outcurl { curl --ipv4 --form "clbin=<-" https://clbin.com; }
 function path { printf "%s\n" "${PATH//:/$'\n'}"; }
 function pyv { source "${PWD}"/bin/activate; }
 function refreshell { clear; reset; source "${HOME}"/.bashrc; }
@@ -60,7 +60,7 @@ alias diff='command diff --color=auto'
 alias dnf='command sudo command dnf'
 alias grep='command grep --color=auto'
 alias ln='command ln --verbose'
-alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y/%m/%d-%a-%H:%M:%S" --color=always'
+alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always'
 alias mkdir='command mkdir --verbose'
 alias mv='command mv --verbose'
 alias pacman='sudo command pacman'

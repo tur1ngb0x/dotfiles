@@ -1,3 +1,2 @@
-
-# displays
-bash "${HOME}"/src/scripts/linux/set-displays.sh
+if [[ -f "${HOME}"/src/scripts/linux/setdisplay.sh ]]; then
+	bash "${HOME}"/src/scripts/linux/setdisplay.sh; fi
