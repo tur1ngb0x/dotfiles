@@ -117,11 +117,11 @@ function post_pieces {
 }
 
 function main {
-    text 'ppa_apt';     for ppa in "${ppas_apt[@]}"; do     sudo apt-add-repository -yn "${ppa}"; done
-    text 'pkgs_apt';    for pkg in "${pkgs_apt[@]}"; do     sudo apt-get install -y "${pkg}"; done
-    text 'pkgs_pipx';   for pkg in "${pkgs_pipx[@]}"; do    pipx install "${pkg}"; done
-    text 'pkgs_snap';   for pkg in "${pkgs_snap[@]}"; do    sudo snap install "${pkg}" --classic; done
-    text 'pkgs_snap';   for pkg in "${pkgs_flatpak[@]}"; do sudo flatpak --user install "${pkg}" --classic; done
+    text 'PPA';		for i in "${ppas_apt[@]}"; do     sudo apt-add-repository -yn "${i}"; done
+    text 'APT';		for i in "${pkgs_apt[@]}"; do     sudo apt-get install -y "${i}"; done
+	text 'PIPX';	for i in "${pkgs_pipx[@]}"; do    pipx install "${i}"; done
+    text 'SNAP';	for i in "${pkgs_snap[@]}"; do    sudo snap install "${i}" --classic; done
+    text 'FLATPAK';	for i in "${pkgs_flatpak[@]}"; do sudo flatpak --user install "${i}"; done
 
     post_virt-manager
     post_pieces
