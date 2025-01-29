@@ -53,14 +53,13 @@ function deploy_xdg {
     txt 'folders'
     show mkdir -pv "${HOME}"/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
     show mkdir -pv "${HOME}"/.{cache,config,local/{bin,share,state}}
-	show mkdir -pv "${HOME}"/Apps/
+    show mkdir -pv "${HOME}"/Apps/
     show mkdir -pv "${HOME}"/src/tmp
 }
 
 function main {
     prompt_user
     deploy_xdg
-    deploy_shell
     deploy_bash
     deploy_fonts
     deploy_git
@@ -76,3 +75,11 @@ main "${@}"
 # "${HOME}"/.var/app/com.visualstudio.code/config/Code/User #flatpak
 # "${HOME}"/.vscode-server/data/Machine #wsl/ssh
 # "${HOME}"/Apps/vscode/data/tmp/User #portable
+
+# detect platform
+# if [[ $(command -v systemd-detect-virt) ]]; then
+#     virt_type=$(systemd-detect-virt)
+#     if [[ "${virt_type}" != "none" ]]; then
+        $tasks
+#     fi
+# fi
