@@ -80,6 +80,6 @@ main "${@}"
 # if [[ $(command -v systemd-detect-virt) ]]; then
 #     virt_type=$(systemd-detect-virt)
 #     if [[ "${virt_type}" != "none" ]]; then
-        $tasks
+#        $tasks
 #     fi
 # fi
