@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 
-function text { tput rev; printf "\n %s \n" "${1}"; tput sgr0; }
+function text { printf "\033[7m# %s \033[0m\n" "${1}"; }
+
+function elevate_user() {
+    if [[ "$(id -ur)" -eq 0 ]]; then
+        ELEVATE=""
+    elif [[ -f /usr/bin/doas ]]; then
+        ELEVATE="doas"
+    elif [[ -f /usr/bin/${ELEVATE} ]]; then
+        ELEVATE="${ELEVATE}"
+    else
+        echo 'Install ${ELEVATE} or doas'
+        exit
+    fi
+}
 
 ppas_apt=(
     'ppa:git-core/ppa'
@@ -35,15 +48,16 @@ pkgs_apt=(
 )
 
 pkgs_dnf=(
+	procps-ng
     android-tools
     atool
     bash-completion
-    gcc
     curl
     dialog
     dos2unix
     ffmpeg
     fzf
+    gcc
     git
     mediainfo
     most
@@ -129,28 +143,96 @@ if [[ $(command -v systemd-detect-virt) ]]; then
     fi
 fi
 
-# if package is not installed, install it
-function install_apt     { text 'APT';      for i in "${pkgs_apt[@]}";      do [[ ! $(dpkg -l | awk '{print $2}' | grep "^${i}") ]] && sudo apt-get install -y "${i}"; done; }
-function install_dnf     { text 'DNF';      for i in "${pkgs_dnf[@]}";      do [[ ! $(dnf list --installed | grep "^${i}") ]] && sudo dnf install -y "${i}"; done; }
-function install_pacman  { text 'PACMAN';   for i in "${pkgs_pacman[@]}";   do [[ ! $(pacman -Qq | grep "^${i}") ]] && sudo pacman -S "${i}"; done; }
-function install_snap    { text 'SNAP';     for i in "${pkgs_snap[@]}";     do [[ ! $(snap list --all | grep "^${i}") ]] && sudo snap install "${i}" --classic; done; }
-function install_flatpak { text 'FLATPAK';  for i in "${pkgs_flatpak[@]}";  do [[ ! $(flatpak --user list --all --columns=app | grep "^${i}") ]] && flatpak --user install "${i}"; done; }
-function install_pipx    { text 'PIPX';     for i in "${pkgs_pipx[@]}";     do [[ ! $(pipx list | grep "^${i}") ]] && pipx install "${i}"; done; }
+function install_apt {
+	if [[ $(command -v apt-get) ]]; then
+		text 'APT'
+		for i in "${pkgs_apt[@]}"; do
+		if [[ ! $(dpkg -l | awk '{print $2}' | grep "^${i}") ]]; then
+			${ELEVATE} apt-get install -y "${i}"
+		else
+			echo "${i} is already installed."
+		fi
+		done
+	fi
+}
+
+function install_dnf {
+	if [[ $(command -v dnf) ]]; then
+		text 'DNF'
+		for i in "${pkgs_dnf[@]}"; do
+		if [[ ! $(dnf list --installed | grep "^${i}") ]]; then
+			${ELEVATE} dnf install -y "${i}"
+		else
+			echo "${i} is already installed."
+		fi
+		done
+	fi
+}
+
+function install_pacman {
+	if [[ $(command -v pacman) ]]; then
+		text 'PACMAN'
+		for i in "${pkgs_pacman[@]}"; do
+		if [[ ! $(pacman -Qq | grep "^${i}") ]]; then
+			${ELEVATE} pacman -S --needed --noconfirm "${i}";
+		else
+			echo "${i} is already installed."
+		fi
+		done
+	fi
+}
+
+function install_snap {
+	if [[ $(command -v snap) ]]; then
+		text 'SNAP'
+		for i in "${pkgs_snap[@]}"; do
+		if [[ ! $(snap list --all | grep "^${i}") ]]; then
+			${ELEVATE} snap install "${i}" --classic
+		else
+			echo "${i} is already installed."
+		fi
+		done
+	fi
+}
+
+function install_flatpak {
+	if [[ $(command -v flatpak) ]]; then
+		text 'FLATPAK'
+		for i in "${pkgs_flatpak[@]}"; do
+		if [[ ! $(flatpak --user list --all --columns=app | grep "^${i}") ]]; then
+			flatpak --user install "${i}"
+		else
+			echo "${i} is already installed."
+		fi
+		done
+	fi
+}
+
+function install_pipx {
+	if [[ $(command -v pipx) ]]; then
+		text 'PIPX'
+		for i in "${pkgs_pipx[@]}"; do
+		if [[ ! $(pipx list --short | awk '{print $1}' | grep "^${i}") ]]; then
+			pipx install "${i}"
+		fi
+		done
+	fi
+}
 
 function post_install_virt-manager {
     if [[ $(command -v virt-manager) ]]; then
-        sudo groupadd -f kvm
-        sudo usermod -aG kvm "${USER}"
-        sudo groupadd -f libvirt
-        sudo usermod -aG libvirt "${USER}"
-        cat <<-'EOF' | sudo tee -a /etc/libvirt/libvirtd.conf
+        ${ELEVATE} groupadd -f kvm
+        ${ELEVATE} usermod -aG kvm "${USER}"
+        ${ELEVATE} groupadd -f libvirt
+        ${ELEVATE} usermod -aG libvirt "${USER}"
+        cat <<-'EOF' | ${ELEVATE} tee -a /etc/libvirt/libvirtd.conf
 unix_sock_group = "libvirt"
 unix_sock_ro_perms = "0770"
 unix_sock_rw_perms = "0770"
 auth_unix_ro = "none"
 auth_unix_rw = "none"
 EOF
-        cat <<-'EOF' | sudo tee -a /etc/libvirt/qemu.conf
+        cat <<-'EOF' | ${ELEVATE} tee -a /etc/libvirt/qemu.conf
 user = "${USER}"
 group = "${USER}"
 EOF
@@ -177,19 +259,20 @@ function post_install_mysql {
 
 function post_install_pieces {
     if [[ $(snap list pieces-os) ]]; then
-        sudo snap connect pieces-os:process-control :process-control
+        ${ELEVATE} snap connect pieces-os:process-control :process-control
     else
         echo 'pieces-os is not installed'
     fi
 }
 
 function main {
-    text 'APT';     install_apt
-    text 'DNF';     install_dnf
-    text 'PACMAN';  install_pacman
-    text 'SNAP';    install_snap
-    text 'FLATPAK'; install_flatpak
-    text 'PIPX';    install_pipx
+	elevate_user
+    install_apt
+    install_dnf
+    install_pacman
+    install_snap
+    install_flatpak
+    install_pipx
 }
 
 main "${@}"
