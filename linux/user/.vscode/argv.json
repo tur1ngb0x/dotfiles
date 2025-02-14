@@ -1,5 +1,6 @@
 {
 	"disable-hardware-acceleration": true,
+	"disable-lcd-text": false,
 	"enable-crash-reporter": false,
 	"force-color-profile": "srgb",
 	"log-level": "off",

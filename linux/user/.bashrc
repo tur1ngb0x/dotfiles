@@ -38,7 +38,6 @@ export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLOR
 # #####################################################################
 # functions
 # #####################################################################
-function adbopt { adb shell cmd package bg-dexopt-job; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
 function outclip { xclip -selection clipboard; }
 function outcode { code -; }
