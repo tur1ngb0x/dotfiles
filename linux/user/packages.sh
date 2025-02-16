@@ -37,7 +37,6 @@ pkgs_apt=(
     nano
     p7zip-full
     p7zip-rar
-    pipx
     python-is-python3
     python3-pip
     python3-venv
@@ -209,14 +208,12 @@ function install_flatpak {
 }
 
 function install_pipx {
-	if [[ $(command -v pipx) ]]; then
-		text 'PIPX'
-		for i in "${pkgs_pipx[@]}"; do
+	python3 -m pip install --user pipx
+	for i in "${pkgs_pipx[@]}"; do
 		if [[ ! $(pipx list --short | awk '{print $1}' | grep "^${i}") ]]; then
 			pipx install "${i}"
 		fi
-		done
-	fi
+	done
 }
 
 function post_install_virt-manager {
