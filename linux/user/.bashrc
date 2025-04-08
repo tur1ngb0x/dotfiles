@@ -1,67 +1,57 @@
-# #####################################################################
-# behaviour
-# #####################################################################
-[[ -z "${PS1}" ]] && return
-source /usr/share/bash-completion/bash_completion
+
+# Behaviour
+[[ "${-}" != *i* ]] && return
+[[ -z "$BASH_COMPLETION_VERSINFO" ]] && source /usr/share/bash-completion/bash_completion
 shopt -s checkwinsize direxpand histappend histverify
 stty -ixon
 
-# #####################################################################
-# path
-# #####################################################################
-PATH="${PATH}:${HOME}/src/scripts/linux"
-PATH="${PATH}:${HOME}/.local/bin"
-PATH="${PATH}:${HOME}/.cargo/bin"
-PATH="${PATH}:/var/lib/flatpak/exports/bin"
-PATH="${PATH}:${HOME}/.local/share/flatpak/exports/share"
-PATH="$(printf '%s' "${PATH}" | awk '-vRS=:' '-vORS=' '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }' )"
-export PATH
+# Helpers
+function set_variable { eval "${1}=\"${*:2}\"; export ${1}"; }
+function set_alias { alias "${1}"="command ${*:2}"; }
+function set_function { eval "function ${1} { \"${*:2}\" ; }; export -f ${1}"; }
+function set_path { PATH="${PATH}:${1}"; PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"; export PATH; }
 
-# #####################################################################
-# variables
-# #####################################################################
-CLICOLOR="1"
-EDITOR="micro"
-HISTCONTROL="ignorespace:ignoredups:erasedups"
-HISTFILESIZE="10000"
-HISTSIZE="2000"
-HISTTIMEFORMAT="%Y-%m-%d %a %H:%M:%S    "
-LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.xml=00;31:'
-MANPAGER="most -s -t4 -w"
-PAGER="most -s -t4 -w"
-PROMPT_COMMAND="history -a"
-PS1='\n$(tput rev) \u@\h \w $(tput sgr0)\n\$ '; PS1="\[\e]0;\u@\h \w\a\]${PS1}"
-STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
-VISUAL="micro"
-export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT LS_COLORS MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
+# PATH
+set_path '/var/lib/flatpak/exports/bin'
+set_path "${HOME}/.cargo/bin"
+set_path "${HOME}/.local/bin"
+set_path "${HOME}/.local/share/flatpak/exports/share"
+set_path "${HOME}/src/scripts/linux"
 
-# #####################################################################
-# functions
-# #####################################################################
-function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
-function outclip { xclip -selection clipboard; }
-function outcode { code -; }
-function outcurl { curl --ipv4 --form "clbin=<-" https://clbin.com; }
-function path { printf "%s\n" "${PATH//:/$'\n'}"; }
-function pyv { source "${PWD}"/bin/activate; }
-function refreshell { clear; reset; source "${HOME}"/.bashrc; }
-function stext { grep --color=always --ignore-case --binary-files=without-match --with-filename --recursive --line-number "${1}" . | less -r; }
+# Variables
+set_variable 'CLICOLOR'         '1'
+set_variable 'EDITOR'           'micro'
+set_variable 'HISTCONTROL'      'ignorespace:ignoredups:erasedups'
+set_variable 'HISTFILESIZE'     '10000'
+set_variable 'HISTSIZE'         '2000'
+set_variable 'HISTTIMEFORMAT'   '%Y-%m-%d %a %H:%M:%S    '
+set_variable 'MANPAGER'         'most -s -t4 -w'
+set_variable 'PAGER'            "${MANPAGER}"
+set_variable 'PROMPT_COMMAND'   'history -a'
+set_variable 'PS1'              "$(tput rev) \u@\h \w $(tput sgr0)\n\$ "
+set_variable 'PS1'              "\[\e]0;\u@\h \w\a\]${PS1}"
+set_variable 'STARSHIP_CONFIG'  "${HOME}/.config/starship/starship.toml"
+set_variable 'VISUAL'           'micro'
 
-# #####################################################################
-# aliases
-# #####################################################################
-alias apt-get='sudo command apt-get'
-alias apt='sudo command apt'
-alias chmod='command chmod --verbose'
-alias chown='command chown --verbose'
-alias cp='command cp --verbose'
-alias diff='command diff --color=auto'
-alias dnf='command sudo command dnf'
-alias grep='command grep --color=auto'
-alias ln='command ln --verbose'
-alias ls='command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always'
-alias mkdir='command mkdir --verbose'
-alias mv='command mv --verbose'
-alias pacman='sudo command pacman'
-alias rm='command rm --verbose'
-alias rmdir='command rmdir --verbose'
+# Functions
+set_function 'datenow'          'date +"%Y-%m-%d %a %H:%M:%S %Z %z"'
+set_function 'outclip'          'xclip -selection clipboard'
+set_function 'outcode'          'code -'
+set_function 'outcurl'          'curl --ipv4 --form "clbin=<-" https://clbin.com'
+set_function 'path'             "echo ${PATH} | tr ':' '\n'"
+set_function 'pyv'              "source ${PWD}/bin/activate"
+set_function 'refreshell'       "clear; reset; source ${HOME}/.bashrc"
+
+# Aliases
+set_alias 'catt'                'bat --style full'
+set_alias 'chmod'               'chmod --verbose'
+set_alias 'chown'               'chown --verbose'
+set_alias 'cp'                  'cp --verbose'
+set_alias 'diff'                'diff --color=auto'
+set_alias 'grep'                'grep --color=auto'
+set_alias 'ln'                  'ln --verbose'
+set_alias 'ls'                  'ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always'
+set_alias 'mkdir'               'mkdir --verbose'
+set_alias 'mv'                  'mv --verbose'
+set_alias 'rmdir'               'rmdir --verbose'
+set_alias 'rmm'                 'trash --verbose --interactive'
