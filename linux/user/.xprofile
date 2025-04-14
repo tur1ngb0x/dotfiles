@@ -1,2 +1,5 @@
-if [[ -f "${HOME}"/src/scripts/linux/setdisplay.sh ]]; then
-	bash "${HOME}"/src/scripts/linux/setdisplay.sh; fi
+
+#xrandr --output 'eDP-1' --off
+
+xrandr --output 'HDMI-1' --set 'Broadcast RGB' 'Full' --size '1920x1080' --refresh '60' --dpi '96' &> /dev/null
+xrandr --output 'HDMI-2' --set 'Broadcast RGB' 'Full' --size '1920x1080' --refresh '60' --dpi '96' &> /dev/null
