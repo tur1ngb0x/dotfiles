@@ -32,30 +32,33 @@ VISUAL='micro'
 export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
 
 # Functions
+# function outcurl { curl --ipv4 --form "clbin=<-" https://clbin.com; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
 function outclip { xclip -selection clipboard; }
 function outcode { code -; }
-function outcurl { curl --ipv4 --form "clbin=<-" https://clbin.com; }
+function outpaste { "${HOME}"/src/pastelo/pastelo; }
 function path { echo "${PATH}" | tr ':' '\n'; }
 function pyv { source "${PWD}/bin/activate"; }
 function refreshell { clear; reset; source "${HOME}/.bashrc"; }
 
+
 # Aliases
+# alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always'
 alias chmod='chmod --verbose'
 alias chown='chown --verbose'
 alias cp='cp --verbose'
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias ln='ln --verbose'
-#alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always'
 alias ls="ls.sh"
 alias mkdir='mkdir --verbose'
 alias mv='mv --verbose'
 alias rmdir='rmdir --verbose'
+alias pastelo="\${HOME}/src/pastelo/pastelo"
 
 # ADB Shell
 # alias ls='ls -A -a -F -g -h -l -o -p -s --color=always'
-# export PS1="${USER}@${HOSTNAME} ${PWD} \$ "
+# export PS1="${USER}@${HOSTNAME} ${PWD} $ "
 
 # Helpers
 # function set_variable { eval "${1}=\"${*:2}\"; export ${1}"; }
