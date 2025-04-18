@@ -1,17 +1,19 @@
-function post_install_virt-manager {
-    if [[ $(command -v virt-manager) ]]; then
-        ${ELEVATE} groupadd -f kvm
-        ${ELEVATE} usermod -aG kvm "${USER}"
-        ${ELEVATE} groupadd -f libvirt
-        ${ELEVATE} usermod -aG libvirt "${USER}"
-        cat <<-'EOF' | ${ELEVATE} tee -a /etc/libvirt/libvirtd.conf
+#!/usr/bin/env bash
+
+function PostInstall_VirtManager {
+    if command -v virt-manager; then
+        sudo groupadd -f kvm
+        sudo usermod -aG kvm "${USER}"
+        sudo groupadd -f libvirt
+        sudo usermod -aG libvirt "${USER}"
+        cat <<-'EOF' | sudo tee -a /etc/libvirt/libvirtd.conf
 unix_sock_group = "libvirt"
 unix_sock_ro_perms = "0770"
 unix_sock_rw_perms = "0770"
 auth_unix_ro = "none"
 auth_unix_rw = "none"
 EOF
-        cat <<-'EOF' | ${ELEVATE} tee -a /etc/libvirt/qemu.conf
+        cat <<-'EOF' | sudo tee -a /etc/libvirt/qemu.conf
 user = "${USER}"
 group = "${USER}"
 EOF
@@ -20,8 +22,8 @@ EOF
     fi
 }
 
-function post_install_mysql {
-    if [[ $(command -v mysql) ]]; then
+function PostInstall_MYSQL {
+    if command -v mysql; then
         mysql --show-warnings --user root --password --execute "\
             DROP USER IF EXISTS user@localhost;\
             CREATE USER IF NOT EXISTS user@localhost IDENTIFIED BY '1234567890';\
@@ -36,10 +38,19 @@ function post_install_mysql {
     fi
 }
 
-function post_install_pieces {
+function PostInstall_Pieces {
     if [[ $(snap list pieces-os) ]]; then
-        ${ELEVATE} snap connect pieces-os:process-control :process-control
+        sudo snap connect pieces-os:process-control :process-control
     else
         echo 'pieces-os is not installed'
     fi
 }
+
+function main {
+    PostInstall_VirtManager
+    PostInstall_MYSQL
+    PostInstall_Pieces
+}
+
+# begin script from here
+main "${@}"
