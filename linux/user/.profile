@@ -2,7 +2,8 @@
 
 function set_shell {
     if [[ -f "${HOME}"/.bashrc ]]; then
-        source "${HOME}"/.bashrc; fi
+        source "${HOME}"/.bashrc
+    fi
 }
 
 function set_xdg {
@@ -25,7 +26,9 @@ function set_fonts {
 
 function set_qt {
     if [[ -f /usr/bin/qt5ct ]]; then
-        QT_QPA_PLATFORMTHEME="qt5ct"; export QT_QPA_PLATFORMTHEME; fi
+        QT_QPA_PLATFORMTHEME="qt5ct"
+        export QT_QPA_PLATFORMTHEME
+    fi
 }
 
 function main {

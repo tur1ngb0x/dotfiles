@@ -5,9 +5,11 @@ CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"
 source "${CWD}"/common.sh
 
 ppas_apt=(
-    'ppa:git-core/ppa'
-    'ppa:flatpak/stable'
-    'ppa:papirus/papirus'
+    'ppa:git-core/ppa'              # git
+    'ppa:flatpak/stable'            # flatpak
+    'ppa:papirus/papirus'           # papirus-icon-theme papirus-folders
+    'ppa:fish-shell/release-4'      # fish
+    'ppa:flexiondotorg/quickemu'    # quickemu
 ); export ppas_apt
 
 pkgs_apt=(
@@ -137,7 +139,7 @@ function main {
     #InstallDnf
     #InstallPacman
     #InstallSnap
-    InstallFlatpak
+    #InstallFlatpak
     InstallPipx
 }
 

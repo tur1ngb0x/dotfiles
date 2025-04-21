@@ -39,7 +39,7 @@ function PostInstall_MYSQL {
 }
 
 function PostInstall_Pieces {
-    if [[ $(snap list pieces-os) ]]; then
+    if snap list pieces-os; then
         sudo snap connect pieces-os:process-control :process-control
     else
         echo 'pieces-os is not installed'

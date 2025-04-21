@@ -20,9 +20,9 @@ EDITOR='micro'
 HISTCONTROL='ignorespace:ignoredups:erasedups'
 HISTFILESIZE='10000'
 HISTSIZE='2000'
-HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S    '
+HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '
 MANPAGER='most -s -t4 -w'
-PAGER="$MANPAGER"
+PAGER="${MANPAGER}"
 PROMPT_COMMAND='history -a'
 PS1="$(tput bold)$(tput setaf 3)\u@\h $(tput setaf 6)\w $(tput setaf 2)\$$(tput sgr0) "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
@@ -34,6 +34,8 @@ export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER
 # Functions
 # function outcurl { curl --ipv4 --form "clbin=<-" https://clbin.com; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
+function ddc { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
+function mancode { manfile="$(mktemp)-${1}.man"; man "${1}" > "${manfile}"; code --new-window --disable-extensions --sync off "${manfile}"; }
 function outclip { xclip -selection clipboard; }
 function outcode { code -; }
 function outpaste { "${HOME}"/src/pastelo/pastelo; }
@@ -41,20 +43,48 @@ function path { echo "${PATH}" | tr ':' '\n'; }
 function pyv { source "${PWD}/bin/activate"; }
 function refreshell { clear; reset; source "${HOME}/.bashrc"; }
 
-
 # Aliases
-# alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always'
 alias chmod='chmod --verbose'
 alias chown='chown --verbose'
 alias cp='cp --verbose'
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias ln='ln --verbose'
-alias ls="ls.sh"
+alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=auto'
 alias mkdir='mkdir --verbose'
 alias mv='mv --verbose'
+
+alias rm="rm --verbose"
 alias rmdir='rmdir --verbose'
-alias pastelo="\${HOME}/src/pastelo/pastelo"
+
+# pastelo
+if command -v pastelo &> /dev/null; then
+    alias pastelo="\${HOME}/src/pastelo/pastelo"
+fi
+
+# lsd
+if command -v lsd &> /dev/null; then
+    alias ls="lsd \
+    --almost-all \
+    --classify \
+    --color auto \
+    --git \
+    --group-dirs first \
+    --header \
+    --human-readable \
+    --icon auto \
+    --icon-theme fancy \
+    --long \
+    --no-symlink \
+    --permission octal \
+    --size default \
+    "
+fi
+
+# Prompt
+if command -v starship &> /dev/null; then
+    eval "$(starship init bash)"
+fi
 
 # ADB Shell
 # alias ls='ls -A -a -F -g -h -l -o -p -s --color=always'
