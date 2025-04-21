@@ -68,7 +68,6 @@ if command -v lsd &> /dev/null; then
     --almost-all \
     --classify \
     --color auto \
-    --git \
     --group-dirs first \
     --header \
     --human-readable \
