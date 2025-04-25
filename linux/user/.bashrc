@@ -32,14 +32,13 @@ VISUAL='micro'
 export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
 
 # Functions
-# function outcurl { curl --ipv4 --form "clbin=<-" https://clbin.com; }
 function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
 function ddc { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
 function mancode { manfile="$(mktemp)-${1}.man"; man "${1}" > "${manfile}"; code --new-window --disable-extensions --sync off "${manfile}"; }
 function outclip { xclip -selection clipboard; }
 function outcode { code -; }
 function outpaste { "${HOME}"/src/pastelo/pastelo; }
-function path { echo "${PATH}" | tr ':' '\n'; }
+function path { tr ':' '\n' <<< "${PATH}"; }
 function pyv { source "${PWD}/bin/activate"; }
 function refreshell { clear; reset; source "${HOME}/.bashrc"; }
 
@@ -53,7 +52,6 @@ alias ln='ln --verbose'
 alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=auto'
 alias mkdir='mkdir --verbose'
 alias mv='mv --verbose'
-
 alias rm="rm --verbose"
 alias rmdir='rmdir --verbose'
 
