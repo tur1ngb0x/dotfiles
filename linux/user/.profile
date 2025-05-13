@@ -34,7 +34,7 @@ function set_qt {
 function main {
     set_shell
     set_xdg
-    set_fonts
+    #set_fonts
     set_qt
 }
 

@@ -3,14 +3,18 @@
 [[ -z "${BASH_COMPLETION_VERSINFO}" ]] && source /usr/share/bash-completion/bash_completion
 shopt -s checkwinsize direxpand histappend histverify
 
-# PATH
+# PATH PREFIX
+PATH="${HOME}/src/adb:${PATH}"
+
+# PATH SUFFIX
 PATH="${PATH}:/var/lib/flatpak/exports/bin"
 PATH="${PATH}:${HOME}/.local/bin"
 PATH="${PATH}:${HOME}/.local/share/flatpak/exports/share"
-PATH="${PATH}:${HOME}/src/adb"
+
 PATH="${PATH}:${HOME}/src/cargo/bin"
 PATH="${PATH}:${HOME}/src/go/bin"
 PATH="${PATH}:${HOME}/src/scripts/linux"
+PATH="${PATH}:${HOME}/src/pastelo"
 PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"
 export PATH
 
@@ -25,8 +29,8 @@ MANPAGER='most -s -t4 -w'
 PAGER="${MANPAGER}"
 PROMPT_COMMAND='history -a'
 PS1="$(tput bold)$(tput setaf 3)\u@\h $(tput setaf 6)\w $(tput setaf 2)\$$(tput sgr0) "
+PS1="$(tput bold)$(tput setaf 2)\$$(tput sgr0) "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
-STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 VISUAL='micro'
 
 export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
@@ -34,7 +38,7 @@ export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER
 # Functions
 function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
 function ddc { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
-function mancode { manfile="$(mktemp)-${1}.man"; man "${1}" > "${manfile}"; code --new-window --disable-extensions --sync off "${manfile}"; }
+function codeman { manfile="$(mktemp)-${1}.man"; man "${1}" > "${manfile}"; code --new-window --disable-extensions --sync off "${manfile}"; }
 function outclip { xclip -selection clipboard; }
 function outcode { code -; }
 function outpaste { "${HOME}"/src/pastelo/pastelo; }
@@ -78,8 +82,13 @@ if command -v lsd &> /dev/null; then
     "
 fi
 
-# Prompt
+# Starship Prompt
 if command -v starship &> /dev/null; then
+    STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
+    function set_win_title {
+        echo -ne "\033]0; $USER@$HOSTNAME:$PWD \007"
+    }
+    starship_precmd_user_func="set_win_title"
     eval "$(starship init bash)"
 fi
 
