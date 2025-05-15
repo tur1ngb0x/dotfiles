@@ -1,7 +1,14 @@
 # Behaviour
 [[ "${-}" != *i* ]] && return
 [[ -z "${BASH_COMPLETION_VERSINFO}" ]] && source /usr/share/bash-completion/bash_completion
-shopt -s checkwinsize direxpand histappend histverify
+shopt -s autocd
+shopt -s cdable_vars
+shopt -s checkwinsize
+shopt -s direxpand
+shopt -s dirspell
+shopt -s expand_aliases
+shopt -s histappend
+shopt -s histverify
 
 # PATH PREFIX
 PATH="${HOME}/src/adb:${PATH}"
@@ -10,8 +17,8 @@ PATH="${HOME}/src/adb:${PATH}"
 PATH="${PATH}:/var/lib/flatpak/exports/bin"
 PATH="${PATH}:${HOME}/.local/bin"
 PATH="${PATH}:${HOME}/.local/share/flatpak/exports/share"
-
 PATH="${PATH}:${HOME}/src/cargo/bin"
+PATH="${PATH}:${HOME}/src/distrobox/bin"
 PATH="${PATH}:${HOME}/src/go/bin"
 PATH="${PATH}:${HOME}/src/scripts/linux"
 PATH="${PATH}:${HOME}/src/pastelo"
@@ -27,13 +34,14 @@ HISTSIZE='2000'
 HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '
 MANPAGER='most -s -t4 -w'
 PAGER="${MANPAGER}"
-PROMPT_COMMAND='history -a'
+#PROMPT_COMMAND='history -a'
 PS1="$(tput bold)$(tput setaf 3)\u@\h $(tput setaf 6)\w $(tput setaf 2)\$$(tput sgr0) "
-PS1="$(tput bold)$(tput setaf 2)\$$(tput sgr0) "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 VISUAL='micro'
+DOTS="${HOME}/src/dotfiles"
+SCRS="${HOME}/src/scripts"
 
-export CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
+export DOTS SCRS CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
 
 # Functions
 function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
@@ -85,11 +93,17 @@ fi
 # Starship Prompt
 if command -v starship &> /dev/null; then
     STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
-    function set_win_title {
-        echo -ne "\033]0; $USER@$HOSTNAME:$PWD \007"
+    function starship_win_title {
+        echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"
     }
-    starship_precmd_user_func="set_win_title"
+    starship_precmd_user_func="starship_win_title"
     eval "$(starship init bash)"
+fi
+
+
+# Distro Info
+if command -v distrofetch.sh &> /dev/null; then
+    distrofetch.sh
 fi
 
 # ADB Shell
