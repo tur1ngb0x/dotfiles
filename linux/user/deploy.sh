@@ -58,12 +58,12 @@ function main () {
     PromptUser "Deploy configuration files? (y/N)"
     deploy_xdg
     deploy_bash
-    deploy_fonts
+    #deploy_fonts
     deploy_git
-    deploy_micro
-    deploy_x11
+    #deploy_micro
+    #deploy_x11
 }
- 
+
 # begin script from here
 main "${@}"
 

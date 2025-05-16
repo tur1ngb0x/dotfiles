@@ -106,6 +106,12 @@ if command -v distrofetch.sh &> /dev/null; then
     distrofetch.sh
 fi
 
+
+# detact process from current terminal
+function dolphin () {
+	(nohup dolphin "${@}" &) &>/dev/null
+}
+
 # ADB Shell
 # alias ls='ls -A -a -F -g -h -l -o -p -s --color=always'
 # export PS1="${USER}@${HOSTNAME} ${PWD} $ "
