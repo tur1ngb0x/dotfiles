@@ -100,13 +100,36 @@ function CheckCmd {
 
 
 # create a directory
-function CreateDir {
-    local dir="${1:?Directory path required}"
-    if [[ ! -d "${dir}" ]]; then
-        mkdir -p "${dir}"
-    else
-        PrintText "Directory already exists: ${dir}"
+# function CreateDir {
+#     if [ "${#}" -eq 0 ]; then
+#         PrintText "No directory paths provided."
+#     fi
+#     local dir="${1}"
+#     if [[ ! -d "${dir}" ]]; then
+#         PrintText "Creating directory: ${dir}"
+#         mkdir -p "${dir}"
+#     else
+#         PrintText "Directory already exists: ${dir}"
+#     fi
+# }
+
+# create directories
+function CreateDir () {
+    if [ "${#}" -eq 0 ]; then
+        PrintText "No directory paths provided."
     fi
+    local dirs=(${@})
+    for dir in "${dirs[@]}"; do
+        if [[ ! -d "${dir}" ]]; then
+            PrintText "Creating directory: ${dir}"
+            mkdir -p "${dir}"
+            if [ "${?}" -ne 0 ]; then
+                PrintText "Failed to create directory: ${dir}"
+            fi
+        else
+            PrintText "Directory already exists: ${dir}"
+        fi
+    done
 }
 
 
@@ -121,10 +144,10 @@ function CreateLink {
     fi
 
     if [[ -L "${link}" || -e "${link}" ]]; then
-        PrintText "Overwriting existing link at: ${link}"
+        PrintText "Overwriting existing symbolic link: ${link} -> ${source}"
         ln -fs "${source}" "${link}"
     else
-        PrintText "Creating symbolic link: ${link} points to ${source}"
+        PrintText "Creating symbolic link: ${link} -> ${source}"
         ln -s "${source}" "${link}"
     fi
 }

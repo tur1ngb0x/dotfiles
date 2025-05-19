@@ -3,7 +3,7 @@
 	#apt = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 	#dnf = /usr/libexec/git-core/git-credential-libsecret
 	#wsl_winget= "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
-	#helper = "/mnt/c/Users/user/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe"
+	#wsl_scoop = "/mnt/c/Users/user/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe"
 	#other = cache --timeout=21600
 
 [gpg]

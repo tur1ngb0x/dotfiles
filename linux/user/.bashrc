@@ -1,6 +1,9 @@
-# Behaviour
-[[ "${-}" != *i* ]] && return
-[[ -z "${BASH_COMPLETION_VERSINFO}" ]] && source /usr/share/bash-completion/bash_completion
+# if current shell is non-interactive, return
+if [[ "${-}" != *i* ]]; then
+    return
+fi
+
+# behaviour
 shopt -s autocd
 shopt -s cdable_vars
 shopt -s checkwinsize
@@ -9,6 +12,29 @@ shopt -s dirspell
 shopt -s expand_aliases
 shopt -s histappend
 shopt -s histverify
+
+# bash completion
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    if [[ -z "${BASH_COMPLETION_VERSINFO-}" ]]; then
+        source /usr/share/bash-completion/bash_completion
+    fi
+else
+    echo 'bash-completion is not installed'
+fi
+
+# command not found
+function command_not_found_handle () {
+    if [[ -x /usr/lib/command-not-found ]]; then
+        /usr/lib/command-not-found -- "${1}"
+        return "${?}"
+    elif [[ -x /usr/share/command-not-found/command-not-found ]]; then
+        /usr/share/command-not-found/command-not-found -- "${1}"
+        return "${?}"
+    else
+        printf "%s: command not found\n" "${1}" >&2
+        return 127
+    fi
+}
 
 # PATH PREFIX
 PATH="${HOME}/src/adb:${PATH}"
@@ -27,21 +53,23 @@ export PATH
 
 # Variables
 CLICOLOR='1'
+COLORTERM='truecolor'
 EDITOR='micro'
 HISTCONTROL='ignorespace:ignoredups:erasedups'
 HISTFILESIZE='10000'
 HISTSIZE='2000'
 HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '
 MANPAGER='most -s -t4 -w'
+PROMPT_COMMAND='history -a'
 PAGER="${MANPAGER}"
-#PROMPT_COMMAND='history -a'
-PS1="$(tput bold)$(tput setaf 3)\u@\h $(tput setaf 6)\w $(tput setaf 2)\$$(tput sgr0) "
-PS1="\[\e]0;\u@\h \w\a\]${PS1}"
+#PS1='\[\e[38;5;118;1m\]\u@\h\[\e[0m\] \[\e[38;5;123;1m\]\W \[\e[0m\]\$ '
+# PS1='\[\e[38;5;46;1m\]\u@\h\[\e[0m\] \[\e[38;5;45;1m\]\w\[\e[0m\]\[\e[38;5;220;1m\]$(__git_ps1 " (%s)")\[\e[0m\]\n  '
 VISUAL='micro'
 DOTS="${HOME}/src/dotfiles"
 SCRS="${HOME}/src/scripts"
 
-export DOTS SCRS CLICOLOR EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
+export DOTS SCRS
+export CLICOLOR COLOR TERM EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
 
 # Functions
 function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
@@ -66,6 +94,19 @@ alias mkdir='mkdir --verbose'
 alias mv='mv --verbose'
 alias rm="rm --verbose"
 alias rmdir='rmdir --verbose'
+
+# Shell Prompt
+userid="$(id -ur)"
+case "${_serid}" in
+    0)
+        PS1='\[\e[91m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]\n\[\e[0m\]\$ '
+        PS1="\[\e]0;\u@\h:\w\a\]${PS1}"
+        ;;
+    *)  PS1='\[\e[92m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]$(git --no-pager branch --color=never --show-current 2>/dev/null)\n\[\e[0m\]\$ '
+        PS1="\[\e]0;\u@\h:\w\a\]${PS1}"
+        ;;
+esac
+unset userid
 
 # pastelo
 if command -v pastelo &> /dev/null; then
@@ -102,15 +143,39 @@ fi
 
 
 # Distro Info
-if command -v distrofetch.sh &> /dev/null; then
-    distrofetch.sh
-fi
+if command -v distrofetch.sh &> /dev/null; then distrofetch.sh -s; fi
 
 
-# detact process from current terminal
-function dolphin () {
-	(nohup dolphin "${@}" &) &>/dev/null
+# open file manager deteched from terminal
+function fxopen () {
+    if [[ "${#}" -eq 0 ]]; then
+        echo 'no arguments provided.'
+        return
+    fi
+
+    if [[ ! -d "${1}" ]]; then
+        echo 'argument should be a path.'
+        return
+    fi
+
+    if command -v nautilus &> /dev/null; then
+        fxcmd="nautilus"
+    elif command -v dolphin &> /dev/null; then
+        fxcmd="dolphin"
+    elif command -v thunar &> /dev/null; then
+        fxcmd="thunar"
+    elif command -v nemo &> /dev/null; then
+        fxcmd="thunar"
+    else
+        echo 'only nautilus, dolphin, thunar, nemo are supported'
+        return
+    fi
+    # prints nothing
+    (nohup "${fxcmd}" "${@}" &) &>/dev/null
+    # prints job number
+    # nohup "${fx_cmd}" "${@}" &>/dev/null &
 }
+
 
 # ADB Shell
 # alias ls='ls -A -a -F -g -h -l -o -p -s --color=always'
@@ -121,3 +186,6 @@ function dolphin () {
 # function set_alias    { alias "${1}"="command ${*:2}"; }
 # function set_function { eval "function ${1} { \"${*:2}\" ; }; export -f ${1}"; }
 # function set_path     { PATH="${PATH}:${1}"; PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"; export PATH; }
+
+# adb-latest
+alias adb="${HOME}/src/adb/adb"
