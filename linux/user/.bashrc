@@ -1,9 +1,9 @@
-# if current shell is non-interactive, return
+# CHECK
 if [[ "${-}" != *i* ]]; then
     return
 fi
 
-# behaviour
+# BEHAVIOUR
 shopt -s autocd
 shopt -s cdable_vars
 shopt -s checkwinsize
@@ -13,7 +13,7 @@ shopt -s expand_aliases
 shopt -s histappend
 shopt -s histverify
 
-# bash completion
+# COMPLETION
 if [[ -f /usr/share/bash-completion/bash_completion ]]; then
     if [[ -z "${BASH_COMPLETION_VERSINFO-}" ]]; then
         source /usr/share/bash-completion/bash_completion
@@ -22,7 +22,7 @@ else
     echo 'bash-completion is not installed'
 fi
 
-# command not found
+# COMMAND NOT FOUND
 function command_not_found_handle () {
     if [[ -x /usr/lib/command-not-found ]]; then
         /usr/lib/command-not-found -- "${1}"
@@ -51,7 +51,7 @@ PATH="${PATH}:${HOME}/src/pastelo"
 PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"
 export PATH
 
-# Variables
+# VARIABLES
 CLICOLOR='1'
 COLORTERM='truecolor'
 EDITOR='micro'
@@ -62,16 +62,13 @@ HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '
 MANPAGER='most -s -t4 -w'
 PROMPT_COMMAND='history -a'
 PAGER="${MANPAGER}"
-#PS1='\[\e[38;5;118;1m\]\u@\h\[\e[0m\] \[\e[38;5;123;1m\]\W \[\e[0m\]\$ '
-# PS1='\[\e[38;5;46;1m\]\u@\h\[\e[0m\] \[\e[38;5;45;1m\]\w\[\e[0m\]\[\e[38;5;220;1m\]$(__git_ps1 " (%s)")\[\e[0m\]\n  '
 VISUAL='micro'
 DOTS="${HOME}/src/dotfiles"
 SCRS="${HOME}/src/scripts"
-
 export DOTS SCRS
 export CLICOLOR COLOR TERM EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
 
-# Functions
+# FUNCTIONS
 function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
 function ddc { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
 function codeman { manfile="$(mktemp)-${1}.man"; man "${1}" > "${manfile}"; code --new-window --disable-extensions --sync off "${manfile}"; }
@@ -82,7 +79,7 @@ function path { tr ':' '\n' <<< "${PATH}"; }
 function pyv { source "${PWD}/bin/activate"; }
 function refreshell { clear; reset; source "${HOME}/.bashrc"; }
 
-# Aliases
+# ALIASES
 alias chmod='chmod --verbose'
 alias chown='chown --verbose'
 alias cp='cp --verbose'
@@ -95,23 +92,18 @@ alias mv='mv --verbose'
 alias rm="rm --verbose"
 alias rmdir='rmdir --verbose'
 
-# Shell Prompt
+# SHELL PROMPT
 userid="$(id -ur)"
-case "${_serid}" in
+case "${userid}" in
     0)
-        PS1='\[\e[91m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]\n\[\e[0m\]\$ '
+        PS1='\[\e[91m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]\n\[\e[0m\]  '
         PS1="\[\e]0;\u@\h:\w\a\]${PS1}"
         ;;
-    *)  PS1='\[\e[92m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]$(git --no-pager branch --color=never --show-current 2>/dev/null)\n\[\e[0m\]\$ '
+    *)  PS1='\[\e[92m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]$(git --no-pager branch --color=never --show-current 2>/dev/null)\n\[\e[0m\]  '
         PS1="\[\e]0;\u@\h:\w\a\]${PS1}"
         ;;
 esac
 unset userid
-
-# pastelo
-if command -v pastelo &> /dev/null; then
-    alias pastelo="\${HOME}/src/pastelo/pastelo"
-fi
 
 # lsd
 if command -v lsd &> /dev/null; then
@@ -131,7 +123,7 @@ if command -v lsd &> /dev/null; then
     "
 fi
 
-# Starship Prompt
+# starship
 if command -v starship &> /dev/null; then
     STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
     function starship_win_title {
@@ -141,51 +133,6 @@ if command -v starship &> /dev/null; then
     eval "$(starship init bash)"
 fi
 
-
-# Distro Info
-if command -v distrofetch.sh &> /dev/null; then distrofetch.sh -s; fi
-
-
-# open file manager deteched from terminal
-function fxopen () {
-    if [[ "${#}" -eq 0 ]]; then
-        echo 'no arguments provided.'
-        return
-    fi
-
-    if [[ ! -d "${1}" ]]; then
-        echo 'argument should be a path.'
-        return
-    fi
-
-    if command -v nautilus &> /dev/null; then
-        fxcmd="nautilus"
-    elif command -v dolphin &> /dev/null; then
-        fxcmd="dolphin"
-    elif command -v thunar &> /dev/null; then
-        fxcmd="thunar"
-    elif command -v nemo &> /dev/null; then
-        fxcmd="thunar"
-    else
-        echo 'only nautilus, dolphin, thunar, nemo are supported'
-        return
-    fi
-    # prints nothing
-    (nohup "${fxcmd}" "${@}" &) &>/dev/null
-    # prints job number
-    # nohup "${fx_cmd}" "${@}" &>/dev/null &
-}
-
-
 # ADB Shell
 # alias ls='ls -A -a -F -g -h -l -o -p -s --color=always'
 # export PS1="${USER}@${HOSTNAME} ${PWD} $ "
-
-# Helpers
-# function set_variable { eval "${1}=\"${*:2}\"; export ${1}"; }
-# function set_alias    { alias "${1}"="command ${*:2}"; }
-# function set_function { eval "function ${1} { \"${*:2}\" ; }; export -f ${1}"; }
-# function set_path     { PATH="${PATH}:${1}"; PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"; export PATH; }
-
-# adb-latest
-alias adb="${HOME}/src/adb/adb"
