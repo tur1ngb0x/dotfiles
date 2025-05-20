@@ -1,83 +1,45 @@
-# CHECK
-if [[ "${-}" != *i* ]]; then
-    return
-fi
 
-# BEHAVIOUR
-shopt -s autocd
-shopt -s cdable_vars
+# INIT
+[[ "${-}" != *i* ]] && return
+[[ -z "${BASH_COMPLETION_VERSINFO-}" ]] && source /usr/share/bash-completion/bash_completion
+
+
+
+# OPTIONS
 shopt -s checkwinsize
-shopt -s direxpand
-shopt -s dirspell
-shopt -s expand_aliases
 shopt -s histappend
 shopt -s histverify
+# shopt -s autocd
+# shopt -s cdable_vars
+# shopt -s direxpand
+# shopt -s dirspell
 
-# COMPLETION
-if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-    if [[ -z "${BASH_COMPLETION_VERSINFO-}" ]]; then
-        source /usr/share/bash-completion/bash_completion
-    fi
-else
-    echo 'bash-completion is not installed'
-fi
 
-# COMMAND NOT FOUND
-function command_not_found_handle () {
-    if [[ -x /usr/lib/command-not-found ]]; then
-        /usr/lib/command-not-found -- "${1}"
-        return "${?}"
-    elif [[ -x /usr/share/command-not-found/command-not-found ]]; then
-        /usr/share/command-not-found/command-not-found -- "${1}"
-        return "${?}"
-    else
-        printf "%s: command not found\n" "${1}" >&2
-        return 127
-    fi
-}
 
-# PATH PREFIX
+# PATH
 PATH="${HOME}/src/adb:${PATH}"
-
-# PATH SUFFIX
 PATH="${PATH}:/var/lib/flatpak/exports/bin"
-PATH="${PATH}:${HOME}/.local/bin"
 PATH="${PATH}:${HOME}/.local/share/flatpak/exports/share"
-PATH="${PATH}:${HOME}/src/cargo/bin"
-PATH="${PATH}:${HOME}/src/distrobox/bin"
-PATH="${PATH}:${HOME}/src/go/bin"
-PATH="${PATH}:${HOME}/src/scripts/linux"
-PATH="${PATH}:${HOME}/src/pastelo"
-PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"
-export PATH
+PATH="${PATH}:${HOME}/.local/bin"
+PATH="${PATH}:${HOME}/src/github/scripts/linux"
+PATH="${PATH}:${HOME}/src/gitlab/pastelo"
+PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"; export PATH
+
+
 
 # VARIABLES
-CLICOLOR='1'
-COLORTERM='truecolor'
-EDITOR='micro'
-HISTCONTROL='ignorespace:ignoredups:erasedups'
-HISTFILESIZE='10000'
-HISTSIZE='2000'
-HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '
-MANPAGER='most -s -t4 -w'
-PROMPT_COMMAND='history -a'
-PAGER="${MANPAGER}"
-VISUAL='micro'
-DOTS="${HOME}/src/dotfiles"
-SCRS="${HOME}/src/scripts"
-export DOTS SCRS
-export CLICOLOR COLOR TERM EDITOR HISTCONTROL HISTFILESIZE HISTSIZE HISTTIMEFORMAT MANPAGER PAGER PROMPT_COMMAND PS1 STARSHIP_CONFIG VISUAL
+CLICOLOR='1'; export CLICOLOR
+COLORTERM='truecolor'; export COLORTERM
+EDITOR='micro'; export EDITOR
+HISTCONTROL='ignorespace:ignoredups:erasedups'; export HISTCONTROL
+HISTFILESIZE='10000'; export HISTFILESIZE
+HISTSIZE='2000'; export HISTSIZE
+HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '; export HISTTIMEFORMAT
+MANPAGER='most -s -t4 -w'; export MANPAGER
+PAGER="${MANPAGER}"; export PAGER
+VISUAL='micro'; export VISUAL
 
-# FUNCTIONS
-function datenow { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
-function ddc { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
-function codeman { manfile="$(mktemp)-${1}.man"; man "${1}" > "${manfile}"; code --new-window --disable-extensions --sync off "${manfile}"; }
-function outclip { xclip -selection clipboard; }
-function outcode { code -; }
-function outpaste { "${HOME}"/src/pastelo/pastelo; }
-function path { tr ':' '\n' <<< "${PATH}"; }
-function pyv { source "${PWD}/bin/activate"; }
-function refreshell { clear; reset; source "${HOME}/.bashrc"; }
+
 
 # ALIASES
 alias chmod='chmod --verbose'
@@ -92,47 +54,48 @@ alias mv='mv --verbose'
 alias rm="rm --verbose"
 alias rmdir='rmdir --verbose'
 
-# SHELL PROMPT
-userid="$(id -ur)"
-case "${userid}" in
-    0)
-        PS1='\[\e[91m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]\n\[\e[0m\]  '
-        PS1="\[\e]0;\u@\h:\w\a\]${PS1}"
-        ;;
-    *)  PS1='\[\e[92m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]$(git --no-pager branch --color=never --show-current 2>/dev/null)\n\[\e[0m\]  '
-        PS1="\[\e]0;\u@\h:\w\a\]${PS1}"
-        ;;
-esac
-unset userid
 
-# lsd
-if command -v lsd &> /dev/null; then
-    alias ls="lsd \
-    --almost-all \
-    --classify \
-    --color auto \
-    --group-dirs first \
-    --header \
-    --human-readable \
-    --icon auto \
-    --icon-theme fancy \
-    --long \
-    --no-symlink \
-    --permission octal \
-    --size default \
-    "
-fi
 
-# starship
+# FUNCTIONS
+function datenow () { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
+function ddc () { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
+function outclip () { xclip -selection clipboard; }
+function outpaste () { "${HOME}"/src/gitlab/pastelo/pastelo; }
+function outcode () { code -; }
+function path () { tr ':' '\n' <<< "${PATH}"; }
+function pyv () { source "${PWD}/bin/activate"; }
+function refreshell () { clear; reset; source "${HOME}/.bashrc"; }
+
+# VSCODE
+function codeman () {
+	[[ -z "${1}" ]] && echo 'syntax: codeman <argument>' && return
+	LC_ALL=C man "${1}" 2>/dev/null | code - --new-window --disable-extensions --sync off
+}
+
+function codesudo () {
+	[[ -z "${1}" ]] && echo 'syntax: codesudo <argument>' && return
+	local tmpdir; tmpdir="/tmp/vscode-sudo"; mkdir -pv "${tmpdir}/User"
+
+	cat << EOF | sudo tee "${tmpdir}/User/settings.json"
+{
+    "security.workspace.trust.banner": "never",
+    "security.workspace.trust.enabled": false,
+	"telemetry.telemetryLevel": "off",
+	"telemetry.feedback.enabled": false,
+}
+EOF
+	sudo bash -c "code --disable-chromium-sandbox --disable-extensions --no-sandbox --reuse-window --sync off --user-data-dir ${tmpdir} ${1}"
+}
+
+# SHELL
+PROMPT_COMMAND='history -a';
+PS1="\[\e[92m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]$(git --no-pager branch --color=never --show-current 2>/dev/null)\n\[\e[0m\]\$ "
+PS1="\[\e]0;\u@\h    \w\a\]${PS1}"
+
+# STARSHIP
 if command -v starship &> /dev/null; then
     STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
-    function starship_win_title {
-        echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"
-    }
+    function starship_win_title { echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"; }
     starship_precmd_user_func="starship_win_title"
     eval "$(starship init bash)"
 fi
-
-# ADB Shell
-# alias ls='ls -A -a -F -g -h -l -o -p -s --color=always'
-# export PS1="${USER}@${HOSTNAME} ${PWD} $ "
