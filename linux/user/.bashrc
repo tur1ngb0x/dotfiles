@@ -27,17 +27,23 @@ PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(
 
 
 
+# APPS
+BROWSER='brave-browser-stable'; export BROWSER
+EDITOR='micro'; export EDITOR
+MANPAGER='most -s -t4 -w'; export MANPAGER
+PAGER="${MANPAGER}"; export PAGER
+TERMINAL='tilix'; export TERMINAL
+VISUAL='micro'; export VISUAL
+
+
+
 # VARIABLES
 CLICOLOR='1'; export CLICOLOR
 COLORTERM='truecolor'; export COLORTERM
-EDITOR='micro'; export EDITOR
 HISTCONTROL='ignorespace:ignoredups:erasedups'; export HISTCONTROL
 HISTFILESIZE='10000'; export HISTFILESIZE
 HISTSIZE='2000'; export HISTSIZE
 HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '; export HISTTIMEFORMAT
-MANPAGER='most -s -t4 -w'; export MANPAGER
-PAGER="${MANPAGER}"; export PAGER
-VISUAL='micro'; export VISUAL
 
 
 

@@ -8,18 +8,17 @@ set_shell () {
 
 # XDG
 set_xdg () {
-    XDG_CACHE_HOME="${HOME}/.cache"
-    XDG_CONFIG_HOME="${HOME}/.config"
-    XDG_DATA_HOME="${HOME}/.local/share"
-    XDG_STATE_HOME="${HOME}/.local/state"
-    export XDG_CACHE_HOME XDG_CONFIG_HOME XDG_DATA_HOME XDG_STATE_HOME
+	XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}; export XDG_DATA_HOME
+	XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}; export XDG_CACHE_HOME
+	XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}; export XDG_CACHE_HOME
+	XDG_STATE_HOME=${XDG_STATE_HOME:="$HOME/.local/state"}; export XDG_STATE_HOME
 }
 
 # FONTS
 set_fonts () {
     FREETYPE_PROPERTIES=""
     # stem darkening for non-CFF fonts (e.g., TTF, TTC, bitmap fonts)
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}autofitter:no-stem-darkening=0 "
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES-}autofitter:no-stem-darkening=0 "
     # stem darkening for CFF fonts (e.g., OTF with PostScript outlines)
     FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}cff:no-stem-darkening=0 "
     # font warping for non-CFF fonts (e.g., TTF, TTC, bitmap fonts)
@@ -29,12 +28,17 @@ set_fonts () {
     export FREETYPE_PROPERTIES
 }
 
-# QT
 set_qtct () {
-    if command -v qt6ct | command -v qt5ct; then
-        QT_QPA_PLATFORMTHEME="qt5ct:qt6ct"
-        export QT_QPA_PLATFORMTHEME
+	local QTCT=""
+    if command -v qt6ct; then
+        QTCT="qt6ct"
+	elif command -v qt5ct; then
+		QTCT="qt5ct"
     fi
+	if [ -n "${QTCT}" ]; then
+		QT_QPA_PLATFORMTHEME="${QTCT}"
+		export QT_QPA_PLATFORMTHEME
+	fi
 }
 
 # DISPLAY
@@ -55,4 +59,4 @@ main () {
 }
 
 # BEGIN
-main "${@}"  >/dev/null 2>&1
+main "${@}" >/dev/null 2>&1
