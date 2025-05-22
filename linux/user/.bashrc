@@ -58,13 +58,13 @@ alias ln='ln --verbose'
 # alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y-%m-%d %a %H:%M:%S" --color=auto'
 alias mkdir='mkdir --verbose'
 alias mv='mv --verbose'
-alias rm="rm --verbose --interactive once"
+alias rm="rm --verbose --interactive=once"
 alias rmdir='rmdir --verbose'
 
 
 
 # FUNCTIONS
-function today () { date +"%Y-%m-%d %^a %H:%M:%S %^Z %z"; }
+function today () { date +"%Y-%m-%d %a %H:%M:%S %^Z %z"; }
 function ddc () { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
 function outclip () { xclip -selection clipboard; }
 function outpaste () { "${HOME}"/src/gitlab/pastelo/pastelo; }
@@ -76,15 +76,25 @@ function refreshell () { clear; reset; source "${HOME}/.bashrc"; }
 
 # LS
 function ls () {
-	command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always "${@}" \
-    	| awk 'NR>1 { $2=""; $5=""; gsub(/  +/, " "); print }'
-	return "${PIPESTATUS[0]}"
+    command ls --almost-all --classify=always --format=verbose --group-directories-first --time-style=+"%Y%m%d-%a-%H%M%S" --color=always "${@}" \
+        | awk 'NR>1 { $2=""; $5=""; gsub(/  +/, " "); print }' \
+        | column --table --output-separator ' '
+        # | column --table --table-columns=PERMS,USER,GROUP,MODIFIED,ITEMS --output-separator '    '
+    return "${PIPESTATUS[0]}"
+}
+
+function cd() {
+    dir="${1:-${HOME}}"
+    builtin cd "${dir}" && ls || return
+	unset
 }
 
 # SHOW
 function show () {
     if command -v batcat &>/dev/null; then
         batcat --set-terminal-title --style full "${@}"
+	elif command -v bat &>/dev/null; then
+        bat --set-terminal-title --style full "${@}"
     else
         cat -n "${@}"
     fi
