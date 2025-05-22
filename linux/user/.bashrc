@@ -9,6 +9,7 @@
 shopt -s checkwinsize
 shopt -s histappend
 shopt -s histverify
+shopt -s cmdhist
 # shopt -s autocd
 # shopt -s cdable_vars
 # shopt -s direxpand
@@ -54,16 +55,21 @@ alias cp='cp --verbose'
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias ln='ln --verbose'
-alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=auto'
+# alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y-%m-%d %a %H:%M:%S" --color=auto'
 alias mkdir='mkdir --verbose'
 alias mv='mv --verbose'
-alias rm="rm --verbose"
+alias rm="rm --verbose --interactive once"
 alias rmdir='rmdir --verbose'
 
 
 
 # FUNCTIONS
-function datenow () { date +"%Y-%m-%d %a %H:%M:%S %Z %z"; }
+function ls () {
+	command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always "${@}" \
+    	| awk 'NR>1 { $2=""; $5=""; gsub(/  +/, " "); print }'
+	return "${PIPESTATUS[0]}"
+}
+function today () { date +"%Y-%m-%d %^a %H:%M:%S %^Z %z"; }
 function ddc () { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
 function outclip () { xclip -selection clipboard; }
 function outpaste () { "${HOME}"/src/gitlab/pastelo/pastelo; }
@@ -72,31 +78,49 @@ function path () { tr ':' '\n' <<< "${PATH}"; }
 function pyv () { source "${PWD}/bin/activate"; }
 function refreshell () { clear; reset; source "${HOME}/.bashrc"; }
 
+
+
+# SHOW
+function show () {
+    if command -v batcat &>/dev/null; then
+        batcat --set-terminal-title --style full "${@}"
+    else
+        cat -n "${@}"
+    fi
+}
+
+
+
 # VSCODE
 function codeman () {
-	[[ -z "${1}" ]] && echo 'syntax: codeman <argument>' && return
-	LC_ALL=C man "${1}" 2>/dev/null | code - --new-window --disable-extensions --sync off
+    [[ -z "${1}" ]] && echo 'syntax: codeman <argument>' && return
+    LC_ALL=C man "${1}" 2>/dev/null | code - --new-window --disable-extensions --sync off
 }
 
 function codesudo () {
-	[[ -z "${1}" ]] && echo 'syntax: codesudo <argument>' && return
-	local tmpdir; tmpdir="/tmp/vscode-sudo"; mkdir -pv "${tmpdir}/User"
+    [[ -z "${1}" ]] && echo 'syntax: codesudo <argument>' && return
+    local tmpdir; tmpdir="/tmp/vscode-sudo"; mkdir -pv "${tmpdir}/User"
 
-	cat << EOF | sudo tee "${tmpdir}/User/settings.json"
+    cat << EOF | sudo tee "${tmpdir}/User/settings.json"
 {
     "security.workspace.trust.banner": "never",
     "security.workspace.trust.enabled": false,
-	"telemetry.telemetryLevel": "off",
-	"telemetry.feedback.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "telemetry.feedback.enabled": false,
 }
 EOF
-	sudo bash -c "code --disable-chromium-sandbox --disable-extensions --no-sandbox --reuse-window --sync off --user-data-dir ${tmpdir} ${1}"
+    sudo bash -c "code --disable-chromium-sandbox --disable-extensions --no-sandbox --reuse-window --sync off --user-data-dir ${tmpdir} ${1}"
 }
 
+
+
 # SHELL
+# 0-9(basic), 30-37 (fg), 40-47(bg), 90-97(fgb), 100-107(bgb)
 PROMPT_COMMAND='history -a';
-PS1="\[\e[92m\]\u@\h\[\e[0m\] \[\e[96m\]\w\[\e[0m\] \[\e[93m\]$(git --no-pager branch --color=never --show-current 2>/dev/null)\n\[\e[0m\]\$ "
-PS1="\[\e]0;\u@\h    \w\a\]${PS1}"
+PS1="\[\e[1;92m\]\u@\h \[\e[1;96m\]\w \[\e[1;93m\]\n\[\e[0m\]\$ "
+PS1="\[\e]0;\u@\h \w\a\]${PS1}"
+
+
 
 # STARSHIP
 if command -v starship &> /dev/null; then
@@ -105,3 +129,10 @@ if command -v starship &> /dev/null; then
     starship_precmd_user_func="starship_win_title"
     eval "$(starship init bash)"
 fi
+
+
+
+# ZSH
+# if command -v zsh &> /dev/null; then
+# 	exec zsh --login --interactive
+# fi

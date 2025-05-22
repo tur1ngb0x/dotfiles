@@ -8,37 +8,42 @@ set_shell () {
 
 # XDG
 set_xdg () {
-	XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}; export XDG_DATA_HOME
-	XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}; export XDG_CACHE_HOME
-	XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}; export XDG_CACHE_HOME
-	XDG_STATE_HOME=${XDG_STATE_HOME:="$HOME/.local/state"}; export XDG_STATE_HOME
+    XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}; export XDG_DATA_HOME
+    XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}; export XDG_CACHE_HOME
+    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}; export XDG_CACHE_HOME
+    XDG_STATE_HOME=${XDG_STATE_HOME:="$HOME/.local/state"}; export XDG_STATE_HOME
 }
 
 # FONTS
 set_fonts () {
     FREETYPE_PROPERTIES=""
-    # stem darkening for non-CFF fonts (e.g., TTF, TTC, bitmap fonts)
+    # stem darkening for non-CFF fonts (TTF, TTC, BMP)
     FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES-}autofitter:no-stem-darkening=0 "
-    # stem darkening for CFF fonts (e.g., OTF with PostScript outlines)
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}cff:no-stem-darkening=0 "
-    # font warping for non-CFF fonts (e.g., TTF, TTC, bitmap fonts)
+    # font warping for non-CFF fonts (TTF, TTC, BMP)
     FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}autofitter:warping=0 "
+    # stem darkening for CFF fonts (OTF)
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}cff:no-stem-darkening=0 "
+    # stem widths for TTF, TTC fonts
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:gray-strong-stem-widths=1 "
+    # font warping for for TTF, TTC fonts
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:warping=0 "
     # cleartype hinting for TTF, TTC fonts
     FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:interpreter-version=40"
     export FREETYPE_PROPERTIES
 }
 
+# QTCT
 set_qtct () {
-	local QTCT=""
+    local QTCT=""
     if command -v qt6ct; then
         QTCT="qt6ct"
-	elif command -v qt5ct; then
-		QTCT="qt5ct"
+    elif command -v qt5ct; then
+        QTCT="qt5ct"
     fi
-	if [ -n "${QTCT}" ]; then
-		QT_QPA_PLATFORMTHEME="${QTCT}"
-		export QT_QPA_PLATFORMTHEME
-	fi
+    if [ -n "${QTCT}" ]; then
+        QT_QPA_PLATFORMTHEME="${QTCT}"
+        export QT_QPA_PLATFORMTHEME
+    fi
 }
 
 # DISPLAY
