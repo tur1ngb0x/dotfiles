@@ -64,11 +64,6 @@ alias rmdir='rmdir --verbose'
 
 
 # FUNCTIONS
-function ls () {
-	command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always "${@}" \
-    	| awk 'NR>1 { $2=""; $5=""; gsub(/  +/, " "); print }'
-	return "${PIPESTATUS[0]}"
-}
 function today () { date +"%Y-%m-%d %^a %H:%M:%S %^Z %z"; }
 function ddc () { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
 function outclip () { xclip -selection clipboard; }
@@ -79,6 +74,12 @@ function pyv () { source "${PWD}/bin/activate"; }
 function refreshell () { clear; reset; source "${HOME}/.bashrc"; }
 
 
+# LS
+function ls () {
+	command ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y%m%d-%a-%H%M%S" --color=always "${@}" \
+    	| awk 'NR>1 { $2=""; $5=""; gsub(/  +/, " "); print }'
+	return "${PIPESTATUS[0]}"
+}
 
 # SHOW
 function show () {
