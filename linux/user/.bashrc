@@ -75,9 +75,8 @@ function refreshell () { clear; reset; source "${HOME}/.bashrc"; }
 
 
 # SHELL - 0-9(basic), 30-37 (fg), 40-47(bg), 90-97(fgb), 100-107(bgb)
-PROMPT_COMMAND='history -a';
-PS1="\[\e[1;92m\]\u@\h \[\e[1;96m\]\w \[\e[1;93m\]\n\[\e[0m\]\$ "
-PS1="\[\e]0;\u@\h \w\a\]${PS1}"
+PROMPT_COMMAND='history -a'; export PROMPT_COMMAND
+PS1="\[\e[1;92m\]\u@\h \[\e[1;96m\]\w \[\e[1;93m\]\n\[\e[0m\]\$ "; PS1="\[\e]0;\u@\h \w\a\]${PS1}"; export PS1
 
 
 
@@ -144,13 +143,6 @@ function dmp4 () {
     yt-dlp --verbose --force-ipv4 --preset-alias mp4 -o "%(title)s.%(ext)s" "${@}"
 }
 
-if command -v starship &> /dev/null; then
-    STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"; export STARSHIP_CONFIG
-    function starship_win_title { echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"; }
-    starship_precmd_user_func="starship_win_title"
-    eval "$(starship init bash)"
-fi
-
 function wttr () {
     [[ ! $(command -v curl) ]] && echo 'curl not found' && return
     [[ "${#}" -eq 0 ]] || [[ "${1}" =~ [[:space:]] ]] && echo 'syntax: now <city/city+name/pincode>' && return
@@ -176,3 +168,10 @@ function wttr () {
     printf '%12s : %s\n' "Moon Day" "$(curl -s -L -4 "wttr.in/${1}?format=%M")"
     printf '%12s : %s\n' "Moon Phase" "$(curl -s -L -4 "wttr.in/${1}?format=%m")"
 }
+
+if command -v starship &> /dev/null; then
+    STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"; export STARSHIP_CONFIG
+    function starship_win_title { echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"; }
+    starship_precmd_user_func="starship_win_title"
+    eval "$(starship init bash)"
+fi

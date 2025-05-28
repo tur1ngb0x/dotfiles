@@ -77,7 +77,7 @@ set_display () {
 main () {
     set_shell
     set_xdg
-	set_locale
+    set_locale
     set_fonts
     set_qtct
     set_display
