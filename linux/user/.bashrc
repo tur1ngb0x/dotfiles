@@ -50,29 +50,29 @@ HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '; export HISTTIMEFORMAT
 
 
 # ALIASES
-alias chmod='chmod --verbose'
-alias chown='chown --verbose'
-alias cp='cp --verbose'
-alias diff='diff --color=auto'
-alias grep='grep --color=auto'
-alias ln='ln --verbose'
+alias chmod='command chmod --verbose'
+alias chown='command chown --verbose'
+alias cp='command cp --verbose'
+alias diff='command diff --color=auto'
+alias grep='command grep --color=auto'
+alias ln='command ln --verbose'
 # alias ls='ls --almost-all --classify --format=verbose --human-readable --time-style=+"%Y-%m-%d %a %H:%M:%S" --color=auto'
-alias mkdir='mkdir --verbose'
-alias mv='mv --verbose'
-alias rm="rm --verbose --interactive=once"
-alias rmdir='rmdir --verbose'
+alias mkdir='command mkdir --verbose'
+alias mv='command mv --verbose'
+alias rm="command rm --verbose --interactive=once"
+alias rmdir='command rmdir --verbose'
 
 
 
 # FUNCTIONS
-function today () { date +"%Y-%m-%d %a %H:%M:%S %^Z %z"; }
-function ddc () { ddcutil setvcp 10 "${1}"; }
-function outclip () { xclip -selection clipboard; }
+function today () { command date +"%Y-%m-%d %a %H:%M:%S %^Z %z"; }
+function ddc () { command ddcutil setvcp 10 "${1}"; }
+function outclip () { command xclip -selection clipboard; }
 function outpaste () { "${HOME}"/src/gitlab/pastelo/pastelo; }
-function outcode () { code -; }
-function path () { tr ':' '\n' <<< "${PATH}"; }
-function pyv () { show source "${PWD}/bin/activate"; }
-function refreshell () { clear; reset; source "${HOME}/.bashrc"; }
+function outcode () { command code -; }
+function path () { command tr ':' '\n' <<< "${PATH}"; }
+function pyv () { command source "${PWD}/bin/activate"; }
+function refreshell () { command clear; command reset; command source "${HOME}/.bashrc"; }
 
 
 # SHELL - 0-9(basic), 30-37 (fg), 40-47(bg), 90-97(fgb), 100-107(bgb)
@@ -89,7 +89,7 @@ function cheat () {
 }
 
 if command -v lsd &> /dev/null; then
-	alias ls='command lsd --almost-all --blocks 'permission,user,group,date,git,name' --classify --color auto --date "+%Y%m%d-%H%M%S" --group-dirs first --hyperlink auto --icon auto --icon-theme fancy --ignore-config --long --no-symlink --permission octal'
+	alias ls='command lsd --almost-all --blocks 'permission,user,group,date,name' --classify --color auto --date "+%Y%m%d-%H%M%S" --group-dirs first --hyperlink auto --icon auto --icon-theme fancy --ignore-config --long --no-symlink --permission octal'
 fi
 
 function cd () {
@@ -113,7 +113,7 @@ function print () {
 
 function detach () {
     [[ "${#}" -eq 0 ]] && echo 'syntax: detach <command>' && return
-    (nohup "${1}" &) &>/dev/null
+    (command nohup "${1}" &) &>/dev/null
 }
 
 function codeman () {
@@ -123,7 +123,7 @@ function codeman () {
 
 function codesudo () {
     [[ "${#}" -eq 0 ]] && echo 'syntax: codesudo <path>' && return
-    local tmpdir; tmpdir="/tmp/vscode-sudo"; mkdir -pv "${tmpdir}/User"
+    local tmpdir; tmpdir="/tmp/vscode-sudo"; command mkdir -pv "${tmpdir}/User"
     sudo bash -c "command code --disable-chromium-sandbox --disable-extensions --no-sandbox --reuse-window --sync off --user-data-dir ${tmpdir} ${1}"
 }
 
@@ -134,34 +134,34 @@ function cpsync () {
 
 function dmp3 () {
     [[ "${#}" -eq 0 ]] && echo 'syntax: dwnmp3 <urls>' && return
-    yt-dlp --verbose --force-ipv4 --preset-alias mp3 --audio-quality 0 -o "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s" "${@}"
+    command yt-dlp --verbose --force-ipv4 --preset-alias mp3 --audio-quality 0 -o "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s" "${@}"
 }
 
 function dmp4 () {
     [[ "${#}" -eq 0 ]] && echo 'syntax: dwnmp4 <urls>' && return
-    yt-dlp --verbose --force-ipv4 --preset-alias mp4 -o "%(title)s.%(ext)s" "${@}"
+    command yt-dlp --verbose --force-ipv4 --preset-alias mp4 -o "%(title)s.%(ext)s" "${@}"
 }
 
 function wttr () {
     [[ ! $(command -v curl) ]] && echo 'curl not found' && return
     [[ "${#}" -eq 0 ]] || [[ "${1}" =~ [[:space:]] ]] && echo 'syntax: now <city/city+name/pincode>' && return
     printf '%12s : %s\n' "Now" "$(date +'%Y-%m-%d %a %H:%M:%S %Z')"
-    printf '%12s : %s\n' "Location" "$(curl -sL4 "wttr.in/${1}?format=%l" | sed 's/+/ /g')"
-    printf '%12s : %s\n' "Weather" "$(curl -sL4 "wttr.in/${1}?format=%C")"
-    printf '%12s : %s\n' "UV Index" "$(curl -sL4 "wttr.in/${1}?format=%u")"
-    printf '%12s : %s\n' "Temperature" "$(curl -sL4 "wttr.in/${1}?format=%t")"
-    printf '%12s : %s\n' "FeelsLike" "$(curl -sL4 "wttr.in/${1}?format=%f")"
-    printf '%12s : %s\n' "Rain" "$(curl -sL4 "wttr.in/${1}?format=%p")"
-    printf '%12s : %s\n' "Wind" "$(curl -sL4 "wttr.in/${1}?format=%w")"
-    printf '%12s : %s\n' "Humidity" "$(curl -sL4 "wttr.in/${1}?format=%h")"
-    printf '%12s : %s\n' "Pressure" "$(curl -sL4 "wttr.in/${1}?format=%P")"
-    printf '%12s : %s\n' "Dawn" "$(curl -sL4 "wttr.in/${1}?format=%D")"
-    printf '%12s : %s\n' "Sunrise" "$(curl -sL4 "wttr.in/${1}?format=%S")"
-    printf '%12s : %s\n' "Zenith" "$(curl -sL4 "wttr.in/${1}?format=%z")"
-    printf '%12s : %s\n' "Sunset" "$(curl -sL4 "wttr.in/${1}?format=%s")"
-    printf '%12s : %s\n' "Dusk" "$(curl -sL4 "wttr.in/${1}?format=%d")"
-    printf '%12s : %s\n' "Moon Day" "$(curl -sL4 "wttr.in/${1}?format=%M")"
-    printf '%12s : %s\n' "Moon Phase" "$(curl -sL4 "wttr.in/${1}?format=%m")"
+    printf '%12s : %s\n' "Location" "$(command curl -sL4 "wttr.in/${1}?format=%l" | sed 's/+/ /g')"
+    printf '%12s : %s\n' "Weather" "$(command curl -sL4 "wttr.in/${1}?format=%C")"
+    printf '%12s : %s\n' "UV Index" "$(command curl -sL4 "wttr.in/${1}?format=%u")"
+    printf '%12s : %s\n' "Temperature" "$(command curl -sL4 "wttr.in/${1}?format=%t")"
+    printf '%12s : %s\n' "FeelsLike" "$(command curl -sL4 "wttr.in/${1}?format=%f")"
+    printf '%12s : %s\n' "Rain" "$(command curl -sL4 "wttr.in/${1}?format=%p")"
+    printf '%12s : %s\n' "Wind" "$(command curl -sL4 "wttr.in/${1}?format=%w")"
+    printf '%12s : %s\n' "Humidity" "$(command curl -sL4 "wttr.in/${1}?format=%h")"
+    printf '%12s : %s\n' "Pressure" "$(command curl -sL4 "wttr.in/${1}?format=%P")"
+    printf '%12s : %s\n' "Dawn" "$(command curl -sL4 "wttr.in/${1}?format=%D")"
+    printf '%12s : %s\n' "Sunrise" "$(command curl -sL4 "wttr.in/${1}?format=%S")"
+    printf '%12s : %s\n' "Zenith" "$(command curl -sL4 "wttr.in/${1}?format=%z")"
+    printf '%12s : %s\n' "Sunset" "$(command curl -sL4 "wttr.in/${1}?format=%s")"
+    printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "wttr.in/${1}?format=%d")"
+    printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "wttr.in/${1}?format=%M")"
+    printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "wttr.in/${1}?format=%m")"
 }
 
 if command -v starship &> /dev/null; then
