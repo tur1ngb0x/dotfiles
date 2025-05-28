@@ -2,6 +2,7 @@
 # INIT
 [[ "${-}" != *i* ]] && return
 [[ -z "${BASH_COMPLETION_VERSINFO-}" ]] && source /usr/share/bash-completion/bash_completion
+function show () { (set -x; "${@:?}"); }
 
 
 
@@ -65,12 +66,12 @@ alias rmdir='rmdir --verbose'
 
 # FUNCTIONS
 function today () { date +"%Y-%m-%d %a %H:%M:%S %^Z %z"; }
-function ddc () { sudo bash -c "modprobe i2c-dev && ddcutil setvcp 10 ${1}"; }
+function ddc () { ddcutil setvcp 10 "${1}"; }
 function outclip () { xclip -selection clipboard; }
 function outpaste () { "${HOME}"/src/gitlab/pastelo/pastelo; }
 function outcode () { code -; }
 function path () { tr ':' '\n' <<< "${PATH}"; }
-function pyv () { source "${PWD}/bin/activate"; }
+function pyv () { show source "${PWD}/bin/activate"; }
 function refreshell () { clear; reset; source "${HOME}/.bashrc"; }
 
 
@@ -88,9 +89,7 @@ function cheat () {
 }
 
 if command -v lsd &> /dev/null; then
-    function ls () {
-        command lsd --almost-all --blocks 'permission,user,group,date,git,name' --classify --color auto --date "+%Y%m%d-%H%M%S" --group-dirs first --hyperlink auto --icon auto --icon-theme fancy --ignore-config --long --no-symlink --permission octal "${@}"
-    }
+	alias ls='command lsd --almost-all --blocks 'permission,user,group,date,git,name' --classify --color auto --date "+%Y%m%d-%H%M%S" --group-dirs first --hyperlink auto --icon auto --icon-theme fancy --ignore-config --long --no-symlink --permission octal'
 fi
 
 function cd () {
@@ -99,14 +98,14 @@ function cd () {
     unset
 }
 
-function show () {
+function print () {
     [[ "${#}" -eq 0 ]] && echo 'syntax: show <path>' && return
     if command -v batcat &>/dev/null; then
-        batcat --set-terminal-title --style full "${@}"
+        command batcat --set-terminal-title --style full "${@}"
     elif command -v bat &>/dev/null; then
-        bat --set-terminal-title --style full "${@}"
+        command bat --set-terminal-title --style full "${@}"
     elif command -v cat &>/dev/null; then
-        cat -n "${@}"
+        command cat -n "${@}"
     else
         echo 'bat/cat not found'
     fi
@@ -146,27 +145,23 @@ function dmp4 () {
 function wttr () {
     [[ ! $(command -v curl) ]] && echo 'curl not found' && return
     [[ "${#}" -eq 0 ]] || [[ "${1}" =~ [[:space:]] ]] && echo 'syntax: now <city/city+name/pincode>' && return
-    # printf '%12s : %s\n' "Now" "$(date +'%Y-%m-%d %a %H:%M:%S %Z')"
-    # printf '%12s : %s\n' "Location" "$(curl -s -L -4 "wttr.in/${1}?format=%l")"
-    # printf '%s\n' ''
-    printf '%12s : %s\n' "Weather" "$(curl -s -L -4 "wttr.in/${1}?format=%C")"
-    printf '%12s : %s\n' "UV Index" "$(curl -s -L -4 "wttr.in/${1}?format=%u")"
-    printf '%12s : %s\n' "Temperature" "$(curl -s -L -4 "wttr.in/${1}?format=%t")"
-    printf '%12s : %s\n' "FeelsLike" "$(curl -s -L -4 "wttr.in/${1}?format=%f")"
-    printf '%s\n' ''
-    printf '%12s : %s\n' "Rain" "$(curl -s -L -4 "wttr.in/${1}?format=%p")"
-    printf '%12s : %s\n' "Wind" "$(curl -s -L -4 "wttr.in/${1}?format=%w")"
-    printf '%12s : %s\n' "Humidity" "$(curl -s -L -4 "wttr.in/${1}?format=%h")"
-    printf '%12s : %s\n' "Pressure" "$(curl -s -L -4 "wttr.in/${1}?format=%P")"
-    printf '%s\n' ''
-    printf '%12s : %s\n' "Dawn" "$(curl -s -L -4 "wttr.in/${1}?format=%D")"
-    printf '%12s : %s\n' "Sunrise" "$(curl -s -L -4 "wttr.in/${1}?format=%S")"
-    printf '%12s : %s\n' "Zenith" "$(curl -s -L -4 "wttr.in/${1}?format=%z")"
-    printf '%12s : %s\n' "Sunset" "$(curl -s -L -4 "wttr.in/${1}?format=%s")"
-    printf '%12s : %s\n' "Dusk" "$(curl -s -L -4 "wttr.in/${1}?format=%d")"
-    printf '%s\n' ''
-    printf '%12s : %s\n' "Moon Day" "$(curl -s -L -4 "wttr.in/${1}?format=%M")"
-    printf '%12s : %s\n' "Moon Phase" "$(curl -s -L -4 "wttr.in/${1}?format=%m")"
+    printf '%12s : %s\n' "Now" "$(date +'%Y-%m-%d %a %H:%M:%S %Z')"
+    printf '%12s : %s\n' "Location" "$(curl -sL4 "wttr.in/${1}?format=%l" | sed 's/+/ /g')"
+    printf '%12s : %s\n' "Weather" "$(curl -sL4 "wttr.in/${1}?format=%C")"
+    printf '%12s : %s\n' "UV Index" "$(curl -sL4 "wttr.in/${1}?format=%u")"
+    printf '%12s : %s\n' "Temperature" "$(curl -sL4 "wttr.in/${1}?format=%t")"
+    printf '%12s : %s\n' "FeelsLike" "$(curl -sL4 "wttr.in/${1}?format=%f")"
+    printf '%12s : %s\n' "Rain" "$(curl -sL4 "wttr.in/${1}?format=%p")"
+    printf '%12s : %s\n' "Wind" "$(curl -sL4 "wttr.in/${1}?format=%w")"
+    printf '%12s : %s\n' "Humidity" "$(curl -sL4 "wttr.in/${1}?format=%h")"
+    printf '%12s : %s\n' "Pressure" "$(curl -sL4 "wttr.in/${1}?format=%P")"
+    printf '%12s : %s\n' "Dawn" "$(curl -sL4 "wttr.in/${1}?format=%D")"
+    printf '%12s : %s\n' "Sunrise" "$(curl -sL4 "wttr.in/${1}?format=%S")"
+    printf '%12s : %s\n' "Zenith" "$(curl -sL4 "wttr.in/${1}?format=%z")"
+    printf '%12s : %s\n' "Sunset" "$(curl -sL4 "wttr.in/${1}?format=%s")"
+    printf '%12s : %s\n' "Dusk" "$(curl -sL4 "wttr.in/${1}?format=%d")"
+    printf '%12s : %s\n' "Moon Day" "$(curl -sL4 "wttr.in/${1}?format=%M")"
+    printf '%12s : %s\n' "Moon Phase" "$(curl -sL4 "wttr.in/${1}?format=%m")"
 }
 
 if command -v starship &> /dev/null; then
