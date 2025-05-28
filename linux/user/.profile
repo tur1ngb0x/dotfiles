@@ -14,6 +14,25 @@ set_xdg () {
     XDG_STATE_HOME=${XDG_STATE_HOME:="$HOME/.local/state"}; export XDG_STATE_HOME
 }
 
+# LOCALE
+set_locale() {
+    LANG="en_IN.UTF-8"; export LANG
+    LC_CTYPE="en_IN.UTF-8"; export LC_CTYPE
+    LC_NUMERIC="en_IN.UTF-8"; export LC_NUMERIC
+    LC_TIME="en_IN.UTF-8"; export LC_TIME
+    LC_COLLATE="en_IN.UTF-8"; export LC_COLLATE
+    LC_MONETARY="en_IN.UTF-8"; export LC_MONETARY
+    LC_MESSAGES="en_IN.UTF-8"; export LC_MESSAGES
+    LC_PAPER="en_IN.UTF-8"; export LC_PAPER
+    LC_NAME="en_IN.UTF-8"; export LC_NAME
+    LC_ADDRESS="en_IN.UTF-8"; export LC_ADDRESS
+    LC_TELEPHONE="en_IN.UTF-8"; export LC_TELEPHONE
+    LC_MEASUREMENT="en_IN.UTF-8"; export LC_MEASUREMENT
+    LC_IDENTIFICATION="en_IN.UTF-8"; export LC_IDENTIFICATION
+    # LC_ALL="C"; export LC_ALL
+}
+
+
 # FONTS
 set_fonts () {
     FREETYPE_PROPERTIES=""
@@ -58,6 +77,7 @@ set_display () {
 main () {
     set_shell
     set_xdg
+	set_locale
     set_fonts
     set_qtct
     set_display

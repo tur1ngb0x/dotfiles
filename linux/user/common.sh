@@ -9,7 +9,7 @@
 LC_ALL=C; export LC_ALL
 
 
-# get current directory name
+# get current directory
 CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"; export CWD
 
 
@@ -118,7 +118,7 @@ function CreateDir () {
     if [ "${#}" -eq 0 ]; then
         PrintText "No directory paths provided."
     fi
-    local dirs=(${@})
+    local dirs=("${@}")
     for dir in "${dirs[@]}"; do
         if [[ ! -d "${dir}" ]]; then
             PrintText "Creating directory: ${dir}"

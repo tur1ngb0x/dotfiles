@@ -74,76 +74,79 @@ function pyv () { source "${PWD}/bin/activate"; }
 function refreshell () { clear; reset; source "${HOME}/.bashrc"; }
 
 
-# LS
-function ls () {
-    command ls --almost-all --classify=always --format=verbose --group-directories-first --time-style=+"%Y%m%d-%a-%H%M%S" --color=always "${@}" \
-        | awk 'NR>1 { $2=""; $5=""; gsub(/  +/, " "); print }' \
-        | column --table --output-separator ' '
-        # | column --table --table-columns=PERMS,USER,GROUP,MODIFIED,ITEMS --output-separator '    '
-    return "${PIPESTATUS[0]}"
-}
-
-function cd() {
-    dir="${1:-${HOME}}"
-    builtin cd "${dir}" && ls || return
-	unset
-}
-
-# SHOW
-function show () {
-    if command -v batcat &>/dev/null; then
-        batcat --set-terminal-title --style full "${@}"
-	elif command -v bat &>/dev/null; then
-        bat --set-terminal-title --style full "${@}"
-    else
-        cat -n "${@}"
-    fi
-}
-
-
-
-# VSCODE
-function codeman () {
-    [[ -z "${1}" ]] && echo 'syntax: codeman <argument>' && return
-    LC_ALL=C man "${1}" 2>/dev/null | code - --new-window --disable-extensions --sync off
-}
-
-function codesudo () {
-    [[ -z "${1}" ]] && echo 'syntax: codesudo <argument>' && return
-    local tmpdir; tmpdir="/tmp/vscode-sudo"; mkdir -pv "${tmpdir}/User"
-
-    cat << EOF | sudo tee "${tmpdir}/User/settings.json"
-{
-    "security.workspace.trust.banner": "never",
-    "security.workspace.trust.enabled": false,
-    "telemetry.telemetryLevel": "off",
-    "telemetry.feedback.enabled": false,
-}
-EOF
-    sudo bash -c "code --disable-chromium-sandbox --disable-extensions --no-sandbox --reuse-window --sync off --user-data-dir ${tmpdir} ${1}"
-}
-
-
-
-# SHELL
-# 0-9(basic), 30-37 (fg), 40-47(bg), 90-97(fgb), 100-107(bgb)
+# SHELL - 0-9(basic), 30-37 (fg), 40-47(bg), 90-97(fgb), 100-107(bgb)
 PROMPT_COMMAND='history -a';
 PS1="\[\e[1;92m\]\u@\h \[\e[1;96m\]\w \[\e[1;93m\]\n\[\e[0m\]\$ "
 PS1="\[\e]0;\u@\h \w\a\]${PS1}"
 
 
 
-# STARSHIP
+# MISC
+function cheat () {
+	[[ "${#}" -eq 0 ]] && echo 'syntax: cheat <arg1> <arg2>' && return
+	[[ -n "${1}" ]] && [[ -z "${2}" ]] && command curl -L https://cheat.sh/"${1}"
+	[[ -n "${1}" ]] && [[ -n "${2}" ]] && command curl -L https://cheat.sh/"${1}"/"${2}"
+}
+
+if command -v lsd &> /dev/null; then
+	function ls () {
+		command lsd --almost-all --blocks 'permission,user,group,date,git,name' --classify --color auto --date "+%Y%m%d-%H%M%S" --group-dirs first --hyperlink auto --icon auto --icon-theme fancy --ignore-config --long --no-symlink --permission octal "${@}"
+	}
+fi
+
+function cd () {
+    dir="${1:-${HOME}}"
+    builtin cd "${dir}" && ls || return
+	unset
+}
+
+function show () {
+	[[ "${#}" -eq 0 ]] && echo 'syntax: show <path>' && return
+    if command -v batcat &>/dev/null; then
+        batcat --set-terminal-title --style full "${@}"
+	elif command -v bat &>/dev/null; then
+        bat --set-terminal-title --style full "${@}"
+    elif command -v cat &>/dev/null; then
+        cat -n "${@}"
+	else
+		echo 'bat/cat not found'
+    fi
+}
+
+function detach () {
+	[[ "${#}" -eq 0 ]] && echo 'syntax: detach <command>' && return
+	(nohup "${1}" &) &>/dev/null
+}
+
+function codeman () {
+    [[ "${#}" -eq 0 ]] && echo 'syntax: codeman <command>' && return
+    LC_ALL=C command man "${1}" 2>/dev/null | command code - --new-window --disable-extensions --sync off
+}
+
+function codesudo () {
+    [[ "${#}" -eq 0 ]] && echo 'syntax: codesudo <path>' && return
+    local tmpdir; tmpdir="/tmp/vscode-sudo"; mkdir -pv "${tmpdir}/User"
+    sudo bash -c "command code --disable-chromium-sandbox --disable-extensions --no-sandbox --reuse-window --sync off --user-data-dir ${tmpdir} ${1}"
+}
+
+function cpsync () {
+	[[ "${#}" -eq 0 ]] && echo 'syntax: cpsync <src> <dest>' && return
+	command rsync --verbose --recursive --no-inc-recursive --compress-level=0 --human-readable --progress --stats --ipv4 "${@}" && command sync
+}
+
+function dmp3 () {
+	[[ "${#}" -eq 0 ]] && echo 'syntax: dwnmp3 <urls>' && return
+	yt-dlp --verbose --force-ipv4 --preset-alias mp3 --audio-quality 0 -o "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s" "${@}"
+}
+
+function dmp4 () {
+	[[ "${#}" -eq 0 ]] && echo 'syntax: dwnmp4 <urls>' && return
+	yt-dlp --verbose --force-ipv4 --preset-alias mp4 -o "%(title)s.%(ext)s" "${@}"
+}
+
 if command -v starship &> /dev/null; then
-    STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
+    STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"; export STARSHIP_CONFIG
     function starship_win_title { echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"; }
     starship_precmd_user_func="starship_win_title"
     eval "$(starship init bash)"
 fi
-
-
-
-# ZSH
-# if command -v zsh &> /dev/null; then
-# 	exec zsh --login --interactive
-# fi

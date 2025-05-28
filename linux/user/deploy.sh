@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-# get current directory
+# get current directory & source common template
 CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"
-
-# source common template
 source "${CWD}"/common.sh
 
 function deploy_bash () {

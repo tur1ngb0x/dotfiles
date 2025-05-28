@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# get current directory and source common template
+# get current directory & source common template
 CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"
 source "${CWD}"/common.sh
 

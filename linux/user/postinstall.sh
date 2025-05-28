@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# get current directory & source common template
+CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"
+source "${CWD}"/common.sh
+
 function PostInstall_VirtManager {
     if command -v virt-manager; then
         sudo groupadd -f kvm
