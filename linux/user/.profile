@@ -8,10 +8,10 @@ set_shell () {
 
 # XDG
 set_xdg () {
-    XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}; export XDG_DATA_HOME
-    XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}; export XDG_CACHE_HOME
-    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}; export XDG_CACHE_HOME
-    XDG_STATE_HOME=${XDG_STATE_HOME:="$HOME/.local/state"}; export XDG_STATE_HOME
+    XDG_CACHE_HOME=${XDG_CACHE_HOME:="${HOME}/.cache"}; export XDG_CACHE_HOME
+    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="${HOME}/.config"}; export XDG_CACHE_HOME
+    XDG_DATA_HOME=${XDG_DATA_HOME:="${HOME}/.local/share"}; export XDG_DATA_HOME
+    XDG_STATE_HOME=${XDG_STATE_HOME:="${HOME}/.local/state"}; export XDG_STATE_HOME
 }
 
 # LOCALE
@@ -37,7 +37,7 @@ set_locale() {
 set_fonts () {
     FREETYPE_PROPERTIES=""
     # stem darkening for non-CFF fonts (TTF, TTC, BMP)
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES-}autofitter:no-stem-darkening=0 "
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}autofitter:no-stem-darkening=0 "
     # font warping for non-CFF fonts (TTF, TTC, BMP)
     FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}autofitter:warping=0 "
     # stem darkening for CFF fonts (OTF)
