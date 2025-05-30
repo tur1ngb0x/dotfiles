@@ -89,7 +89,7 @@ function cheat () {
 }
 
 if command -v lsd &> /dev/null; then
-	alias ls='command lsd --almost-all --blocks 'permission,user,group,date,name' --classify --color auto --date "+%Y%m%d-%H%M%S" --group-dirs first --hyperlink auto --icon auto --icon-theme fancy --ignore-config --long --no-symlink --permission octal'
+    alias ls='command lsd --almost-all --blocks 'permission,user,group,date,name' --classify --color auto --date "+%Y%m%d-%H%M%S" --group-dirs first --hyperlink auto --icon auto --icon-theme fancy --ignore-config --long --no-symlink --permission octal'
 fi
 
 function cd () {
@@ -141,6 +141,68 @@ function dmp4 () {
     [[ "${#}" -eq 0 ]] && echo 'syntax: dwnmp4 <urls>' && return
     command yt-dlp --verbose --force-ipv4 --preset-alias mp4 -o "%(title)s.%(ext)s" "${@}"
 }
+
+# function a2v () {
+#     for f in *.mp3; do
+#         base="${f%.mp3}"
+#         ffmpeg -loop 1 \
+#             -i cover.jpg \
+#             -i "${f}" \
+#             -c:v libx264rgb \
+#             -crf 0 \
+#             -r 1 \
+#             -tune stillimage \
+#             -s 720x720 \
+#             -c:a copy \
+#             -preset veryslow \
+#             -shortest \
+#             "${base}.mp4"
+#     done
+# }
+
+
+
+function a2v () {
+    [[ "${#}" -eq 0 ]] && echo 'syntax: a2v <url1> <url2> <url3> ... <urlN>' && return
+    urls=("$@")
+    for url in "${urls[@]}"; do
+        tput rev; printf '%s\n' "getting playlist folder name"; tput sgr0
+        playlist=$(command yt-dlp --quiet --force-ipv4 --skip-download --playlist-items 1 --get-filename -o "%(playlist)s" "${url}")
+        if [ -z "${playlist}" ]; then
+            printf '%s\n' "failed to get playlist folder"
+            return
+        fi
+        echo "${playlist}"
+
+        tput rev; printf '%s\n' "create playlist folder"; tput sgr0
+        mkdir -pv "${playlist}"
+
+        tput rev; printf '%s\n' "moving into playlist folder"; tput sgr0
+        pushd "${playlist}" || return
+
+        tput rev; printf '%s\n' "downloading playlist as mp3"; tput sgr0
+        command yt-dlp --verbose --force-ipv4 --preset-alias mp3 --audio-quality 0 -o "%(playlist_index)s - %(title)s.%(ext)s" "${url}"
+
+        tput rev; printf '%s\n' "download album art"; tput sgr0
+        command yt-dlp --verbose --force-ipv4 --skip-download --playlist-items 1 --write-thumbnail --convert-thumbnails jpg -o "cover.%(ext)s" "${url}"
+
+        tput rev; printf '%s\n' "generate album art"; tput sgr0
+        if [ -f cover.jpg ]; then
+            printf '%s\n' "cover.jpg already exists."
+        else
+            printf '%s\n' "Creating a black 720x720p cover.jpg"
+            ffmpeg -f lavfi -i color=black:s=720x720 -frames:v 1 -update 1 cover.jpg
+        fi
+
+        tput rev; printf '%s\n' "convert jpg and mp3 to mp4"; tput sgr0
+        for f in *.mp3; do
+            base="${f%.mp3}"
+            ffmpeg -loop 1 -i cover.jpg -i "${f}" -c:v libx264rgb -crf 0 -r 1 -tune stillimage -s 720x720 -c:a copy -preset veryslow -shortest "${base}".mp4
+        done
+        popd || return
+done
+}
+
 
 function wttr () {
     [[ ! $(command -v curl) ]] && echo 'curl not found' && return
