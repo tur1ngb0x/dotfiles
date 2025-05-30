@@ -224,6 +224,7 @@ function wttr () {
     printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "wttr.in/${1}?format=%d")"
     printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "wttr.in/${1}?format=%M")"
     printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "wttr.in/${1}?format=%m")"
+	printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "wttr.in/${1}")"
 }
 
 if command -v starship &> /dev/null; then
