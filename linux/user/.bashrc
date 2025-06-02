@@ -142,26 +142,6 @@ function dmp4 () {
     command yt-dlp --verbose --force-ipv4 --preset-alias mp4 -o "%(title)s.%(ext)s" "${@}"
 }
 
-# function a2v () {
-#     for f in *.mp3; do
-#         base="${f%.mp3}"
-#         ffmpeg -loop 1 \
-#             -i cover.jpg \
-#             -i "${f}" \
-#             -c:v libx264rgb \
-#             -crf 0 \
-#             -r 1 \
-#             -tune stillimage \
-#             -s 720x720 \
-#             -c:a copy \
-#             -preset veryslow \
-#             -shortest \
-#             "${base}.mp4"
-#     done
-# }
-
-
-
 function a2v () {
     [[ "${#}" -eq 0 ]] && echo 'syntax: a2v <url1> <url2> <url3> ... <urlN>' && return
     urls=("$@")
@@ -204,9 +184,23 @@ done
 }
 
 
+function tag-get() {
+	find . -type f -iname "*.mp3" -exec sh -c 'for f do echo "File: $f"; id3v2 -l "$f" | awk -F: "/^TIT2/ {print \"Title      :\" \$2} /^TRCK/ {print \"Track No.  :\" \$2} /^TALB/ {print \"Album      :\" \$2} /^TPE1/ {print \"Artist     :\" \$2} /^TYER/ {print \"Year       :\" \$2} /^TCON/ {print \"Genre      :\" \$2}"; echo; done' sh {} +
+}
+
+function tag-delete () {
+	find . -type f -exec id3v2 --delete-all {} \;
+}
+
+function tag-set-artist (){
+	[[ "${#}" -eq 0 ]] && echo 'syntax: tag-set-artist <artist>' && return
+	find . -type f -exec id3v2 --artist "${1}" {} \;
+}
+
+
 function wttr () {
     [[ ! $(command -v curl) ]] && echo 'curl not found' && return
-    [[ "${#}" -eq 0 ]] || [[ "${1}" =~ [[:space:]] ]] && echo 'syntax: now <city/city+name/pincode>' && return
+    [[ "${#}" -eq 0 ]] || [[ "${1}" =~ [[:space:]] ]] && echo 'syntax: wttr <City+Name> or <PinCode>' && return
     printf '%12s : %s\n' "Now" "$(date +'%Y-%m-%d %a %H:%M:%S %Z')"
     printf '%12s : %s\n' "Location" "$(command curl -sL4 "wttr.in/${1}?format=%l" | sed 's/+/ /g')"
     printf '%12s : %s\n' "Weather" "$(command curl -sL4 "wttr.in/${1}?format=%C")"
@@ -224,7 +218,6 @@ function wttr () {
     printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "wttr.in/${1}?format=%d")"
     printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "wttr.in/${1}?format=%M")"
     printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "wttr.in/${1}?format=%m")"
-	printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "wttr.in/${1}")"
 }
 
 if command -v starship &> /dev/null; then
