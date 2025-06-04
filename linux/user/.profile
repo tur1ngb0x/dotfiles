@@ -32,7 +32,6 @@ set_locale() {
     # LC_ALL="C"; export LC_ALL
 }
 
-
 # FONTS
 set_fonts () {
     FREETYPE_PROPERTIES=""
@@ -68,8 +67,7 @@ set_qtct () {
 # DISPLAY
 set_display () {
     if command -v xrandr; then
-        xrandr --output 'HDMI-1' --set 'Broadcast RGB' 'Full' --size '1920x1080' --refresh '60' --dpi '96'
-        xrandr --output 'HDMI-2' --set 'Broadcast RGB' 'Full' --size '1920x1080' --refresh '60' --dpi '96'
+        xrandr --output 'HDMI-1' --primary --set 'Broadcast RGB' 'Full' --size '1920x1080' --refresh '60' --dpi '96'
     fi
 }
 

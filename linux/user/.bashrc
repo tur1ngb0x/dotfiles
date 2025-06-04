@@ -1,7 +1,7 @@
 
 # INIT
 [[ "${-}" != *i* ]] && return
-[[ -z "${BASH_COMPLETION_VERSINFO-}" ]] && source /usr/share/bash-completion/bash_completion
+[[ -z "${BASH_COMPLETION_VERSINFO}" ]] && source /usr/share/bash-completion/bash_completion
 function show () { (set -x; "${@:?}"); }
 
 
@@ -133,8 +133,33 @@ function cpsync () {
 }
 
 function dmp3 () {
-    [[ "${#}" -eq 0 ]] && echo 'syntax: dwnmp3 <urls>' && return
-    command yt-dlp --verbose --force-ipv4 --preset-alias mp3 --audio-quality 0 -o "%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s" "${@}"
+    [[ "${#}" -eq 0 ]] && echo 'syntax: a2v <url>' && return
+
+    urls=("$@")
+    for url in "${urls[@]}"; do
+        function header() { printf "\033[7m # %s - %s \033[0m\n" "$(date +%H:%M:%S)" "${1}"; }
+        playlist=$(command yt-dlp --quiet --force-ipv4 --skip-download --playlist-items 1 --get-filename -o "%(playlist)s" "${url}")
+        if [ -z "${playlist}" ]; then
+            echo "failed to get playlist folder"
+            return
+        fi; echo "${playlist}"
+
+        header "create playlist folder"
+        mkdir -pv "${playlist}"
+
+        header "moving into playlist folder"
+        pushd "${playlist}" || return
+
+        header "downloading playlist as mp3"
+        command yt-dlp --verbose --force-ipv4 --preset-alias mp3 --audio-quality 0 --embed-thumbnail --embed-metadata -o "%(playlist_index)s - %(title)s.%(ext)s" "${url}"
+
+        header "downloading album art"
+        command yt-dlp --verbose --force-ipv4 --skip-download --playlist-items 1 --write-thumbnail --convert-thumbnails jpg -o "cover.%(ext)s" "${url}"
+		command yt-dlp --verbose --force-ipv4 --skip-download --playlist-items 1 --write-thumbnail --convert-thumbnails jpg -o "album.%(ext)s" "${url}"
+		command yt-dlp --verbose --force-ipv4 --skip-download --playlist-items 1 --write-thumbnail --convert-thumbnails jpg -o "folder.%(ext)s" "${url}"
+
+        popd || return
+done
 }
 
 function dmp4 () {
@@ -143,58 +168,53 @@ function dmp4 () {
 }
 
 function a2v () {
-    [[ "${#}" -eq 0 ]] && echo 'syntax: a2v <url1> <url2> <url3> ... <urlN>' && return
-    urls=("$@")
-    for url in "${urls[@]}"; do
-        tput rev; printf '%s\n' "getting playlist folder name"; tput sgr0
-        playlist=$(command yt-dlp --quiet --force-ipv4 --skip-download --playlist-items 1 --get-filename -o "%(playlist)s" "${url}")
-        if [ -z "${playlist}" ]; then
-            printf '%s\n' "failed to get playlist folder"
-            return
-        fi
-        echo "${playlist}"
-
-        tput rev; printf '%s\n' "create playlist folder"; tput sgr0
-        mkdir -pv "${playlist}"
-
-        tput rev; printf '%s\n' "moving into playlist folder"; tput sgr0
-        pushd "${playlist}" || return
-
-        tput rev; printf '%s\n' "downloading playlist as mp3"; tput sgr0
-        command yt-dlp --verbose --force-ipv4 --preset-alias mp3 --audio-quality 0 -o "%(playlist_index)s - %(title)s.%(ext)s" "${url}"
-
-        tput rev; printf '%s\n' "download album art"; tput sgr0
-        command yt-dlp --verbose --force-ipv4 --skip-download --playlist-items 1 --write-thumbnail --convert-thumbnails jpg -o "cover.%(ext)s" "${url}"
-
-        tput rev; printf '%s\n' "generate album art"; tput sgr0
-        if [ -f cover.jpg ]; then
-            printf '%s\n' "cover.jpg already exists."
-        else
-            printf '%s\n' "Creating a black 720x720p cover.jpg"
-            ffmpeg -f lavfi -i color=black:s=720x720 -frames:v 1 -update 1 cover.jpg
-        fi
-
-        tput rev; printf '%s\n' "convert jpg and mp3 to mp4"; tput sgr0
-        for f in *.mp3; do
-            base="${f%.mp3}"
-            ffmpeg -loop 1 -i cover.jpg -i "${f}" -c:v libx264rgb -crf 0 -r 1 -tune stillimage -s 720x720 -c:a copy -preset veryslow -shortest "${base}".mp4
-        done
-        popd || return
-done
+	for img in {cover,album,folder}.{jpg,jpeg,png}; do if [ -f "$img" ]; then image="${img}"; break; fi; done
+	[[ -z "${image}" ]] && echo "album art not found, expected one of these - {cover,album,folder}.{jpg,jpeg,png}" && return
+    for f in *.mp3; do
+        base="${f%.mp3}"
+        ffmpeg -loop 1 -i "${image}" -i "${f}" -c:v libx264rgb -crf 0 -r 1 -tune stillimage -s 720x720 -c:a copy -preset veryslow -shortest "${base}".mp4
+    done
 }
 
 
-function tag-get() {
-	find . -type f -iname "*.mp3" -exec sh -c 'for f do echo "File: $f"; id3v2 -l "$f" | awk -F: "/^TIT2/ {print \"Title      :\" \$2} /^TRCK/ {print \"Track No.  :\" \$2} /^TALB/ {print \"Album      :\" \$2} /^TPE1/ {print \"Artist     :\" \$2} /^TYER/ {print \"Year       :\" \$2} /^TCON/ {print \"Genre      :\" \$2}"; echo; done' sh {} +
+# function tag-get() {
+# 	find "${PWD}" -type f -iname "*.mp3" -exec sh -c 'for f do echo "File: ${f}"; id3v2 -l "${f}" | awk -F: "/^TIT2/ {print \"Title      :\" \$2} /^TRCK/ {print \"Track No.  :\" \$2} /^TALB/ {print \"Album      :\" \$2} /^TPE1/ {print \"Artist     :\" \$2} /^TYER/ {print \"Year       :\" \$2} /^TCON/ {print \"Genre      :\" \$2}"; echo; done' sh {} +
+# #	find "${PWD}" -type f -iname "*.mp3" | sort | xargs -d '\n' -r -I{} sh -c 'echo "File: {}"; id3v2 -l "{}" | awk -F: "/^TIT2/ {print \"Title      :\" \$2} /^TRCK/ {print \"Track No.  :\" \$2} /^TALB/ {print \"Album      :\" \$2} /^TPE1/ {print \"Artist     :\" \$2} /^TYER/ {print \"Year       :\" \$2} /^TCON/ {print \"Genre      :\" \$2}"; echo'
+# }
+
+tag-get() {
+  find "${PWD}" -type f -iname "*.mp3" | sort | while read -r file; do
+    echo "File: ${file}"
+    artist=$(ffprobe -v quiet -show_entries format_tags=artist -of default=noprint_wrappers=1:nokey=1 "${file}")
+    year=$(ffprobe -v quiet -show_entries format_tags=date -of default=noprint_wrappers=1:nokey=1 "${file}")
+    album=$(ffprobe -v quiet -show_entries format_tags=album -of default=noprint_wrappers=1:nokey=1 "${file}")
+    track=$(ffprobe -v quiet -show_entries format_tags=track -of default=noprint_wrappers=1:nokey=1 "${file}")
+    title=$(ffprobe -v quiet -show_entries format_tags=title -of default=noprint_wrappers=1:nokey=1 "${file}")
+
+    echo "Artist: ${artist:-N/A}"
+    echo "Year: ${year:-N/A}"
+    echo "Album: ${album:-N/A}"
+    echo "Track Number: ${track:-N/A}"
+    echo "Track Title: ${title:-N/A}"
+    echo "-----------------------------"
+  done
 }
+
+
+
 
 function tag-delete () {
-	find . -type f -exec id3v2 --delete-all {} \;
+	echo "type 'yes' to delete all tags from this folder"
+	read -r choice; [[ "${choice}" == 'yes' ]] && find "${PWD}" -type f -exec id3v2 --delete-all {} \; || echo 'skipping deletion'
+
 }
 
-function tag-set-artist (){
-	[[ "${#}" -eq 0 ]] && echo 'syntax: tag-set-artist <artist>' && return
-	find . -type f -exec id3v2 --artist "${1}" {} \;
+function tag-mp3 () {
+  case "${#}" in
+    1) find "${PWD}" -type f -exec id3v2 --artist "${1}" {} \; ;;
+    2) find "${PWD}" -type f -exec id3v2 --artist "${1}" --album "${2}" {} \; ;;
+    *) echo 'syntax: tag-mp3 <artist> <album>'; return 1 ;;
+  esac
 }
 
 
@@ -202,22 +222,22 @@ function wttr () {
     [[ ! $(command -v curl) ]] && echo 'curl not found' && return
     [[ "${#}" -eq 0 ]] || [[ "${1}" =~ [[:space:]] ]] && echo 'syntax: wttr <City+Name> or <PinCode>' && return
     printf '%12s : %s\n' "Now" "$(date +'%Y-%m-%d %a %H:%M:%S %Z')"
-    printf '%12s : %s\n' "Location" "$(command curl -sL4 "wttr.in/${1}?format=%l" | sed 's/+/ /g')"
-    printf '%12s : %s\n' "Weather" "$(command curl -sL4 "wttr.in/${1}?format=%C")"
-    printf '%12s : %s\n' "UV Index" "$(command curl -sL4 "wttr.in/${1}?format=%u")"
-    printf '%12s : %s\n' "Temperature" "$(command curl -sL4 "wttr.in/${1}?format=%t")"
-    printf '%12s : %s\n' "FeelsLike" "$(command curl -sL4 "wttr.in/${1}?format=%f")"
-    printf '%12s : %s\n' "Rain" "$(command curl -sL4 "wttr.in/${1}?format=%p")"
-    printf '%12s : %s\n' "Wind" "$(command curl -sL4 "wttr.in/${1}?format=%w")"
-    printf '%12s : %s\n' "Humidity" "$(command curl -sL4 "wttr.in/${1}?format=%h")"
-    printf '%12s : %s\n' "Pressure" "$(command curl -sL4 "wttr.in/${1}?format=%P")"
-    printf '%12s : %s\n' "Dawn" "$(command curl -sL4 "wttr.in/${1}?format=%D")"
-    printf '%12s : %s\n' "Sunrise" "$(command curl -sL4 "wttr.in/${1}?format=%S")"
-    printf '%12s : %s\n' "Zenith" "$(command curl -sL4 "wttr.in/${1}?format=%z")"
-    printf '%12s : %s\n' "Sunset" "$(command curl -sL4 "wttr.in/${1}?format=%s")"
-    printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "wttr.in/${1}?format=%d")"
-    printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "wttr.in/${1}?format=%M")"
-    printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "wttr.in/${1}?format=%m")"
+    printf '%12s : %s\n' "Location" "$(command curl -sL4 "https://wttr.in/${1}?format=%l" | sed 's/+/ /g')"
+    printf '%12s : %s\n' "Weather" "$(command curl -sL4 "https://wttr.in/${1}?format=%C")"
+    printf '%12s : %s\n' "UV Index" "$(command curl -sL4 "https://wttr.in/${1}?format=%u")"
+    printf '%12s : %s\n' "Temperature" "$(command curl -sL4 "https://wttr.in/${1}?format=%t")"
+    printf '%12s : %s\n' "FeelsLike" "$(command curl -sL4 "https://wttr.in/${1}?format=%f")"
+    printf '%12s : %s\n' "Rain" "$(command curl -sL4 "https://wttr.in/${1}?format=%p")"
+    printf '%12s : %s\n' "Wind" "$(command curl -sL4 "https://wttr.in/${1}?format=%w")"
+    printf '%12s : %s\n' "Humidity" "$(command curl -sL4 "https://wttr.in/${1}?format=%h")"
+    printf '%12s : %s\n' "Pressure" "$(command curl -sL4 "https://wttr.in/${1}?format=%P")"
+    printf '%12s : %s\n' "Dawn" "$(command curl -sL4 "https://wttr.in/${1}?format=%D")"
+    printf '%12s : %s\n' "Sunrise" "$(command curl -sL4 "https://wttr.in/${1}?format=%S")"
+    printf '%12s : %s\n' "Zenith" "$(command curl -sL4 "https://wttr.in/${1}?format=%z")"
+    printf '%12s : %s\n' "Sunset" "$(command curl -sL4 "https://wttr.in/${1}?format=%s")"
+    printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "https://wttr.in/${1}?format=%d")"
+    printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "https://wttr.in/${1}?format=%M")"
+    printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "https://wttr.in/${1}?format=%m")"
 }
 
 if command -v starship &> /dev/null; then
