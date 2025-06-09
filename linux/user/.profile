@@ -1,4 +1,3 @@
-
 # SHELL
 set_shell () {
     if [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ]; then
@@ -8,10 +7,37 @@ set_shell () {
 
 # XDG
 set_xdg () {
-    XDG_CACHE_HOME=${XDG_CACHE_HOME:="${HOME}/.cache"}; export XDG_CACHE_HOME
-    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="${HOME}/.config"}; export XDG_CACHE_HOME
-    XDG_DATA_HOME=${XDG_DATA_HOME:="${HOME}/.local/share"}; export XDG_DATA_HOME
-    XDG_STATE_HOME=${XDG_STATE_HOME:="${HOME}/.local/state"}; export XDG_STATE_HOME
+    XDG_CACHE_HOME=${XDG_CACHE_HOME:="${HOME}/.cache"}; export XDG_CACHE_HOME; mkdir -pv "${XDG_CACHE_HOME}"
+    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="${HOME}/.config"}; export XDG_CONFIG_HOME; mkdir -pv "${XDG_CONFIG_HOME}"
+    XDG_DATA_HOME=${XDG_DATA_HOME:="${HOME}/.local/share"}; export XDG_DATA_HOME; mkdir -pv "${XDG_DATA_HOME}"
+    XDG_STATE_HOME=${XDG_STATE_HOME:="${HOME}/.local/state"}; export XDG_STATE_HOME; mkdir -pv "${XDG_STATE_HOME}"
+}
+
+#PATH
+set_path() {
+    PATH="${HOME}/src/adb:${PATH}"
+    PATH="${PATH}:/var/lib/flatpak/exports/bin"
+    PATH="${PATH}:${HOME}/.local/share/flatpak/exports/share"
+    PATH="${PATH}:${HOME}/.local/bin"
+    PATH="${PATH}:${HOME}/src/github/scripts/linux"
+    PATH="${PATH}:${HOME}/src/gitlab/pastelo"
+    PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"; export PATH
+}
+
+# VARIABLES
+set_variables() {
+    BROWSER='brave-browser-stable'; export BROWSER
+    CLICOLOR='1'; export CLICOLOR
+    COLORTERM='truecolor'; export COLORTERM
+    EDITOR='micro'; export EDITOR
+    HISTCONTROL='ignorespace:ignoredups:erasedups'; export HISTCONTROL
+    HISTFILESIZE='10000'; export HISTFILESIZE
+    HISTSIZE='2000'; export HISTSIZE
+    HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '; export HISTTIMEFORMAT
+    MANPAGER='most -s -t4 -w'; export MANPAGER
+    PAGER="${MANPAGER}"; export PAGER
+    TERMINAL='tilix'; export TERMINAL
+    VISUAL='micro'; export VISUAL
 }
 
 # LOCALE
@@ -71,15 +97,24 @@ set_display () {
     fi
 }
 
+# X11
+set_cleanup () {
+    command rm -fv "${HOME}"/.xsession-errors
+    command rm -fv "${HOME}"/.xsession-errors.old
+}
+
 # MAIN
 main () {
     set_shell
     set_xdg
+    set_path
+    set_variables
     set_locale
     set_fonts
     set_qtct
     set_display
+    set_cleanup
 }
 
 # BEGIN
-main "${@}" >/dev/null 2>&1
+main "${@}" > /dev/null 2>&1
