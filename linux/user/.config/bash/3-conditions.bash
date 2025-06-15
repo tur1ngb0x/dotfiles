@@ -16,8 +16,7 @@ if command -v lsd &>/dev/null; then
         --almost-all
         --blocks 'permission,user,group,date,name'
         --classify
-        --color 'auto'
-        --date '+%Y%m%d-%H%M%S'
+        --date '+%Y/%m/%d %H:%M:%S'
         --group-dirs 'first'
         --hyperlink 'auto'
         --icon 'auto'
@@ -25,7 +24,6 @@ if command -v lsd &>/dev/null; then
         --ignore-config
         --long
         --no-symlink
-        --permission 'octal'
     )
 
     function ls() {
