@@ -4,6 +4,7 @@
     signingkey = ~/.ssh/tur1ngb0x-github.pub
 
 [credential]
+    #helper = /path/to/the/program
     #pacman = /usr/lib/git-core/git-credential-libsecret
     #apt = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
     #dnf = /usr/libexec/git-core/git-credential-libsecret
@@ -12,11 +13,11 @@
     #other = cache --timeout=21600
 
 [color "status"]
-	#$ git status
+    #$ git status
     added = brightgreen
     changed = brightyellow
     untracked = brightred
-	#header = brightwhite reverse
+    #header = brightwhite reverse
 
 [gpg]
     format = ssh
