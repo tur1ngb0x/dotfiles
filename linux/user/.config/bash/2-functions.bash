@@ -5,6 +5,19 @@ function cheat()
     command curl -4 -L "https://cheat.sh/${1}"
 }
 
+function fmtcmd()
+{
+    [[ "${#}" -eq 0 ]] && echo 'syntax: fmtcmd <command>' && return
+    local printable status
+    printf -v printable '%q ' "${@}"
+    printf '%s INPUT: %s\n$ %s\n' "$(tput rev)" "$(tput sgr0)" "${printable}"
+    printf '%s OUTPUT: %s\n' "$(tput rev)" "$(tput sgr0)"
+    "${@}"
+    status="${?}"
+    printf '%s STATUS: %s\n%s\n' "$(tput rev)" "$(tput sgr0)" "${status}"
+    return "${status}"
+}
+
 function now()
 {
     command date +"%Y-%m-%d %a %H:%M:%S %^Z %z"
@@ -136,4 +149,40 @@ function osfetch()
     elif command -v distrofetch.sh &> /dev/null; then
         echo '$ distrofetch.sh'; command distrofetch.sh
     fi
+}
+
+function wttr()
+{
+    function usage(){
+        cat << EOF
+Description:
+Bash wrapper for https://wttr.in
+
+Syntax:
+wttr <City+Name>       wttr 'Salt+Lake+City'
+wttr <Pincode>         wttr '110001'
+
+More:
+https://github.com/chubin/wttr.in/blob/master/README.md
+EOF
+    }
+    [[ ! $(command -v curl) ]] && echo 'curl not found' && return
+    [[ "${#}" -eq 0 ]] || [[ "${1}" =~ [[:space:]] ]] && usage && return
+    printf '%12s : %s\n' "Now" "$(date +'%Y-%m-%d %a %H:%M:%S %Z')"
+    printf '%12s : %s\n' "Location" "$(command curl -sL4 "https://wttr.in/${1}?format=%l" | sed 's/+/ /g')"
+    printf '%12s : %s\n' "Weather" "$(command curl -sL4 "https://wttr.in/${1}?format=%C")"
+    printf '%12s : %s\n' "UV Index" "$(command curl -sL4 "https://wttr.in/${1}?format=%u")"
+    printf '%12s : %s\n' "Temperature" "$(command curl -sL4 "https://wttr.in/${1}?format=%t")"
+    printf '%12s : %s\n' "FeelsLike" "$(command curl -sL4 "https://wttr.in/${1}?format=%f")"
+    printf '%12s : %s\n' "Rain" "$(command curl -sL4 "https://wttr.in/${1}?format=%p")"
+    printf '%12s : %s\n' "Wind" "$(command curl -sL4 "https://wttr.in/${1}?format=%w")"
+    printf '%12s : %s\n' "Humidity" "$(command curl -sL4 "https://wttr.in/${1}?format=%h")"
+    printf '%12s : %s\n' "Pressure" "$(command curl -sL4 "https://wttr.in/${1}?format=%P")"
+    printf '%12s : %s\n' "Dawn" "$(command curl -sL4 "https://wttr.in/${1}?format=%D")"
+    printf '%12s : %s\n' "Sunrise" "$(command curl -sL4 "https://wttr.in/${1}?format=%S")"
+    printf '%12s : %s\n' "Zenith" "$(command curl -sL4 "https://wttr.in/${1}?format=%z")"
+    printf '%12s : %s\n' "Sunset" "$(command curl -sL4 "https://wttr.in/${1}?format=%s")"
+    printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "https://wttr.in/${1}?format=%d")"
+    printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "https://wttr.in/${1}?format=%M")"
+    printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "https://wttr.in/${1}?format=%m")"
 }

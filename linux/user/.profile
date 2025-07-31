@@ -19,6 +19,8 @@ set_path() {
     PATH="${PATH}:/var/lib/flatpak/exports/bin"
     PATH="${PATH}:${HOME}/.local/share/flatpak/exports/share"
     PATH="${PATH}:${HOME}/.local/bin"
+    PATH="${PATH}:${HOME}/src/go/bin"
+    PATH="${PATH}:${HOME}/src/distrobox/bin"
     PATH="${PATH}:${HOME}/src/github/scripts/linux"
     PATH="${PATH}:${HOME}/src/gitlab/pastelo"
     PATH="$(printf '%s' "${PATH}" | awk -v RS=: -v ORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }')"; export PATH
@@ -43,18 +45,19 @@ set_variables() {
 # LOCALE
 set_locale() {
     LANG="en_IN.UTF-8"; export LANG
-    LC_CTYPE="en_IN.UTF-8"; export LC_CTYPE
-    LC_NUMERIC="en_IN.UTF-8"; export LC_NUMERIC
-    LC_TIME="en_IN.UTF-8"; export LC_TIME
-    LC_COLLATE="en_IN.UTF-8"; export LC_COLLATE
-    LC_MONETARY="en_IN.UTF-8"; export LC_MONETARY
-    LC_MESSAGES="en_IN.UTF-8"; export LC_MESSAGES
-    LC_PAPER="en_IN.UTF-8"; export LC_PAPER
-    LC_NAME="en_IN.UTF-8"; export LC_NAME
     LC_ADDRESS="en_IN.UTF-8"; export LC_ADDRESS
-    LC_TELEPHONE="en_IN.UTF-8"; export LC_TELEPHONE
-    LC_MEASUREMENT="en_IN.UTF-8"; export LC_MEASUREMENT
+    LC_COLLATE="en_IN.UTF-8"; export LC_COLLATE
+    LC_CTYPE="en_IN.UTF-8"; export LC_CTYPE
     LC_IDENTIFICATION="en_IN.UTF-8"; export LC_IDENTIFICATION
+    LC_LANGUAGE="en_IN.UTF-8"; export LC_LANGUAGE
+    LC_MEASUREMENT="en_IN.UTF-8"; export LC_MEASUREMENT
+    LC_MESSAGES="en_IN.UTF-8"; export LC_MESSAGES
+    LC_MONETARY="en_IN.UTF-8"; export LC_MONETARY
+    LC_NAME="en_IN.UTF-8"; export LC_NAME
+    LC_NUMERIC="en_IN.UTF-8"; export LC_NUMERIC
+    LC_PAPER="en_IN.UTF-8"; export LC_PAPER
+    LC_TELEPHONE="en_IN.UTF-8"; export LC_TELEPHONE
+    LC_TIME="en_IN.UTF-8"; export LC_TIME
     # LC_ALL="C"; export LC_ALL
 }
 

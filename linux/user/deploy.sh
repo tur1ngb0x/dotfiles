@@ -42,10 +42,26 @@ function deploy_x11 () {
 
 function deploy_xdg () {
     PrintHeader 'folders'
-    CreateDir "${HOME}"/.{cache,config,local/{bin,share,state}}
+
+    CreateDir "${HOME}"/.cache
+    CreateDir "${HOME}"/.config
+    CreateDir "${HOME}"/.local/bin
+    CreateDir "${HOME}"/.local/share
+    CreateDir "${HOME}"/.local/state
+
+    CreateDir "${HOME}"/Desktop
+    CreateDir "${HOME}"/Documents
+    CreateDir "${HOME}"/Downloads
+    CreateDir "${HOME}"/Music
+    CreateDir "${HOME}"/Pictures
+    CreateDir "${HOME}"/Public
+    CreateDir "${HOME}"/Templates
+    CreateDir "${HOME}"/Videos
+
     CreateDir "${HOME}"/Apps
-    CreateDir "${HOME}"/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
     CreateDir "${HOME}"/src/tmp
+    CreateDir "${HOME}"/src/docker
+    CreateDir "${HOME}"/src/distrobox
 }
 
 function deploy_packages () {
@@ -57,10 +73,10 @@ function main () {
     deploy_xdg
     deploy_bash
     deploy_shell
-    deploy_fonts
+    #deploy_fonts
     deploy_git
-    deploy_micro
-    deploy_x11
+    #deploy_micro
+    #deploy_x11
 }
 
 # begin script from here

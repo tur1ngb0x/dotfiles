@@ -1,16 +1,11 @@
 printf "%s\n" "# loading conditions..."
 
+# bash completion
 if [[ -z "${BASH_COMPLETION_VERSINFO}" ]]; then
 	source /usr/share/bash-completion/bash_completion
 fi
 
-if command -v starship &> /dev/null; then
-    STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"; export STARSHIP_CONFIG
-    function starship_win_title { echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"; }
-    starship_precmd_user_func="starship_win_title"
-    eval "$(starship init bash)"
-fi
-
+# lsd for file listing
 if command -v lsd &>/dev/null; then
     OPTIONS=(
         --almost-all
@@ -49,4 +44,30 @@ else
 	function cd() {
     	builtin cd "${1:-$HOME}" && command ls "${OPTIONS[@]}" || return
     }
+fi
+
+# wsl2 specific
+if grep -qw 'microsoft-standard-WSL2' /proc/sys/kernel/osrelease; then
+    function outclip () {
+        [[ -t 0 ]] && echo 'syntax: <command> | outclip' && return
+        command clip.exe
+    }
+
+    function wsl-list () {
+        [[ "${#}" -ne 0 ]] && echo 'syntax: wsl-list' && return
+        command wsl.exe --list --verbose
+    }
+
+    function wsl-off () {
+        [[ "${#}" -ne 0 ]] && echo 'syntax: wsl-off' && return
+        command wsl.exe --shutdown
+    }
+fi
+
+# starship prompt
+if command -v starship &> /dev/null; then
+    STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"; export STARSHIP_CONFIG
+    function starship_win_title { echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"; }
+    starship_precmd_user_func="starship_win_title"
+    eval "$(starship init bash)"
 fi

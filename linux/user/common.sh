@@ -114,50 +114,57 @@ function CheckCmd {
 # }
 
 # create directories
+# function CreateDir () {
+#     if [ "${#}" -eq 0 ]; then
+#         PrintText "No directory paths provided."
+#     fi
+#     local dirs=("${@}")
+#     for dir in "${dirs[@]}"; do
+#         if [[ ! -d "${dir}" ]]; then
+#             PrintText "Creating directory: ${dir}"
+#             mkdir -p "${dir}"
+#             if [ "${?}" -ne 0 ]; then
+#                 PrintText "Failed to create directory: ${dir}"
+#             fi
+#         else
+#             PrintText "Directory already exists: ${dir}"
+#         fi
+#     done
+# } 
+
 function CreateDir () {
-    if [ "${#}" -eq 0 ]; then
-        PrintText "No directory paths provided."
-    fi
-    local dirs=("${@}")
-    for dir in "${dirs[@]}"; do
-        if [[ ! -d "${dir}" ]]; then
-            PrintText "Creating directory: ${dir}"
-            mkdir -p "${dir}"
-            if [ "${?}" -ne 0 ]; then
-                PrintText "Failed to create directory: ${dir}"
-            fi
-        else
-            PrintText "Directory already exists: ${dir}"
-        fi
-    done
+    mkdir -pv "${@}"
+}
+
+function CreateLink () {
+    ln -fsv "${1}" "${2}"
 }
 
 
 # create a symlink
-function CreateLink {
-    local source="${1:?Source path required}"
-    local link="${2:?Link name required}"
+# function CreateLink {
+#     local source="${1:?Source path required}"
+#     local link="${2:?Link name required}"
 
-    if [[ ! -e "${source}" ]]; then
-        PrintError "Source does not exist: ${source}"
-        return 1
-    fi
+#     if [[ ! -e "${source}" ]]; then
+#         PrintError "Source does not exist: ${source}"
+#         return 1
+#     fi
 
-    if [[ -L "${link}" || -e "${link}" ]]; then
-        PrintText "Overwriting existing symbolic link: ${link} -> ${source}"
-        ln -fs "${source}" "${link}"
-    else
-        PrintText "Creating symbolic link: ${link} -> ${source}"
-        ln -s "${source}" "${link}"
-    fi
-}
+#     if [[ -L "${link}" || -e "${link}" ]]; then
+#         PrintText "Overwriting existing symbolic link: ${link} -> ${source}"
+#         ln -fs "${source}" "${link}"
+#     else
+#         PrintText "Creating symbolic link: ${link} -> ${source}"
+#         ln -s "${source}" "${link}"
+#     fi
+# }
 
 
 
 #######################################################################
 # PACKAGE INSTALLATION
 #######################################################################
-ppas_apt=( )
 function EnablePpa {
     if command -v apt-get &> /dev/null; then
         PrintHeader 'PPA'
@@ -172,7 +179,6 @@ function EnablePpa {
     fi
 }
 
-pkgs_apt=( )
 function InstallApt {
     if command -v apt-get &> /dev/null; then
         PrintHeader 'APT'
@@ -187,7 +193,6 @@ function InstallApt {
     fi
 }
 
-pkgs_dnf=()
 function InstallDnf {
     if command -v dnf &> /dev/null; then
         PrintHeader 'DNF'
@@ -202,7 +207,6 @@ function InstallDnf {
     fi
 }
 
-pkgs_pacman=()
 function InstallPacman {
     if command -v pacman &> /dev/null; then
         PrintHeader 'PACMAN'
@@ -217,7 +221,6 @@ function InstallPacman {
     fi
 }
 
-pkgs_snap=()
 function InstallSnap {
     if command -v snap &> /dev/null; then
         PrintHeader 'SNAP'
@@ -232,12 +235,10 @@ function InstallSnap {
     fi
 }
 
-pkgs_flatpak=()
 function InstallFlatpak {
     if command -v flatpak &> /dev/null; then
         PrintHeader 'FLATPAK'
         for i in "${pkgs_flatpak[@]}"; do
-            #if [[ ! $(flatpak --user list --all --columns=app | grep "^${i}") ]]; then
             if ! flatpak --user list --all --columns=app | grep -q "^${i}"; then
                 flatpak --user install "${i}"
             else
@@ -247,7 +248,6 @@ function InstallFlatpak {
     fi
 }
 
-pkgs_pipx=()
 function InstallPipx {
     if command -v python &> /dev/null; then
         PYTHON="python"
@@ -257,11 +257,16 @@ function InstallPipx {
         echo 'python not found'
         return
     fi
-    PrintHeader 'PIPX'
-    ${PYTHON} -m pip install --user --upgrade pip
-    ${PYTHON} -m pip install --user --upgrade pipx
+
+    if command -v pipx &> /dev/null; then
+        PIPX="pipx"
+    else
+        echo 'pipx not found'
+        return
+    fi
+
+    PrintHeader 'PIPX' 
     for i in "${pkgs_pipx[@]}"; do
-        #if [[ ! $(pipx list --short | awk '{print $1}' | grep "^${i}") ]]; then
         if ! pipx list --short | awk '{print $1}' | grep -q "^${i}"; then
             pipx install "${i}"
         else
