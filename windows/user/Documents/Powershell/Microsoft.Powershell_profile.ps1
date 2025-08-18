@@ -1,70 +1,24 @@
-# Reference: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles
-
-# CMD> setx PROMPT "$P$G"
-# CMD> setx PROMPT "%USERNAME%@%COMPUTERNAME% $P$_$$ "
-
-# PS> Update-Help -UICulture en-US
-# PS> Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope LocalMachine
-
-# PS5 WIN> New-Item -ItemType Directory -Path "$HOME\Documents\WindowsPowerShell\"
-# PS5 WIN> Notepad "$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
-
-# PS7 WIN> New-Item -ItemType Directory -Path "$HOME\Documents\PowerShell\"
-# PS7 WIN> Notepad "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
-
-# PS7 LINUX> mkdir -pv ~/.config/powershell/
-# PS7 LINUX> nano ~/.config/powershell/Microsoft.Powershell_profile.ps1
-
-# Debug
-# Set-PSDebug -Trace 1
-# Commands
-# Set-PSDebug -Off
-
-# Get History
-# Get-PSReadlineOption
-
-#######################################################################
 # FUNCTIONS
-#######################################################################
-function adb-opt { date; pet 'adb kill-server; adb shell cmd package bg-dexopt-job'; date }
-function path { pet '$env:Path -split ";"' }
-function env { Get-ChildItem Env: | ForEach-Object { "`$env:$($_.Name)`n$($_.Value)`n" } }
+function adb-opt  { date; pet 'adb kill-server; adb shell cmd package bg-dexopt-job'; date }
+function path     { pet '$env:Path -split ";"' }
+function env      { Get-ChildItem Env: | ForEach-Object { "`$env:$($_.Name)`n$($_.Value)`n" } }
 function code-wsl { pet 'code --remote wsl+ubuntu /home/tur1ngb0x/src' }
-function datenow { pet '(Get-Date).ToString("yyyyMMdd-ddd-HHmmss")' }
-
-
-# function prompt {
-#     # Data
-#     $pwshUser = $env:USERNAME
-#     $pwshHost = $env:COMPUTERNAME.ToLower()
-#     $pwshDir  = (Get-Location).Path
-
-#     Write-Host "$pwshUser@$pwshHost" -ForegroundColor Green -NoNewline
-#     Write-Host " "                   -NoNewline
-#     Write-Host "$pwshDir"            -ForegroundColor Cyan  -NoNewline
-
-#     if ($NestedPromptLevel -ge 1) {
-#         return "`n$NestedPromptLevel→ "
-#     }
-#     else {
-#         return "`n→ "
-#     }
-# }
+function datenow  { pet '(Get-Date).ToString("yyyyMMdd-ddd-HHmmss")' }
+function pwshist  { (Get-PSReadLineOption).HistorySavePath }
 
 function prompt {
     $pwshUser = $env:USERNAME
-    $pwshHost = $env:COMPUTERNAME.ToLower()
+    $pwshHost = ($env:COMPUTERNAME).ToLower()
     $pwshDir  = (Get-Location).Path
-    Write-Host "$pwshUser@$pwshHost" -ForegroundColor Green -NoNewline
-    Write-Host " "                  -NoNewline
-    Write-Host "$pwshDir"           -ForegroundColor Cyan  -NoNewline
+    $pwshGit  = git branch --show-current 2>$null
 
-    if ($NestedPromptLevel -ge 1) {
-        return "`n$NestedPromptLevel→ "
-    }
-    else {
-        return "`n→ "
-    }
+    Write-Host "$pwshUser@$pwshHost" -ForegroundColor Green  -NoNewline
+    Write-Host " "                   -NoNewline
+    Write-Host "$pwshDir"            -ForegroundColor Cyan   -NoNewline
+    Write-Host " "                   -NoNewline
+    Write-Host "$pwshGit"            -ForegroundColor Yellow -NoNewline
+
+    return "`n$ "
 }
 
 function pet {
@@ -73,16 +27,21 @@ function pet {
     Invoke-Expression $Command
 }
 
+
 function power {
     Param ([String]$Action)
     Switch ($Action) {
-        "reboot" { Shutdown /R /F /T 0 }
-        "screen" { (Add-Type '[DllImport("user32.dll")]public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);' -Name A -Pas)::SendMessage(-1,0x0112,0xF170,2) }
-        "shutdown" { Shutdown /S /F /T 0 }
-        "sleep" { Rundll32 powrprof.dll,SetSuspendState 0,1,1 }
-        default {
+        "firmware" { shutdown.exe /fw /t 0 /f }
+        "lock"     { rundll32.exe user32.dll,LockWorkStation }
+        "reboot"   { shutdown.exe /r /t 0 /f}
+        "screen"   { (Add-Type '[DllImport("user32.dll")]public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);' -Name A -Pas)::SendMessage(-1,0x0112,0xF170,2) }
+        "shutdown" { shutdown.exe /s /t 0 /f }
+        "sleep"    { rundll32.exe powrprof.dll,SetSuspendState 0,1,1 }
+        default    {
             $help = @"
 OPTIONS     SUMMARY
+firmware	restart into firmware setup
+lock        lock the computer
 reboot      restart the computer
 screen      switch off displays
 shutdown    power off the computer
@@ -107,17 +66,17 @@ function fix {
             pet 'start explorer.exe'
         }
         "network" {
-            pet 'ipconfig /release'
-            pet 'ipconfig /release6'
-            pet 'ipconfig /flushdns'
-            pet 'ipconfig /renew'
-            pet 'ipconfig /renew6'
-            pet 'ipconfig /registerdns'
+            pet 'ipconfig.exe /release'
+            pet 'ipconfig.exe /release6'
+            pet 'ipconfig.exe /flushdns'
+            pet 'ipconfig.exe /renew'
+            pet 'ipconfig.exe /renew6'
+            pet 'ipconfig.exe /registerdns'
         }
         "os" {
-            pet 'dism /online /cleanup-image /restorehealth /norestart'
-            pet 'sfc /scannow'
-            pet 'dism /online /cleanup-image /startcomponentcleanup /resetbase /norestart'
+            pet 'dism.exe /online /cleanup-image /restorehealth /norestart'
+            pet 'sfc.exe /scannow'
+            pet 'dism.exe /online /cleanup-image /startcomponentcleanup /resetbase /norestart'
         }
         default {
             $help = @"
@@ -132,36 +91,27 @@ os          repair image, repair system, clean updates
     }
 }
 
-function linux {
+function wslinux {
     Param ([String]$Action)
     Switch ($Action) {
         "backup" {
-            pet 'wsl --export Ubuntu $HOME\Desktop\Ubuntu-$((Get-Date).ToString("yyyyMMdd-ddd-HHmmss")).tar'
+            pet 'wsl.exe --export ubuntu "X:\backups\ubuntu-$((Get-Date).ToString('yyyyMMdd-ddd-HHmmss')).tar"'
+            pet 'wsl.exe --export debian "X:\backups\debian-$((Get-Date).ToString('yyyyMMdd-ddd-HHmmss')).tar"'
+            pet 'wsl.exe --export fedora "X:\backups\fedora-$((Get-Date).ToString('yyyyMMdd-ddd-HHmmss')).tar"'
+            pet 'wsl.exe --export arch "X:\backups\arch-$((Get-Date).ToString('yyyyMMdd-ddd-HHmmss')).tar"'
         }
-        "disable" {
-            pet 'dism /online /disable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart'
-            pet 'dism /online /disable-feature /featurename:VirtualMachinePlatform /all /norestart'
+        "off" {
+            pet 'wsl.exe --list --running'
+            pet 'wsl.exe --shutdown'
+            pet 'wsl.exe --list --running'
         }
-        "enable" {
-            pet 'dism /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart'
-            pet 'dism /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart'
+        "status" {
+            pet 'wsl.exe --version'
+            pet 'wsl.exe --status'
+            pet 'wsl.exe --list --verbose'
+
         }
-        "shutdown" {
-            pet 'wsl --list --running'
-            pet 'wsl --shutdown'
-            pet 'Start-Sleep -Seconds 15'
-            pet 'wsl --list --running'
-        }
-        default {
-            $help = @"
-OPTIONS     SUMMARY
-backup      dump ubuntu image to desktop
-disable     disable wsl for using virtualbox
-enable      enable wsl for using wsl
-shutdown    shutdown all running instances of wsl
-"@
-            Write-Host $help
-        }
+        default { Write-Host "Arguments: backup, off, status" }
     }
 }
 
@@ -169,39 +119,30 @@ function purge {
     Param ([String]$Action)
     Switch ($Action) {
         "brave" {
-            pet 'taskkill /F /T /IM brave.exe'
-            pet 'Remove-Item -LiteralPath "$HOME\AppData\Local\BraveSoftware\Brave-Browser\User Data\" -Confirm -Force -Recurse'
+            pet 'spps -Name "brave" -Force -Confirm'
+            pet 'rm "$HOME\AppData\Local\BraveSoftware\Brave-Browser\User Data" -Recurse -Force -Confirm'
         }
         "chrome" {
-            pet 'taskkill /F /T /IM chrome.exe'
-            pet 'Remove-Item -LiteralPath "$HOME\AppData\Local\Google\Chrome\User Data\" -Confirm -Force -Recurse'
+            pet 'spps -Name "chrome" -Force -Confirm'
+            pet 'rm "$HOME\AppData\Local\Google\Chrome\User Data" -Recurse -Force -Confirm'
         }
         "edge" {
-            pet 'taskkill /F /T /IM msedge.exe'
-            pet 'taskkill /F /T /IM msedgewebview2.exe'
-            pet 'Remove-Item -LiteralPath "$HOME\AppData\Local\Microsoft\Edge\User Data\" -Confirm -Force -Recurse'
+            pet 'spps -Name "msedge" -Force -Confirm'
+            pet 'spps -Name "msedgewebview2" -Force -Confirm'
+            pet 'rm "$HOME\AppData\Local\Microsoft\Edge\User Data" -Recurse -Force -Confirm'
         }
         "firefox" {
-            pet 'taskkill /F /T /IM firefox.exe'
-            pet 'Remove-Item -LiteralPath "$HOME\AppData\Local\Mozilla\Firefox\Profiles\" -Confirm -Force -Recurse'
-            pet 'Remove-Item -LiteralPath "$HOME\AppData\Roaming\Mozilla\Firefox\Profiles\" -Confirm -Force -Recurse'
+            pet 'spps -Name "firefox" -Force -Confirm'
+            pet 'rm "$HOME\AppData\Local\Mozilla\Firefox\Profiles" -Recurse -Force -Confirm'
+            pet 'rm "$HOME\AppData\Roaming\Mozilla\Firefox\Profiles" -Recurse -Force -Confirm'
         }
-        default {
-            $help = @"
-OPTIONS     SUMMARY
-brave       delete all brave user profiles
-chrome      delete all chrome user profiles
-edge        delete all edge user profiles
-firefox     delete all firefox user profiles
-"@
-            Write-Host $help
-        }
+        default { Write-Host "Options: brave | chrome | edge | firefox" }
     }
 }
 
 #######################################################################
 # MISC
 #######################################################################
-# If (Get-Command starship -ErrorAction SilentlyContinue) { Invoke-Expression (&starship init powershell) }
-# If (Get-Command scoop-search -ErrorAction SilentlyContinue) { Invoke-Expression (&scoop-search --hook) }
-# If (Get-Command pwsh -ErrorAction SilentlyContinue) { Invoke-Expression (&oh-my-posh init pwsh) }
+# If (Get-Command starship) { Invoke-Expression (&starship init powershell) }
+# If (Get-Command scoop-search) { Invoke-Expression (&scoop-search --hook) }
+# If (Get-Command pwsh) { Invoke-Expression (&oh-my-posh init pwsh) }
