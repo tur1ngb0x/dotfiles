@@ -72,7 +72,7 @@ function main () {
     PromptUser "Deploy configuration files? (y/N)"
     deploy_xdg
     deploy_bash
-    deploy_shell
+    #deploy_shell
     #deploy_fonts
     deploy_git
     #deploy_micro
