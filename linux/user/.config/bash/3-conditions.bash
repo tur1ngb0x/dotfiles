@@ -5,6 +5,7 @@ if [[ -z "${BASH_COMPLETION_VERSINFO}" ]]; then
 	source /usr/share/bash-completion/bash_completion
 fi
 
+
 # lsd for file listing
 if command -v lsd &>/dev/null; then
     OPTIONS=(
@@ -53,9 +54,11 @@ if grep -qw 'microsoft-standard-WSL2' /proc/sys/kernel/osrelease; then
         command clip.exe
     }
 
-    function wsl-list () {
+    function wsl-status () {
         [[ "${#}" -ne 0 ]] && echo 'syntax: wsl-list' && return
-        command wsl.exe --list --verbose
+		command wsl.exe --version
+		command wsl.exe --list --verbose
+		command wsl.exe --status
     }
 
     function wsl-off () {
