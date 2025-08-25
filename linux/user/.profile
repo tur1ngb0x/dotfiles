@@ -7,10 +7,10 @@ set_shell () {
 
 # XDG
 set_xdg () {
-    XDG_CACHE_HOME=${XDG_CACHE_HOME:="${HOME}/.cache"}; export XDG_CACHE_HOME; mkdir -pv "${XDG_CACHE_HOME}"
-    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="${HOME}/.config"}; export XDG_CONFIG_HOME; mkdir -pv "${XDG_CONFIG_HOME}"
-    XDG_DATA_HOME=${XDG_DATA_HOME:="${HOME}/.local/share"}; export XDG_DATA_HOME; mkdir -pv "${XDG_DATA_HOME}"
-    XDG_STATE_HOME=${XDG_STATE_HOME:="${HOME}/.local/state"}; export XDG_STATE_HOME; mkdir -pv "${XDG_STATE_HOME}"
+    XDG_CACHE_HOME=${XDG_CACHE_HOME:="${HOME}/.cache"};       export XDG_CACHE_HOME;  mkdir -pv "${XDG_CACHE_HOME}"
+    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="${HOME}/.config"};    export XDG_CONFIG_HOME; mkdir -pv "${XDG_CONFIG_HOME}"
+    XDG_DATA_HOME=${XDG_DATA_HOME:="${HOME}/.local/share"};   export XDG_DATA_HOME;   mkdir -pv "${XDG_DATA_HOME}"
+    XDG_STATE_HOME=${XDG_STATE_HOME:="${HOME}/.local/state"}; export XDG_STATE_HOME;  mkdir -pv "${XDG_STATE_HOME}"
 }
 
 #PATH
@@ -28,37 +28,37 @@ set_path() {
 
 # VARIABLES
 set_variables() {
-    BROWSER='brave-browser-stable'; export BROWSER
-    CLICOLOR='1'; export CLICOLOR
-    COLORTERM='truecolor'; export COLORTERM
-    EDITOR='micro'; export EDITOR
-    HISTCONTROL='ignorespace:ignoredups:erasedups'; export HISTCONTROL
-    HISTFILESIZE='10000'; export HISTFILESIZE
-    HISTSIZE='2000'; export HISTSIZE
-    HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  '; export HISTTIMEFORMAT
-    MANPAGER='most -s -t4 -w'; export MANPAGER
-    PAGER="${MANPAGER}"; export PAGER
-    TERMINAL='tilix'; export TERMINAL
-    VISUAL='micro'; export VISUAL
+    BROWSER='brave-browser-stable';                  export BROWSER
+    CLICOLOR='1';                                    export CLICOLOR
+    COLORTERM='truecolor';                           export COLORTERM
+    EDITOR='micro';                                  export EDITOR
+    HISTCONTROL='ignorespace:ignoredups:erasedups';  export HISTCONTROL
+    HISTFILESIZE='10000';                            export HISTFILESIZE
+    HISTSIZE='2000';                                 export HISTSIZE
+    HISTTIMEFORMAT='%Y-%m-%d %a %H:%M:%S  ';         export HISTTIMEFORMAT
+    MANPAGER='most -s -t4 -w';                       export MANPAGER
+    PAGER="${MANPAGER}";                             export PAGER
+    TERMINAL='tilix';                                export TERMINAL
+    VISUAL='micro';                                  export VISUAL
 }
 
 # LOCALE
 set_locale() {
-    LANG="en_IN.UTF-8"; export LANG
-    LC_ADDRESS="en_IN.UTF-8"; export LC_ADDRESS
-    LC_COLLATE="en_IN.UTF-8"; export LC_COLLATE
-    LC_CTYPE="en_IN.UTF-8"; export LC_CTYPE
+    LANG="en_IN.UTF-8";              export LANG
+    LC_ADDRESS="en_IN.UTF-8";        export LC_ADDRESS
+    LC_COLLATE="en_IN.UTF-8";        export LC_COLLATE
+    LC_CTYPE="en_IN.UTF-8";          export LC_CTYPE
     LC_IDENTIFICATION="en_IN.UTF-8"; export LC_IDENTIFICATION
-    LC_LANGUAGE="en_IN.UTF-8"; export LC_LANGUAGE
-    LC_MEASUREMENT="en_IN.UTF-8"; export LC_MEASUREMENT
-    LC_MESSAGES="en_IN.UTF-8"; export LC_MESSAGES
-    LC_MONETARY="en_IN.UTF-8"; export LC_MONETARY
-    LC_NAME="en_IN.UTF-8"; export LC_NAME
-    LC_NUMERIC="en_IN.UTF-8"; export LC_NUMERIC
-    LC_PAPER="en_IN.UTF-8"; export LC_PAPER
-    LC_TELEPHONE="en_IN.UTF-8"; export LC_TELEPHONE
-    LC_TIME="en_IN.UTF-8"; export LC_TIME
-    # LC_ALL="C"; export LC_ALL
+    LC_LANGUAGE="en_IN.UTF-8";       export LC_LANGUAGE
+    LC_MEASUREMENT="en_IN.UTF-8";    export LC_MEASUREMENT
+    LC_MESSAGES="en_IN.UTF-8";       export LC_MESSAGES
+    LC_MONETARY="en_IN.UTF-8";       export LC_MONETARY
+    LC_NAME="en_IN.UTF-8";           export LC_NAME
+    LC_NUMERIC="en_IN.UTF-8";        export LC_NUMERIC
+    LC_PAPER="en_IN.UTF-8";          export LC_PAPER
+    LC_TELEPHONE="en_IN.UTF-8";      export LC_TELEPHONE
+    LC_TIME="en_IN.UTF-8";           export LC_TIME
+    # LC_ALL="C";                    export LC_ALL
 }
 
 # FONTS
@@ -112,7 +112,7 @@ main () {
     set_xdg
     set_path
     set_variables
-    set_locale
+    #set_locale
     set_fonts
     set_qtct
     set_display
