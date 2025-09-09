@@ -5,13 +5,13 @@ if [[ -z "${BASH_COMPLETION_VERSINFO}" ]]; then
 	source /usr/share/bash-completion/bash_completion
 fi
 
-
 # lsd for file listing
 if command -v lsd &>/dev/null; then
     OPTIONS=(
         --almost-all
         --blocks 'permission,user,group,date,name'
         --classify
+        --color 'auto'
         --date '+%Y/%m/%d %H:%M:%S'
         --group-dirs 'first'
         --hyperlink 'auto'
@@ -44,6 +44,17 @@ else
     }
 	function cd() {
     	builtin cd "${1:-$HOME}" && command ls "${OPTIONS[@]}" || return
+    }
+fi
+
+# fzf
+if command -v fzf &> /dev/null; then
+    function fuzzy-history() {
+        local cmd; cmd=$(history | tac | fzf +s | awk '{ $1=$2=$3=$4=""; sub(/^ +/, ""); print }')
+        if [[ -n "${cmd}" ]]; then
+            READLINE_LINE="${cmd}"
+            READLINE_POINT="${#cmd}"
+        fi
     }
 fi
 

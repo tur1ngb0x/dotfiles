@@ -1,0 +1,98 @@
+{
+  // Reference
+  // https://chromeenterprise.google/policies/
+  // https://learn.microsoft.com/en-us/DeployEdge/microsoft-edge-policies
+
+  // Privacy
+  // "DefaultSearchProviderEnabled": true,
+  // "DefaultSearchProviderEncodings": ["UTF-8"],
+  // "DefaultSearchProviderImageURL": "https://www.google.com/searchbyimage/upload",
+  // "DefaultSearchProviderImageURLPostParams": "encoded_image={imageBlob}&image_content={imageContent}&filename={imageTitle}",
+  // "DefaultSearchProviderKeyword": "google.com",
+  // "DefaultSearchProviderName": "GUDM14",
+  // "DefaultSearchProviderSearchURL": "https://www.google.com/search?q={searchTerms}&udm=14",
+  // "DefaultSearchProviderSuggestURL": "https://www.google.com/complete/search?output=chrome&q={searchTerms}",
+  "FeedbackSurveysEnabled": false,
+  "MetricsReportingEnabled": false,
+  // "PrivacySandboxAdMeasurementEnabled": false,
+  // "PrivacySandboxAdTopicsEnabled": false,
+  // "PrivacySandboxFingerprintingProtectionEnabled": false,
+  // "PrivacySandboxIpProtectionEnabled": false,
+  // "PrivacySandboxPromptEnabled": false,
+  // "PrivacySandboxSiteEnabledAdsEnabled": false,
+  "PromotionsEnabled": false,
+  // "SafeBrowsingDeepScanningEnabled": false,
+  // "SafeBrowsingExtendedReportingEnabled": false,
+  // "SafeBrowsingSurveysEnabled": false,
+  "SearchSuggestEnabled": false,
+  "ShoppingListEnabled": false,
+  "UrlKeyedAnonymizedDataCollectionEnabled": false,
+  "UserFeedbackAllowed": false,
+
+  "ExtensionSettings": {
+    // Bitwarden Password Manager
+    "nngceckbapebfimnlniiiahkandclblb": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx"
+    },
+
+    // Return YouTube Dislike
+    "gebbhagfogifgggkldgodflihgfeippi": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx"
+    },
+
+    // Save Image as PNG
+    "piigjafeabajlmjkcmcemimcoaekbjmh": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx"
+    }
+  },
+
+  // Common
+  "AutofillAddressEnabled": false,
+  "AutofillCreditCardEnabled": false,
+  "BackgroundModeEnabled": false,
+  "BlockThirdPartyCookies": true,
+  "BrowserGuestModeEnabled": false,
+  "BrowserSignin": 0,
+  "DefaultBrowserSettingEnabled": false,
+  "HomepageIsNewTabPage": true,
+  "MediaRecommendationsEnabled": false,
+  "NewTabPageLocation": "https://google.com/webhp",
+  "PasswordManagerEnabled": false,
+  "SyncDisabled": true,
+
+  // Brave
+  // sudo mkdir -pv /etc/brave/policies/managed
+  "BraveAIChatEnabled": false,
+  "BraveRewardsDisabled": true,
+  "BraveVPNDisabled": true,
+  "BraveWalletDisabled": true,
+  "TorDisabled": true,
+
+  // Chrome
+  // sudo mkdir -pv /etc/opt/chrome/policies/managed
+
+  // Edge
+  // sudo mkdir -pv /etc/opt/edge/policies/managed
+  "CryptoWalletEnabled": false,
+  "DiagnosticData": "off",
+  "EdgeCollectionsEnabled": false,
+  "EdgeEDropEnabled": false,
+  "EdgeOpenInSidebarEnabled": false,
+  "EdgeRewardsEnabled": false,
+  "EdgeShoppingAssistantEnabled": false,
+  "EdgeWalletEtcEnabled": false,
+  "EdgeWorkspacesEnabled": false,
+  "HideFirstRunExperience": true,
+  "HubsSidebarEnabled": false,
+  "LocalProvidersEnabled": true,
+  "Microsoft365CopilotChatIconEnabled": false,
+  "NewTabPageSearchBox": "redirect",
+  "PerformanceDetectorEnabled": false,
+  "QuickSearchShowMiniMenu": false,
+  "ShowMicrosoftRewards": false,
+  "SleepingTabsEnabled": false,
+  "SplitScreenEnabled": false,
+}

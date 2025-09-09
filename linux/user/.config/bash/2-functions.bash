@@ -72,6 +72,18 @@ function detach()
     (command nohup "${1}" &) &> /dev/null
 }
 
+function editor() {
+    for e in code codium subl kate gedit xed mousepad micro nano vim; do
+        if command -v "${e}" >/dev/null 2>&1; then
+            echo "Using ${e}..."
+            "${e}" "$@"
+            return
+        fi
+    done
+    echo "Editor not found."
+    return 1
+}
+
 function codeman()
 {
     [[ "${#}" -eq 0 ]] && echo 'syntax: codeman <command>' && return
@@ -80,9 +92,12 @@ function codeman()
 
 function codesudo()
 {
-    [[ "${#}" -eq 0 ]] && echo 'syntax: codesudo <path>' && return
-    command mkdir -pv /tmp/vscode-sudo/User
-    sudo bash -c "command code --disable-chromium-sandbox --disable-extensions --no-sandbox --reuse-window --sync off --user-data-dir /tmp/vscode-sudo/User ${@}"
+    [[ "${#}" -eq 0 ]] && echo 'syntax: codesudo <p>' && return
+    if command -v code &> /dev/null; then CODE="code"; fi
+    if command -v codium &> /dev/null; then CODE="codium"; fi
+    TMPDIR="/tmp/codesudo/User"
+    command mkdir -pv "${TMPDIR}"
+    sudo bash -c "command ${CODE} --disable-chromium-sandbox --disable-extensions --no-sandbox --reuse-window --sync off --user-data-dir ${TMPDIR} ${@}"
 }
 
 function cpsync()
@@ -131,23 +146,22 @@ function ddc()
     fi
 }
 
-function search()
-{
-    [[ "${#}" -ne 3 ]] && echo 'syntax: search <path> <type> <query>' && return
-    command find "${1}" -type "${2}" -iname "${3}"
+function search() {
+    local q="${1:?search <arg>}"; shift
+    local d=("${@:-.}")
+    command find "${d[@]}" -iname "*${q}*" | sort
 }
-
 
 function osfetch()
 {
     if command -v fastfetch &> /dev/null; then
-		echo '$ fastfetch'; command fastfetch "${@}"        # --logo none
+		echo 'using fastfetch'; command fastfetch "${@}"        # --logo none
     elif command -v screenfetch &> /dev/null; then
-        echo '$ screenfetch'; command screenfetch "${@}"    # -n
+        echo 'using screenfetch'; command screenfetch "${@}"    # -n
     elif command -v neofetch &> /dev/null; then
-        echo '$ neofetch'; command neofetch "${@}"          # -off
+        echo 'using neofetch'; command neofetch "${@}"          # -off
     elif command -v distrofetch.sh &> /dev/null; then
-        echo '$ distrofetch.sh'; command distrofetch.sh
+        echo 'using distrofetch.sh'; command distrofetch.sh
     fi
 }
 
@@ -178,11 +192,11 @@ EOF
     printf '%12s : %s\n' "Wind" "$(command curl -sL4 "https://wttr.in/${1}?format=%w")"
     printf '%12s : %s\n' "Humidity" "$(command curl -sL4 "https://wttr.in/${1}?format=%h")"
     printf '%12s : %s\n' "Pressure" "$(command curl -sL4 "https://wttr.in/${1}?format=%P")"
-    printf '%12s : %s\n' "Dawn" "$(command curl -sL4 "https://wttr.in/${1}?format=%D")"
-    printf '%12s : %s\n' "Sunrise" "$(command curl -sL4 "https://wttr.in/${1}?format=%S")"
-    printf '%12s : %s\n' "Zenith" "$(command curl -sL4 "https://wttr.in/${1}?format=%z")"
-    printf '%12s : %s\n' "Sunset" "$(command curl -sL4 "https://wttr.in/${1}?format=%s")"
-    printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "https://wttr.in/${1}?format=%d")"
-    printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "https://wttr.in/${1}?format=%M")"
-    printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "https://wttr.in/${1}?format=%m")"
+    # printf '%12s : %s\n' "Dawn" "$(command curl -sL4 "https://wttr.in/${1}?format=%D")"
+    # printf '%12s : %s\n' "Sunrise" "$(command curl -sL4 "https://wttr.in/${1}?format=%S")"
+    # printf '%12s : %s\n' "Zenith" "$(command curl -sL4 "https://wttr.in/${1}?format=%z")"
+    # printf '%12s : %s\n' "Sunset" "$(command curl -sL4 "https://wttr.in/${1}?format=%s")"
+    # printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "https://wttr.in/${1}?format=%d")"
+    # printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "https://wttr.in/${1}?format=%M")"
+    # printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "https://wttr.in/${1}?format=%m")"
 }
