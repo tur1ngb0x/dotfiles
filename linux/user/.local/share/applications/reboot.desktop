@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Reboot
+Exec=sudo sh -c "echo 'Syncing cached writes' && sync && echo 'Done' && systemctl reboot"
+Icon=/usr/share/icons/Papirus/64x64/apps/system-reboot.svg
+Terminal=true
+

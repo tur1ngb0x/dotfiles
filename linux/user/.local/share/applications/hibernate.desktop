@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Hibernate
+Exec=sudo sh -c "echo 'Syncing cached writes' && sync && echo 'Done' && systemctl hibernate"
+Icon=/usr/share/icons/Papirus/64x64/apps/system-hibernate.svg
+Terminal=true
+

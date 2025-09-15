@@ -4,6 +4,13 @@
   // https://learn.microsoft.com/en-us/DeployEdge/microsoft-edge-policies
 
   // Privacy
+  "DiagnosticData": "off",
+  "FeedbackSurveysEnabled": false,
+  "MetricsReportingEnabled": false,
+  "PromotionsEnabled": false,
+  "ShoppingListEnabled": false,
+  "UrlKeyedAnonymizedDataCollectionEnabled": false,
+  "UserFeedbackAllowed": false,
   // "DefaultSearchProviderEnabled": true,
   // "DefaultSearchProviderEncodings": ["UTF-8"],
   // "DefaultSearchProviderImageURL": "https://www.google.com/searchbyimage/upload",
@@ -12,22 +19,15 @@
   // "DefaultSearchProviderName": "GUDM14",
   // "DefaultSearchProviderSearchURL": "https://www.google.com/search?q={searchTerms}&udm=14",
   // "DefaultSearchProviderSuggestURL": "https://www.google.com/complete/search?output=chrome&q={searchTerms}",
-  "FeedbackSurveysEnabled": false,
-  "MetricsReportingEnabled": false,
   // "PrivacySandboxAdMeasurementEnabled": false,
   // "PrivacySandboxAdTopicsEnabled": false,
   // "PrivacySandboxFingerprintingProtectionEnabled": false,
   // "PrivacySandboxIpProtectionEnabled": false,
   // "PrivacySandboxPromptEnabled": false,
   // "PrivacySandboxSiteEnabledAdsEnabled": false,
-  "PromotionsEnabled": false,
   // "SafeBrowsingDeepScanningEnabled": false,
   // "SafeBrowsingExtendedReportingEnabled": false,
   // "SafeBrowsingSurveysEnabled": false,
-  "SearchSuggestEnabled": false,
-  "ShoppingListEnabled": false,
-  "UrlKeyedAnonymizedDataCollectionEnabled": false,
-  "UserFeedbackAllowed": false,
 
   "ExtensionSettings": {
     // Bitwarden Password Manager
@@ -38,6 +38,18 @@
 
     // Return YouTube Dislike
     "gebbhagfogifgggkldgodflihgfeippi": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx"
+    },
+
+    // SponsorBlock for YouTube - Skip Sponsorships
+    "mnjggcdmjocbbbhaepdhchncahnbgone": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx"
+    },
+
+    // Enhancer for YouTube™
+    "ponfpcnoihfmfllpaingbgckeeldkhle": {
       "installation_mode": "normal_installed",
       "update_url": "https://clients2.google.com/service/update2/crx"
     },
@@ -61,23 +73,20 @@
   "MediaRecommendationsEnabled": false,
   "NewTabPageLocation": "https://google.com/webhp",
   "PasswordManagerEnabled": false,
+  "SearchSuggestEnabled": false,
   "SyncDisabled": true,
 
   // Brave
-  // sudo mkdir -pv /etc/brave/policies/managed
+  // sudo mkdir -pv /etc/brave/policies/managed && sudo cp -fv ./custom.json /etc/brave/policies/managed/custom.json
   "BraveAIChatEnabled": false,
   "BraveRewardsDisabled": true,
   "BraveVPNDisabled": true,
   "BraveWalletDisabled": true,
   "TorDisabled": true,
 
-  // Chrome
-  // sudo mkdir -pv /etc/opt/chrome/policies/managed
-
   // Edge
-  // sudo mkdir -pv /etc/opt/edge/policies/managed
+  // sudo mkdir -pv /etc/opt/edge/policies/managed && sudo cp -fv ./custom.json /etc/opt/edge/policies/managed/custom..json
   "CryptoWalletEnabled": false,
-  "DiagnosticData": "off",
   "EdgeCollectionsEnabled": false,
   "EdgeEDropEnabled": false,
   "EdgeOpenInSidebarEnabled": false,
@@ -94,5 +103,8 @@
   "QuickSearchShowMiniMenu": false,
   "ShowMicrosoftRewards": false,
   "SleepingTabsEnabled": false,
-  "SplitScreenEnabled": false,
+  "SplitScreenEnabled": false
+
+  // Chrome
+  // sudo mkdir -pv /etc/opt/chrome/policies/managed && sudo cp -fv ./custom.json /etc/opt/chrome/policies/managed/custom..json
 }

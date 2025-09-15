@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Hybrid Sleep
+Exec=sudo sh -c "echo 'Syncing cached writes' && sync && echo 'Done' && systemctl hybrid-sleep"
+Icon=/usr/share/icons/Papirus/64x64/apps/system-shut-down.svg
+Terminal=true
+
