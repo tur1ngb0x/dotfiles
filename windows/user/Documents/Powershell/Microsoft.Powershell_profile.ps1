@@ -82,6 +82,39 @@ function linux-status {
 	wsl.exe --version; wsl.exe --status; wsl.exe --list --verbose
 }
 
+function driver-list {
+    $map = @{
+        'Published Name' = 'PublishedName'
+        'Original Name'  = 'OriginalName'
+        'Provider Name'  = 'ProviderName'
+        'Class Name'     = 'ClassName'
+        'Class GUID'     = 'ClassGuid'
+        'Driver Version' = 'DriverVersion'
+        'Signer Name'    = 'SignerName'
+        'Attributes'     = 'Attributes'
+    }
+
+    $rx = [regex] '^(.*?)\s*:\s*(.*)$'
+    $list = [System.Collections.Generic.List[object]]::new()
+    $record = @{}
+
+    pnputil /enum-drivers 2>&1 | ForEach-Object {
+        $m = $rx.Match($_)
+        if ($m.Success) {
+            $k = $m.Groups[1].Value
+            $v = $m.Groups[2].Value.Trim()
+            if ($map.ContainsKey($k)) { $record[$map[$k]] = $v }
+            if ($k -eq 'Attributes') {
+                $copy = @{ }
+                foreach ($prop in $record.Keys) { $copy[$prop] = $record[$prop] }
+                $list.Add([PSCustomObject]$copy) | Out-Null
+                $record.Clear()
+            }
+        }
+    }
+    $list | Format-Table PublishedName, OriginalName, ProviderName, ClassName, ClassGuid, DriverVersion, SignerName, Attributes -AutoSize
+}
+
 function purge-brave   { Remove-Item "$env:LOCALAPPDATA\BraveSoftware\Brave-Browser\User Data" -Recurse -Force -Confirm }
 function purge-chrome  { Remove-Item "$env:LOCALAPPDATA\Google\Chrome\User Data" -Recurse -Force -Confirm }
 function purge-edge    { Remove-Item "$env:LOCALAPPDATA\Microsoft\Edge\User Data" -Recurse -Force -Confirm }
@@ -94,3 +127,4 @@ function tool-winutil    { Invoke-RestMethod "https://christitus.com/win" | Invo
 If (Get-Command starship -ErrorAction SilentlyContinue)     { Invoke-Expression (&starship init powershell) }
 If (Get-Command scoop-search -ErrorAction SilentlyContinue) { Invoke-Expression (&scoop-search --hook) }
 If (Get-Command eza -ErrorAction SilentlyContinue)          { function ls { eza --all --long --time-style '+%Y-%m-%d %H:%M' --header --icons=always --hyperlink --no-symlinks @args } }
+
