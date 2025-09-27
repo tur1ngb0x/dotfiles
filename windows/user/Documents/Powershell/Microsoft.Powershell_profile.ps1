@@ -78,8 +78,8 @@ function linux-off {
 }
 
 function linux-status {
-	if ($args.Count -gt 0) { Write-Host 'syntax: linux-status'; return }
-	wsl.exe --version; wsl.exe --status; wsl.exe --list --verbose
+    if ($args.Count -gt 0) { Write-Host 'syntax: linux-status'; return }
+    wsl.exe --version; wsl.exe --status; wsl.exe --list --verbose
 }
 
 function driver-list {
@@ -127,4 +127,3 @@ function tool-winutil    { Invoke-RestMethod "https://christitus.com/win" | Invo
 If (Get-Command starship -ErrorAction SilentlyContinue)     { Invoke-Expression (&starship init powershell) }
 If (Get-Command scoop-search -ErrorAction SilentlyContinue) { Invoke-Expression (&scoop-search --hook) }
 If (Get-Command eza -ErrorAction SilentlyContinue)          { function ls { eza --all --long --time-style '+%Y-%m-%d %H:%M' --header --icons=always --hyperlink --no-symlinks @args } }
-

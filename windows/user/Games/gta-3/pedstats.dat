@@ -7,7 +7,7 @@
 #	G      sexiness
 #	H      multiplier attack strength
 #	I      multiplier defend weakness
-#	J      stat flags (1:PunchOnly, 2:CanKneeHead, 4:CanKick, 8:CanRoundHse, 16:NoDive, 32:1HitKnockdown, 64:ShoppingBags, 128:GunPanic
+#	J      stat flags (1:PunchOnly, 2:CanKneeHead, 4:CanKick, 8:CanRoundHse, 16:NoDive, 32:1HitKnockdown, 64:ShoppingBags, 128:GunPanic)
 
 #A                  B     C     D    E    F    G    H    I    J
 STAT_PLAYER         0.0   15.0  0    50   50   50   1.5  1.5  14
