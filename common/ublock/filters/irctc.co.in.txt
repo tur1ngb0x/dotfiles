@@ -1,2 +1,0 @@
-! IRCTC Ask Disha AI
-||sdk.irctc.corover.ai^$domain=irctc.co.in
