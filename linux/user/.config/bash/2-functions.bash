@@ -5,6 +5,16 @@ function cheat()
     command curl -4 -L "https://cheat.sh/${1}"
 }
 
+function locatee () {
+    command locate "${@}" | sort
+}
+
+function gogh () {
+    wget -4 -O /tmp/gogh.sh 'https://raw.githubusercontent.com/Mayccoll/Gogh/master/gogh.sh'
+    chmod -v +x /tmp/gogh.sh
+    /tmp/gogh.sh
+}
+
 function fmtcmd()
 {
     [[ "${#}" -eq 0 ]] && echo 'syntax: fmtcmd <command>' && return
@@ -152,10 +162,43 @@ function search() {
     command find "${d[@]}" -iname "*${q}*" | sort
 }
 
+function grepp () {
+    [[ $# -eq 0 ]] && echo 'syntax: grepp <pattern> [directory]' && return
+    command grep --color=always --ignore-case --binary-files=without-match --dereference-recursive --line-number  "${1}" ${2:-.} 2>/dev/null
+}
+
+# function nerdfont () {
+#     [[ "$1" == '-h' || "$1" == '--help' || $# -eq 0 ]] && echo 'https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts' && return
+#     mkdir -pv /tmp/nerd-fonts; curl -4 -L -o "/tmp/nerd-fonts/${1}.tar.xz" "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${1}.tar.xz"
+#     mkdir -pv "${HOME}/.local/share/fonts/${1}"; tar --verbose --file "/tmp/nerd-fonts/${1}.tar.xz" --extract --xz --directory "${HOME}/.local/share/fonts/${1}"
+#     sudo chown -Rc "${USER}":"${USER}" "${HOME}/.local/share/fonts"; fc-cache -r
+# }
+
+function nerdfont () {
+    [[ "$1" == '-h' || "$1" == '--help' || $# -eq 0 ]] && echo 'https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts' && return
+    mkdir -pv /tmp/nerd-fonts
+    curl -4fL -o "/tmp/nerd-fonts/${1}.tar.xz" "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${1}.tar.xz"
+    mkdir -pv "${HOME}/.local/share/fonts/${1}"
+    tar --verbose --file "/tmp/nerd-fonts/${1}.tar.xz" --extract --xz --directory "${HOME}/.local/share/fonts/${1}"
+    sudo chown -Rc "${USER}":"${USER}" "${HOME}/.local/share/fonts"
+    fc-cache -r
+}
+
+function upgrade () {
+    show() { printf '\033[7m # %s \033[0m\n' "${*}"; eval "${@:?}"; }
+    if command -v code; then    show "code --update-extensions"; fi
+    if command -v pipx; then    show "pipx upgrade-all"; fi
+    if command -v flatpak; then show "flatpak update --noninteractive"; fi
+    if command -v snap; then    show "sudo bash -c 'snap refresh'"; fi
+    if command -v apt-get; then show "sudo bash -c 'apt-get clean && apt-get update && apt-get dist-upgrade'" && return; fi
+    if command -v dnf; then     show "sudo bash -c 'dnf upgrade --refresh'" && return; fi
+    if command -v pacman; then  show "sudo bash -c 'pacman -Syyu'" && return; fi
+}
+
 function osfetch()
 {
     if command -v fastfetch &> /dev/null; then
-		echo 'using fastfetch'; command fastfetch "${@}"        # --logo none
+        echo 'using fastfetch'; command fastfetch "${@}"        # --logo none
     elif command -v screenfetch &> /dev/null; then
         echo 'using screenfetch'; command screenfetch "${@}"    # -n
     elif command -v neofetch &> /dev/null; then
@@ -170,20 +213,17 @@ function wttr()
     function usage(){
         cat << EOF
 Description:
-Bash wrapper for https://wttr.in
+Bash wrapper for https://github.com/chubin/wttr.in
 
 Syntax:
 wttr <City+Name>       wttr 'Salt+Lake+City'
 wttr <Pincode>         wttr '110001'
-
-More:
-https://github.com/chubin/wttr.in/blob/master/README.md
 EOF
     }
     [[ ! $(command -v curl) ]] && echo 'curl not found' && return
     [[ "${#}" -eq 0 ]] || [[ "${1}" =~ [[:space:]] ]] && usage && return
     printf '%12s : %s\n' "Now" "$(date +'%Y-%m-%d %a %H:%M:%S %Z')"
-    printf '%12s : %s\n' "Location" "$(command curl -sL4 "https://wttr.in/${1}?format=%l" | sed 's/+/ /g')"
+    printf '%12s : %s\n' "Location" "$(command curl -sfL4 "https://wttr.in/${1}?format=%l" | sed 's/+/ /g')"
     printf '%12s : %s\n' "Weather" "$(command curl -sL4 "https://wttr.in/${1}?format=%C")"
     printf '%12s : %s\n' "UV Index" "$(command curl -sL4 "https://wttr.in/${1}?format=%u")"
     printf '%12s : %s\n' "Temperature" "$(command curl -sL4 "https://wttr.in/${1}?format=%t")"
@@ -199,4 +239,4 @@ EOF
     # printf '%12s : %s\n' "Dusk" "$(command curl -sL4 "https://wttr.in/${1}?format=%d")"
     # printf '%12s : %s\n' "Moon Day" "$(command curl -sL4 "https://wttr.in/${1}?format=%M")"
     # printf '%12s : %s\n' "Moon Phase" "$(command curl -sL4 "https://wttr.in/${1}?format=%m")"
-}
+}; wttr 411068

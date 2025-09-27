@@ -35,30 +35,6 @@
       "installation_mode": "normal_installed",
       "update_url": "https://clients2.google.com/service/update2/crx"
     },
-
-    // Return YouTube Dislike
-    "gebbhagfogifgggkldgodflihgfeippi": {
-      "installation_mode": "normal_installed",
-      "update_url": "https://clients2.google.com/service/update2/crx"
-    },
-
-    // SponsorBlock for YouTube - Skip Sponsorships
-    "mnjggcdmjocbbbhaepdhchncahnbgone": {
-      "installation_mode": "normal_installed",
-      "update_url": "https://clients2.google.com/service/update2/crx"
-    },
-
-    // Enhancer for YouTube™
-    "ponfpcnoihfmfllpaingbgckeeldkhle": {
-      "installation_mode": "normal_installed",
-      "update_url": "https://clients2.google.com/service/update2/crx"
-    },
-
-    // Save Image as PNG
-    "piigjafeabajlmjkcmcemimcoaekbjmh": {
-      "installation_mode": "normal_installed",
-      "update_url": "https://clients2.google.com/service/update2/crx"
-    }
   },
 
   // Common

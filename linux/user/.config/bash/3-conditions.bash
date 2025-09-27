@@ -58,6 +58,18 @@ if command -v fzf &> /dev/null; then
     }
 fi
 
+# better man pages
+if command -v bat &> /dev/null; then
+	MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | batcat -p -lman'"; export MANPAGER
+elif command -v batcat &>/dev/null; then
+	MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | batcat -p -lman'"; export MANPAGER
+elif command -v most &>/dev/null; then
+	MANPAGER="most -s -t4 -w"; export MANPAGER
+else
+	MANPAGER="";
+fi
+
+
 # wsl2 specific
 if grep -qw 'microsoft-standard-WSL2' /proc/sys/kernel/osrelease; then
     function outclip () {

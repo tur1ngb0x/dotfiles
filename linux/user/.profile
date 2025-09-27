@@ -109,14 +109,14 @@ set_cleanup () {
 # MAIN
 main () {
     set_shell
-    set_xdg
-    set_path
-    set_variables
+    #set_xdg
+    #set_path
+    #set_variables
     #set_locale
-    set_fonts
-    set_qtct
-    set_display
-    set_cleanup
+    #set_fonts
+    #set_qtct
+    #set_display
+    #set_cleanup
 }
 
 # BEGIN
