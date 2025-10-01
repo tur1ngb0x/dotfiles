@@ -1,147 +1,53 @@
 #!/usr/bin/env bash
 
-# get current directory & source common template
-CWD="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd -P)"
-source "${CWD}"/common.sh
+# PPAs
+sudo add-apt-repository --yes --no-update ppa:git-core/ppa
+sudo add-apt-repository --yes --no-update ppa:flatpak/stable
+sudo add-apt-repository --yes --no-update ppa:papirus/papirus
+sudo add-apt-repository --yes --no-update ppa:fish-shell/release-4
+sudo add-apt-repository --yes --no-update ppa:flexiondotorg/quickemu
 
-ppas_apt=(
-    'ppa:git-core/ppa'              # git
-    'ppa:flatpak/stable'            # flatpak
-    'ppa:papirus/papirus'           # papirus-icon-theme papirus-folders
-    'ppa:fish-shell/release-4'      # fish
-    'ppa:flexiondotorg/quickemu'    # quickemu
-); export ppas_apt
-
-pkgs_apt=(
-    android-sdk-platform-tools
-    atool
-    bash-completion
-    build-essential
-    cmake
-    curl
-    dialog
-    dos2unix
-    ffmpeg
-    fzf
+/usr/bin/sudo /usr/bin/apt install --assume-yes \
+    android-sdk-platform-tools \
+    atool p7zip-full p7zip-rar \
+    build-essential cmake \
+    micro nano vim \
+    ffmpeg mediainfo \
+    curl wget \
+    python-is-python3 python3-pip python3-venv \
+    bash-completion dialog dos2unix fzf most tree xclip \
     git
-    mediainfo
-    most
-    nano
-    p7zip-full
-    p7zip-rar
-    python-is-python3
-    python3-pip
-    python3-venv
-    tree
-    vim
-    wget
-    xclip
-); export pkgs_apt
 
-pkgs_dnf=(
-    procps-ng
-    android-tools
-    atool
-    bash-completion
-    cmake
-    curl
-    dialog
-    dos2unix
-    ffmpeg
-    fzf
-    gcc
+/usr/bin/sudo /usr/bin/dnf install --assumeyes \
+    android-tools \
+    atool p7zip p7zip-plugins \
+    cmake gcc ncurses procps-ng \
+    nano vim \
+    ffmpeg mediainfo \
+    curl wget \
+    python3-pip python3-virtualenv \
+    bash-completion dialog dos2unix fzf most tree xclip \
     git
-    mediainfo
-    most
-    nano
-    ncurses
-    p7zip
-    p7zip-plugins
-    python3-pip
-    python3-virtualenv
-    tree
-    vim
-    wget
-    xclip
-); export pkgs_dnf
 
-pkgs_pacman=(
-    android-tools
-    atool
-    bash-completion
-    base-devel
-    cmake
-    curl
-    dialog
-    dos2unix
-    ffmpeg
-    fzf
+/usr/bin/sudo /usr/bin/pacman --sync --noconfirm \
+    android-tools \
+    atool p7zip \
+    base-devel cmake \
+    nano vim \
+    ffmpeg mediainfo \
+    curl wget \
+    python-virtualenv \
+    bash-completion dialog dos2unix fzf most tree xclip \
     git
-    mediainfo
-    most
-    nano
-    p7zip
-    python-virtualenv
-    tree
-    vim
-    wget
-    xclip
-); export pkgs_pacman
 
-pkgs_snap=(
-    pieces-os                       # code assistant server
-    pieces-for-developers           # code assistant
-    powershell                      # windows shell
-); export pkgs_snap
+/usr/bin/sudo /usr/bin/snap install --color never --unicode never\
+    pieces-os \
+    pieces-for-developers \
+    powershell
 
-pkgs_flatpak=(
-    com.bitwarden.desktop           # bitwarden
-    io.ente.auth                    # ente auth
-    com.google.Chrome               # chrome
-    com.microsoft.Edge              # edge
-    org.mozilla.firefox             # firefox
-    com.brave.Browser               # brave
-    com.discordapp.Discord          # discord
-    org.telegram.desktop            # telegram
-    com.ktechpit.whatsie            # whatsie
-    com.valvesoftware.Steam         # steam
-    io.mgba.mGBA                    # mgba
-    org.kde.gwenview                # gwenview
-    org.kde.kolourpaint             # kolourpaint
-    org.kde.okular                  # okular
-    org.qbittorrent.qBittorrent     # qbittorrent
-    org.videolan.VLC                # vlc
-); export pkgs_flatpak
-
-pkgs_pipx=(
-    ansible-core                    # github.com/ansible/ansible
-    black                           # github.com/psf/black
-    gallery-dl                      # github.com/mikf/gallery-dl
-    glances                         # github.com/nicolargo/glances
-    mycli                           # github.com/dbcli/mycli
-    ps_mem                          # github.com/pixelb/ps_mem
-    shellcheck-py                   # github.com/shellcheck-py/shellcheck-py
-    sherlock-project                # github.com/sherlock-project/sherlock
-    shtab                           # github.com/iterative/shtab
-    speedtest-cli                   # github.com/sivel/speedtest-cli
-    tldr                            # github.com/tldr-pages/tldr
-    topgrade                        # github.com/topgrade-rs/topgrade
-    trash-cli                       # github.com/andreafrancia/trash-cli
-    uv                              # github.com/astral-sh/uv
-    youtube-dl                      # github.com/ytdl-org/youtube-dl
-    yt-dlp                          # github.com/yt-dlp/yt-dlp
-); export pkgs_pipx
-
-
-function main {
-    EnablePpa
-    InstallApt
-    #InstallDnf
-    #InstallPacman
-    #InstallSnap
-    #InstallFlatpak
-    InstallPipx
-}
-
-# begin script from here
-main "${@}"
+/usr/bin/sudo /usr/bin/flatpak --user install --assumeyes --noninteractive flathub \
+    com.bitwarden.desktop io.ente.auth \
+    com.google.Chrome com.microsoft.Edge org.mozilla.firefox com.brave.Browser \
+    com.valvesoftware.Steam io.mgba.mGBA \
+    org.kde.gwenview org.kde.kolourpaint org.kde.okular org.videolan.VLC \
+    com.discordapp.Discord org.telegram.desktop org.qbittorrent.qBittorrent

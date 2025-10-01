@@ -1,10 +1,15 @@
 # add at the end of /etc/sudoers
 # @includedir /etc/sudoers.d
 
+# sudo mkdir -pv /etc/sudoers.d/
+# sudo cp ./99-custom /etc/sudoers.d/99-custom
+# sudo chown -v root:root /etc/sudoers.d/*
+# sudo chmod -v 0440 /etc/sudoers.d/*
+
 # set permissions
 %wheel      ALL=(ALL:ALL)    ALL
 %sudo       ALL=(ALL:ALL)    ALL
-user        ALL=(ALL:ALL)    ALL
+#user        ALL=(ALL:ALL)    ALL
 
 # enable password feedback
 Defaults    pwfeedback
@@ -13,7 +18,7 @@ Defaults    pwfeedback
 Defaults    passwd_tries=10
 
 # set cache timeout for password
-Defaults    timestamp_timeout=30
+Defaults    timestamp_timeout=60
 
 # set default prompt for password
 Defaults    passprompt="sudo: enter password: "
@@ -22,4 +27,4 @@ Defaults    passprompt="sudo: enter password: "
 Defaults    badpass_message="sudo: wrong password"
 
 # set message for invalid password attempts
-Defaults    authfail_message="%d wrong attempt(s)"
+Defaults    authfail_message="sudo: %d wrong attempt(s)"
