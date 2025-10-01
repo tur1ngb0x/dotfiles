@@ -48,7 +48,8 @@ alias dt="builtin cd ~/src/dotfiles/linux/user/" # cd into dotfiles repo
 alias sc="builtin cd ~/src/scripts/linux/"       # cd into scripts repo
 
 # FUNCTIONS
-function ls() { command ls \
+function ls() {
+    command ls \
     --almost-all \
     --color=always \
     --format=verbose \
@@ -59,4 +60,8 @@ function ls() { command ls \
     --time-style=+"%Y%m%d-%H%M%S" \
     "${@}" \
     | command awk 'NR==1 && /^total /{next}{for(i=1;i<=NF;i++) if(i!=2 && i!=5) printf "%s%s",$i,(i==NF?"\n":" ")}'
+}
+
+function treee() {
+    command tree -C -F --dirsfirst --sort name -I ".git" "${@}"
 }
