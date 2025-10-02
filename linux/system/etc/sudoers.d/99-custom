@@ -9,7 +9,10 @@
 # set permissions
 %wheel      ALL=(ALL:ALL)    ALL
 %sudo       ALL=(ALL:ALL)    ALL
-#user        ALL=(ALL:ALL)    ALL
+#username   ALL=(ALL:ALL)    ALL
+
+# disable ~/.sudo_as_admin_successful
+Defaults    !admin_flag
 
 # enable password feedback
 Defaults    pwfeedback
