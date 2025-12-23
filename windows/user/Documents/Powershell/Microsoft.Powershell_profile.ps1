@@ -1,3 +1,6 @@
+# Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Bypass -Force
+# Get-ExecutionPolicy -List
+
 #######################################################################################################################
 # Readline
 #######################################################################################################################
@@ -177,3 +180,4 @@ Get-Command starship -ErrorAction SilentlyContinue *> $null && Invoke-Expression
 Get-Module -ListAvailable -Name posh-git -ErrorAction SilentlyContinue *> $null && Import-Module posh-git
 Get-Command scoop-search -ErrorAction SilentlyContinue *> $null                 && Invoke-Expression (&scoop-search --hook)
 Get-Command eza -ErrorAction SilentlyContinue *> $null                          && Set-Alias ls eza -Force
+
