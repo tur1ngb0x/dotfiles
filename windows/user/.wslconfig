@@ -1,15 +1,12 @@
-# reference = https://learn.microsoft.com/en-us/windows/wsl/wsl-config#main-wsl-settings
-
-[general]
-instanceIdleTimeout= -1
+# $HOME/.wslconfig
+# https://learn.microsoft.com/en-us/windows/wsl/wsl-config#main-wsl-settings
 
 [wsl2]
+kernelCommandLine = audit=0 consoleblank=0 ipv6.disable=1 modprobe.blacklist=nouveau mitigations=off net.ifnames=0 nosgx nowatchdog pci=noaer
 processors = 2
 memory = 4GB
 swap = 0
 defaultVhdSize = 50GB
 vmIdleTimeout = -1
-guiApplications = false
-nestedVirtualization = false
 debugConsole = true
-kernelCommandLine = audit=0 consoleblank=0 ipv6.disable=1 modprobe.blacklist=nouveau mitigations=off net.ifnames=0 nosgx nowatchdog pci=noaer
+maxCrashDumpCount = 0
