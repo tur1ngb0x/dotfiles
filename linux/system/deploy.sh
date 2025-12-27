@@ -19,3 +19,6 @@ cat /etc/bash.bashrc
 # SUDO
 install -v -D ./etc/sudoers.d/99-custom /etc/sudoers.d/99-custom
 cat /etc/sudoers.d/99-custom
+
+# WSL
+install -v -D ./etc/wsl.conf /etc/wsl.conf
