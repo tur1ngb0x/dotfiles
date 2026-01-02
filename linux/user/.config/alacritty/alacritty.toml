@@ -14,11 +14,12 @@ blinking = "On"
 size = 14.0
 
 [font.normal]
-family = "Adwaita Mono"
-style = "Regular"
+# family = "Adwaita Mono"
+family = "IosevkaTerm Nerd Font Mono"
+# style = "Regular"
 
 [scrolling]
-multiplier = 5
+multiplier = 1
 
 [selection]
 save_to_clipboard = true

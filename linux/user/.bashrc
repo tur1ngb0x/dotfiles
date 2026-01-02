@@ -44,25 +44,24 @@ PATH="$(builtin printf '%s' "${PATH}" | builtin command awk -v RS=: -v ORS= '!a[
 builtin export PATH
 
 # VARIABLES
-COLORTERM='truecolor';                          builtin export COLORTERM                  # enable 24-bit color support
+#COLORTERM='truecolor';                          builtin export COLORTERM                  # enable 24-bit color support
+#GIT_EDITOR='micro';                             builtin export GIT_EDITOR                 # editor used by git
+#GIT_PAGER='most -s -t4 -w';                     builtin export GIT_PAGER                  # pager used by git
+#LESS='FRSX'                                     builtin export LESS                       # less: F=quit if one screen, R=raw color, S=chop lines, X=no init
+#MANPAGER='most -s -t4 -w';                      builtin export MANPAGER                   # pager used by man
+#PAGER='most -s -t4 -w';                         builtin export PAGER                      # pager used by cli programs
+#TERM="xterm-256color";                          builtin export TERM                       # term variable
 DOCKER_BUILDKIT="1"                             builtin export DOCKER_BUILDKIT            # enable docker buildkit
+VIRTUAL_ENV_DISABLE_PROMPT='1';                 builtin export VIRTUAL_ENV_DISABLE_PROMPT # disable venv name in PS1 prompt
 EDITOR="micro";                                 builtin export EDITOR                     # editor used by cli programs
-GIT_EDITOR='micro';                             builtin export GIT_EDITOR                 # editor used by git
-GIT_PAGER='most -s -t4 -w';                     builtin export GIT_PAGER                  # pager used by git
+VISUAL='micro';                                 builtin export VISUAL                     # editor used by gui programs
 HISTCONTROL='ignorespace:ignoredups:erasedups'; builtin export HISTCONTROL                # make history cleaner
 HISTFILESIZE='10000';                           builtin export HISTFILESIZE               # history max lines saved in disk
 HISTSIZE='1000';                                builtin export HISTSIZE                   # history max lines saved in memory per session
 HISTTIMEFORMAT='%Y%m%d-%H%M%S  ';               builtin export HISTTIMEFORMAT             # history line timestamp
-LESS='FRSX'                                     builtin export LESS                       # less: F=quit if one screen, R=raw color, S=chop lines, X=no init
-MANPAGER='most -s -t4 -w';                      builtin export MANPAGER                   # pager used by man
-PAGER='most -s -t4 -w';                         builtin export PAGER                      # pager used by cli programs
-TERM="xterm-256color";                          builtin export TERM                       # term variable
-VISUAL='micro';                                 builtin export VISUAL                     # editor used by gui programs
-VIRTUAL_ENV_DISABLE_PROMPT='1';                 builtin export VIRTUAL_ENV_DISABLE_PROMPT # disable venv name in PS1 prompt
 
 # ALIASES - RESET
 builtin unalias -a
-
 # ALIASES - VERBOSITY
 builtin alias chgrp='builtin command chgrp --verbose'
 builtin alias chmod='builtin command chmod --verbose'
@@ -76,48 +75,42 @@ builtin alias rmdir='builtin command rmdir --verbose'
 builtin alias rmdir='builtin command rmdir --verbose'
 builtin alias rsync='builtin command rsync --verbose'
 # ALIASES - COLORS
-builtin alias apt='/usr/bin/sudo /usr/bin/apt --color=auto '
 builtin alias diff='builtin command diff --color=auto'
-builtin alias dnf='/usr/bin/sudo /usr/bin/dnf --color=auto '
 builtin alias grep='builtin command grep --color=auto'
 builtin alias ip='builtin command ip --color=auto'
 builtin alias ls='builtin command ls --color=auto'
-builtin alias pacman='/usr/bin/sudo /usr/bin/pacman --color=auto '
-builtin alias pikaur='/usr/bin/pikaur --color=auto '
+builtin alias pikaur='/usr/bin/pikaur --color=auto'
+builtin alias yay='/usr/bin/yay --color=auto'
+builtin alias paru='/usr/bin/paru --color=auto'
 builtin alias watch='builtin command watch --color'
 # ALIASES - FUNCTIONALITY
+builtin alias apt-get='/usr/bin/sudo /usr/bin/apt-get'
+builtin alias apt='/usr/bin/sudo /usr/bin/apt'
 builtin alias bashly='builtin command docker run --rm -it --user $(builtin command id -u):$(builtin command id -g) --volume ~/src/bashly:/app dannyben/bashly'
+builtin alias colourify='builtin command grc --stderr --stdout'
 builtin alias completely='builtin command docker run --rm -it --user $(builtin command id -u):$(builtin command id -g) --volume ~/src/completely:/app dannyben/completely'
 builtin alias curl='builtin command curl --ipv4'
+builtin alias dnf='/usr/bin/sudo /usr/bin/dnf'
 builtin alias less='builtin command less -R'
-builtin alias replasma='builtin command systemctl --user restart plasma-plasmashell.service'
-builtin alias wget='builtin command wget --inet4-only'
-builtin alias colourify='builtin command grc --stderr --stdout'
 builtin alias ls='builtin command eza --color=auto --color-scale=all --color-scale-mode=gradient --classify=auto --group-directories-first'
-
-# FUNCTIONS
-sort-bookmarks() {
-    input="${1:?}"
-    builtin command echo "<!DOCTYPE NETSCAPE-Bookmark-file-1>"
-    builtin command echo "<DL>"
-    builtin command grep -F '<DT><A HREF="' "${input}" | LC_ALL=C builtin command sort
-    builtin command echo "</DL>"
-}
+builtin alias pacman='/usr/bin/sudo /usr/bin/pacman'
+builtin alias replasma='/usr/bin/sudo /usr/bin/systemctl --user restart plasma-plasmashell.service'
+builtin alias wget='builtin command wget --inet4-only'
 
 # PROMPT
 # PS1='$(((ec != 0)) && builtin printf "\e[30;41m exit:%s \e[0m" "${ec}")\[\e[30;42m\] \u@\h \[\e[0m\]\[\e[30;46m\] ${PWD} \[\e[0m\]$( [[ -n "${VIRTUAL_ENV}" ]] && builtin printf "\[\e[30;45m\] venv:%s \[\e[0m\]" "$(builtin command basename "${VIRTUAL_ENV}")" )$(builtin command git rev-parse --git-dir &>/dev/null && builtin printf "\[\e[30;43m\] git:%s \[\e[0m\]" "$(builtin command git rev-parse --abbrev-ref HEAD 2>/dev/null)")\n\$ '
 # PROMPT_COMMAND='builtin history -a'
 # PS1='$(/usr/bin/tput rev 2>/dev/null) \u@\h:\w $(/usr/bin/tput sgr0 2>/dev/null) $(/usr/bin/git rev-parse --abbrev-ref HEAD 2>/dev/null)\n\$ '
 PROMPT_COMMAND='EXIT=$?; builtin history -a'
-_ps1_sep() { builtin printf -- '-%.0s' $(builtin command seq 1 "${COLUMNS:-80}"); }
-_ps1_exit() { (( EXIT != 0 )) && builtin printf "\e[30;41m exit:%s \e[0m" "${EXIT}"; }
-_ps1_userhost() { builtin printf "\e[1;30;42m %s@%s \e[0m" "${USER}" "${HOSTNAME}"; }
-_ps1_dir() { builtin printf "\e[1;30;46m %s \e[0m" "${PWD}"; }
-_ps1_venv() { [[ -n "${VIRTUAL_ENV}" ]] && builtin printf "\e[30;45m venv:%s \e[0m" "$(builtin command basename "${VIRTUAL_ENV}")"; }
-_ps1_git() { builtin command git rev-parse --git-dir &>/dev/null && builtin printf "\e[30;43m git:%s \e[0m" "$(builtin command git rev-parse --abbrev-ref HEAD 2>/dev/null)"; }
-PS1='$(_ps1_exit)$(_ps1_userhost)$(_ps1_dir)$(_ps1_venv)$(_ps1_git)\n\$ '
+_ps1_sep()      { builtin printf -- '-%.0s' $(builtin command seq 1 "${COLUMNS:-80}"); }
+_ps1_exit()     { (( EXIT != 0 )) && builtin printf "\e[30;41m exit:%s \e[0m" "${EXIT}"; }
+_ps1_userhost() { builtin printf "\e[30;42m %s@%s \e[0m" "${USER}" "${HOSTNAME}"; }
+_ps1_dir()      { builtin printf "\e[30;46m %s \e[0m" "${PWD}"; }
+_ps1_venv()     { [[ -n "${VIRTUAL_ENV}" ]] && builtin printf "\e[30;45m venv:%s \e[0m" "$(builtin command basename "${VIRTUAL_ENV}")"; }
+_ps1_git()      { builtin command git rev-parse --git-dir &>/dev/null && builtin printf "\e[30;43m git:%s \e[0m" "$(builtin command git rev-parse --abbrev-ref HEAD 2>/dev/null)"; }
+PS1='$(_ps1_userhost)$(_ps1_dir)$(_ps1_venv)$(_ps1_git)\n\$ '
 PS1="\[\e]0;\u@\h:\w\a\]${PS1}"
 
 # SOURCE
 builtin source /usr/share/bash-completion/bash_completion 2>/dev/null
-source /usr/share/doc/pkgfile/command-not-found.bash 2>/dev/null
+#builtin source /usr/share/doc/pkgfile/command-not-found.bash 2>/dev/null

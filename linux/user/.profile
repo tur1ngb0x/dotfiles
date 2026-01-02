@@ -32,7 +32,7 @@ _profile_bash () {
 
 main() {
     _profile_xdg
-    _profile_freetype
+    #_profile_freetype
     _profile_xrandr
     _profile_bash
 }

@@ -22,3 +22,8 @@ cat /etc/sudoers.d/99-custom
 
 # WSL
 install -v -D ./etc/wsl.conf /etc/wsl.conf
+cat /etc/wsl.conf
+
+# BRAVE
+install -v -D ./etc/browser/policies/managed/brave.json /etc/brave/policies/managed/brave.json
+cat /etc/brave/policies/managed/brave.json

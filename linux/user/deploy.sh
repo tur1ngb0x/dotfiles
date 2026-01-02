@@ -41,7 +41,3 @@ deploy '.config/git/config'
 
 # alacritty
 deploy '.config/alacritty/alacritty.toml'
-
-# pacman
-deploy '.config/pacman/makepkg.conf'
-

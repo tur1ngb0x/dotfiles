@@ -15,7 +15,7 @@
   "BraveWaybackMachineEnabled": false,
   "BraveWebDiscoveryEnabled": false,
   "PromotionsEnabled": false,
-  "TorDisabled": true,
+  "TorDisabled": true
 }
 
 // https://support.brave.app/hc/en-us/articles/360039248271-Group-Policy
