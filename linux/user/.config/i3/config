@@ -31,18 +31,18 @@ tiling_drag modifier titlebar
 #set $LAUNCHER xfce4-popup-whiskermenu --center
 set $COMPOSITOR picom --backend glx --vsync --daemon --no-fading-openclose
 set $DISPLAY xrandr --output HDMI-1 --auto --primary --size 1920x1080 --output eDP-1 --off
-set $LAUNCHER rofi -modi drun -show drun -show-icons
+set $LAUNCHER rofi -modi drun -show drun -show-icons -font 'Adwaita Mono 12' -drun-display-format ' | {name} | {exec}'
 set $LOCKER i3lock
 set $NETWORK nm-applet
+set $NOTIFCATION dunst
 set $PANEL xfce4-panel --disable-wm-check
 set $POLKIT /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+set $SCREENSHOT ~/src/scripts/linux/ss.sh
 set $TERMINAL alacritty
 set $WALLPAPER feh --no-fehbg --bg-fill /usr/share/backgrounds/i3_default_background.jpg
 set $XDGDEX dex --autostart --environment i3
 set $XRDB xrdb -merge ~/.Xresources
 set $XSETTINGSD xsettingsd
-set $SCREENSHOT ~/src/scripts/linux/ss.sh
-set $NOTIFCATION dunst
 
 # ######################################################################
 # STARTUP
@@ -136,7 +136,7 @@ bindsym $SUPER+Shift+S      exec --no-startup-id $SCREENSHOT
 default_orientation vertical
 focus_follows_mouse yes
 focus_on_window_activation focus
-gaps inner 5
+gaps inner 0
 gaps outer 0
 mouse_warping none
 popup_during_fullscreen all

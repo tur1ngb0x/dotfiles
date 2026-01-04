@@ -14,9 +14,9 @@ blinking = "On"
 size = 14.0
 
 [font.normal]
-# family = "Adwaita Mono"
-family = "IosevkaTerm Nerd Font Mono"
-# style = "Regular"
+family = "Adwaita Mono"
+# family = "IosevkaTerm Nerd Font Mono"
+# style = "Regular|Light|Thin"
 
 [scrolling]
 multiplier = 1

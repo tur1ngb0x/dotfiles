@@ -97,6 +97,20 @@ builtin alias pacman='/usr/bin/sudo /usr/bin/pacman'
 builtin alias replasma='/usr/bin/sudo /usr/bin/systemctl --user restart plasma-plasmashell.service'
 builtin alias wget='builtin command wget --inet4-only'
 
+# FUNCTIONS
+function totp () {
+    if [[ $# -ne 2 ]]; then
+        builtin command awk -F '?secret=' '{print $1}' "${1:?}" | builtin command sed 's|otpauth://totp/||g'
+        builtin printf '\n%s\n' 'usage: totp <file> <account>' && return
+    else
+        builtin command grep --ignore-case "${2:?}" "${1:?}" \
+            | awk -F '?secret=' '{print $2}' \
+            | xargs oathtool --base32 --totp=SHA1 --time-step-size=30 \
+            | tee /dev/stderr \
+            | xclip -selection clipboard
+    fi
+}
+
 # PROMPT
 # PS1='$(((ec != 0)) && builtin printf "\e[30;41m exit:%s \e[0m" "${ec}")\[\e[30;42m\] \u@\h \[\e[0m\]\[\e[30;46m\] ${PWD} \[\e[0m\]$( [[ -n "${VIRTUAL_ENV}" ]] && builtin printf "\[\e[30;45m\] venv:%s \[\e[0m\]" "$(builtin command basename "${VIRTUAL_ENV}")" )$(builtin command git rev-parse --git-dir &>/dev/null && builtin printf "\[\e[30;43m\] git:%s \[\e[0m\]" "$(builtin command git rev-parse --abbrev-ref HEAD 2>/dev/null)")\n\$ '
 # PROMPT_COMMAND='builtin history -a'

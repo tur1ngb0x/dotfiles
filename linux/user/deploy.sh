@@ -12,7 +12,7 @@ LC_ALL=C
 CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)"
 
 # deploy function
-deploy () {
+function _deploy () {
     # take dotfile as source
     local src_file="${CWD}/${1:?}"
 
@@ -32,12 +32,28 @@ deploy () {
     ln -s -f -v "${src_file}" "${dest_file}"
 }
 
+function _install () {
+	if [[ -f /usr/bin/apt-get ]]; then
+		/usr/bin/sudo /usr/bin/apt-get install -y "${@}"
+	elif [[ -f /usr/bin/dnf ]]; then
+		/usr/bin/sudo /usr/bin/dnf install -y "${@}"
+	elif [[ -f /usr/bin/pacman ]]; then
+		/usr/bin/sudo /usr/bin/pacman --sync --needed --noconfirm "${@}"
+	else
+		echo 'cannot determine package manager'
+		exit
+	fi	
+}
+
 # shell
-deploy '.profile'
-deploy '.bashrc'
+_deploy '.profile'
+_deploy '.bashrc'
 
 # git
-deploy '.config/git/config'
+_deploy '.config/git/config' && _install 'git'
 
 # alacritty
-deploy '.config/alacritty/alacritty.toml'
+_deploy '.config/alacritty/alacritty.toml' && _install 'alacritty'
+
+# i3
+_deploy '.config/i3/config'
