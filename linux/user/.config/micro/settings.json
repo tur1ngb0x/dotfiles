@@ -1,0 +1,12 @@
+{
+    "autosu": true,
+    "detectlimit": 1000,
+    "diffgutter": true,
+    "keymenu": true,
+    "mkparents": true,
+    "rmtrailingws": true,
+    "scrollbar": true,
+    "scrollspeed": 4,
+    "statusformatl": " $(modified)$(filename) • L:$(lines) R:$(line) C:$(col) $(status.paste)",
+    "statusformatr": "$(opt:encoding) • $(opt:fileformat) • $(opt:filetype) "
+}

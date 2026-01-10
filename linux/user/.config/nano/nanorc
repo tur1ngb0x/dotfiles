@@ -1,0 +1,12 @@
+set atblanks
+set autoindent
+set linenumbers
+set mouse
+set noconvert
+set quickblank
+set showcursor
+set tabsize 4
+set trimblanks
+# set indicators
+
+include /usr/share/nano/*.nanorc

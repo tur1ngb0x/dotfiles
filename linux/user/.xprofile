@@ -1,0 +1,18 @@
+_xprofile_xrandr () {
+        /usr/bin/xrandr --output HDMI-1 --primary --size '1920x1080' --refresh '60' --dpi '96' # set resolution, frequency, dpi
+        /usr/bin/xrandr --output HDMI-1 --set 'Broadcast RGB' 'Full'                           # set rgb range to 0-255
+        /usr/bin/xrandr --output HDMI-1 --set 'audio' 'off'                                    # disable audio
+}
+
+_xprofile_xset () {
+    /usr/bin/xset +dpms        # enable dpms support
+    /usr/bin/xset dpms 300 0 0 # standby after 300s, disable suspend, disable poweroff
+    /usr/bin/xset m 0 0        # disable mouse acceleration
+}
+
+main() {
+    _xprofile_xrandr
+    #_xprofile_xset
+}
+
+main "${@}" >/dev/null 2>&1

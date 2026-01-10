@@ -1,0 +1,9 @@
+# Date format
+date: +%Y-%m-%d %a %H:%M:%S
+
+# Icons
+icons:
+  separator: " "
+
+# file hyperlinks
+hyperlink: auto
