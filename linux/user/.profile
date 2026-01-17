@@ -9,13 +9,42 @@ _profile_xdg () {
 
 _profile_freetype () {
     FREETYPE_PROPERTIES=""
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}autofitter:no-stem-darkening=0 "     # stem darkening for non-CFF fonts (TTF, TTC, BMP)
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}autofitter:warping=0 "               # font warping for non-CFF fonts (TTF, TTC, BMP)
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}cff:no-stem-darkening=0 "            # stem darkening for CFF fonts (OTF)
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:gray-strong-stem-widths=1 " # stem widths for TTF, TTC fonts
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:warping=0 "                 # font warping for for TTF, TTC fonts
-    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:interpreter-version=40"     # cleartype hinting for TTF, TTC fonts
+
+    # thickens non cff fonts, small text is easier to see | greyscale + cleartype
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}autofitter:no-stem-darkening=0 "
+    # 0   = stem darkening on, strokes look thicker
+    # 1   = stem darkening off, strokes keep original weight
+
+    # thickens cff fonts, small text is easier to see | greyscale + cleartype
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}cff:no-stem-darkening=0 "
+    # 0   = stem darkening on, strokes look thicker
+    # 1   = stem darkening off, strokes keep original weight
+
+    # preserves non cff font shapes, looks closer to the original | greyscale + cleartype
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}autofitter:warping=0 "
+    # 0   = no warping, shapes stay closer to original
+    # 1   = warping on, shapes bend to fit pixels
+
+    # preserves truetype font shapes, looks closer to the original | greyscale + cleartype
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:warping=0 "
+    # 0   = no warping, shapes stay closer to original
+    # 1   = warping on, shapes bend to fit pixels
+
+    # thickens thin lines of truetype fonts | greyscale only
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:gray-strong-stem-widths=1 "
+    # 0   = normal stem strength in greyscale
+    # 1   = stronger stems in greyscale
+
+    # uses modern windows style truetype hinting | greyscale + cleartype
+    FREETYPE_PROPERTIES="${FREETYPE_PROPERTIES}truetype:interpreter-version=40"
+    # 35  = old truetype hinting behavior
+    # 40  = modern windows style hinting behavior
+
     export FREETYPE_PROPERTIES
+}
+
+_profile_wine () {
+    WINEPREFIX="${HOME}/src/wine/default"; export WINEPREFIX 
 }
 
 _profile_bash () {
@@ -27,6 +56,7 @@ _profile_bash () {
 main() {
     _profile_xdg
     #_profile_freetype
+    _profile_wine
     _profile_bash
 }
 

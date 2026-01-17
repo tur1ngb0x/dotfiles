@@ -50,11 +50,3 @@ function PostInstall_Pieces {
     fi
 }
 
-function main {
-    PostInstall_VirtManager
-    PostInstall_MYSQL
-    PostInstall_Pieces
-}
-
-# begin script from here
-main "${@}"

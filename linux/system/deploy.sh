@@ -15,6 +15,12 @@ sudo install -v -D ./etc/browser/policies/managed/brave.json /etc/brave/policies
 # DOCKER
 # sudo mkdir -pv /home/docker && sudo install -v -D ./etc/docker/daemon.json /etc/docker/daemon.json
 
+# FONTS
+sudo install -v -D ./../user/.config/fontconfig/fonts.conf /etc/fonts/local.conf
+sudo ln -f -s -v /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d/10-sub-pixel-rgb.conf
+sudo ln -f -s -v /usr/share/fontconfig/conf.avail/10-hinting-slight.conf /etc/fonts/conf.d/10-hinting-slight.conf
+sudo ln -f -s -v /usr/share/fontconfig/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d/11-lcdfilter-default.conf
+
 # NETWORK
 sudo install -v -D ./etc/NetworkManager/conf.d/99-custom.conf /etc/NetworkManager/conf.d/99-custom.conf
 

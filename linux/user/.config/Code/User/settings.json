@@ -5,7 +5,7 @@
   "editor.allowVariableFonts": false,
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "editor.folding": false,
-  "editor.fontFamily": "'Lilex Nerd Font Mono','Adwaita Mono', 'Liberation Mono'",
+  "editor.fontFamily": "'Lilex Nerd Font Mono'",
   "editor.fontLigatures": false,
   "editor.fontWeight": "400",
   "editor.glyphMargin": false,
@@ -26,8 +26,10 @@
   "window.dialogStyle": "custom",
   "window.menuBarVisibility": "compact",
   "window.menuStyle": "custom",
+  "window.title": "VISUAL STUDIO CODE",
   "window.titleBarStyle": "custom",
   "workbench.activityBar.location": "top",
+  "workbench.colorTheme": "Visual Studio Light",
   "workbench.editor.highlightModifiedTabs": true,
   "workbench.editor.pinnedTabSizing": "compact",
   "workbench.editor.scrollToSwitchTabs": true,
@@ -38,5 +40,5 @@
   "workbench.productIconTheme": "material-product-icons",
   "workbench.remoteIndicator.showExtensionRecommendations": false,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "workbench.startupEditor": "terminal"
+  "workbench.startupEditor": "terminal",
 }

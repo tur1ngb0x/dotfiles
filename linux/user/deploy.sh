@@ -1,97 +1,113 @@
 #!/usr/bin/env bash
 
-# POSIX strict mode
-LC_ALL=C
+# enable bash strict mode for safer execution
+set -euo pipefail
 
-# checks
-[[ "${BASH_SOURCE[0]}" != "${0}" ]] && printf 'ERROR: Do not source this script\n'             && return 1
-[[ "${EUID}" -eq 0 ]]               && printf 'ERROR: Do not run this script as a root user\n' && exit 1
-[[ "$#" -ne 0 ]]                    && printf 'ERROR: Do not run this script with arguments\n' && exit 1
+# enforce POSIX locale for deterministic behavior
+export LC_ALL='C'
+
+# hard-code PATH to trusted system locations only
+export PATH='/usr/local/sbin:/usr/local/bin:/usr/bin'
+
+# ensure the script is not sourced
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+    # print error if script is sourced instead of executed
+    builtin printf "%s\n" "ERROR: Do not source this script" 1>&2
+    builtin return 1
+fi
+
+# ensure the script is not run as root
+if [[ "${EUID}" -eq 0 ]]; then
+    # print error if script is executed as root
+    builtin printf "%s\n" "ERROR: Do not run this script as a root user" 1>&2
+    command exit 1
+fi
+
+# ensure the script is run without arguments
+if [[ "${#}" -ne 0 ]]; then
+    # print error if arguments are provided
+    builtin printf "%s\n" "ERROR: Do not run this script with arguments" 1>&2
+    command exit 1
+fi
 
 # get full path of this script
-CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)"
+CWD="$(
+    command cd "$(command dirname "${BASH_SOURCE[0]}")" \
+        &>/dev/null \
+        && command pwd -P
+)"
 
-# deploy function
+# deploy a dotfile by creating a symlink in HOME
 function _deploy () {
-    # take dotfile as source
+    # compute absolute source file path from script directory
     local src_file="${CWD}/${1:?}"
 
-    # source should not be a symlink
-    [[ ! -e "${src_file}" ]] || [[ -L "${src_file}" ]] && printf 'ERROR: invalid source: %s\n' "${src_file}" && return 1
-
-    # replace CWD with HOME
-    local dest_file="${src_file/#${CWD}/${HOME}}"
-
-    # get destination directory
-    local dest_dir="$(dirname "${dest_file}")"
-
-    # create destination directory
-    mkdir -p "${dest_dir}"
-
-    # # print header
-    # printf '\e[7m%s\e[0m\n' "${1:?}"
-
-    # symlink source to destination directory
-    ln -s -f -v "${src_file}" "${dest_file}"
-}
-
-_install() {
-    local pm=""
-
-    # detect package manager
-    if [[ -x "/usr/bin/apt-get" ]]; then
-        pm="apt"
-    elif [[ -x "/usr/bin/dnf" ]]; then
-        pm="dnf"
-    elif [[ -x "/usr/bin/pacman" ]]; then
-        pm="pacman"
-    else
-        return 1
+    # validate that source exists and is not a symlink
+    if [[ ! -e "${src_file}" ]] \
+        || [[ -L "${src_file}" ]]; then
+        # print error if source is invalid
+        builtin printf "%s\n" "ERROR: invalid source: ${src_file}" 1>&2
+        builtin return 1
     fi
 
-    while [[ "${#}" -gt 0 ]]; do
-        case "${1}" in
-            --apt)
-                [[ "${pm}" != "apt" ]] && break
-                shift
-                while [[ "${#}" -gt 0 && "${1}" != --* ]]; do
-                    /usr/bin/sudo /usr/bin/apt-get install --assume-yes "${1}"
-                    shift
-                done
-                ;;
-            --dnf)
-                [[ "${pm}" != "dnf" ]] && break
-                shift
-                while [[ "${#}" -gt 0 && "${1}" != --* ]]; do
-                    /usr/bin/sudo /usr/bin/dnf install --assumeyes "${1}"
-                    shift
-                done
-                ;;
-            --pacman)
-                [[ "${pm}" != "pacman" ]] && break
-                shift
-                while [[ "${#}" -gt 0 && "${1}" != --* ]]; do
-                    /usr/bin/sudo /usr/bin/pacman --sync --needed --noconfirm "${1}"
-                    shift
-                done
+    # compute destination path by replacing CWD with HOME
+    local dest_file="${src_file/#${CWD}/${HOME}}"
+
+    # determine destination directory path
+    local dest_dir="$(command dirname "${dest_file}")"
+
+    # create destination directory hierarchy if missing
+    command mkdir -p "${dest_dir}"
+
+    # create or replace symbolic link from source to destination
+    command ln -s -f -v "${src_file}" "${dest_file}"
+}
+
+function _install () {
+    local mode=''
+    local -a apt_pkgs=()
+    local -a dnf_pkgs=()
+    local -a pacman_pkgs=()
+
+    for arg in "${@}"; do
+        case "${arg}" in
+            --apt|--dnf|--pacman)
+                mode="${arg}"
                 ;;
             *)
-                shift
+                [[ "${mode}" == '--apt' ]] && apt_pkgs+=("${arg}")
+                [[ "${mode}" == '--dnf' ]] && dnf_pkgs+=("${arg}")
+                [[ "${mode}" == '--pacman' ]] && pacman_pkgs+=("${arg}")
                 ;;
         esac
     done
+
+    if [[ -x '/usr/bin/pacman' ]]; then
+        /usr/bin/sudo /usr/bin/pacman --sync --needed --noconfirm "${pacman_pkgs[@]}"
+        return
+    fi
+
+    if [[ -x '/usr/bin/dnf' ]]; then
+        /usr/bin/sudo /usr/bin/dnf install -y "${dnf_pkgs[@]}"
+        return
+    fi
+
+    if [[ -x '/usr/bin/apt' ]]; then
+        /usr/bin/sudo /usr/bin/apt install -y "${apt_pkgs[@]}"
+        return
+    fi
 }
 
 function main () {
-
-    # shell
-    rm -f -v "${HOME}"/.bash_profile
+    command rm -f -v "${HOME}"/.bash_profile
     _deploy '.profile'
     _deploy '.xprofile'
     _deploy '.bashrc'
     _deploy '.config/git/config'
+    _deploy '.config/fontconfig/fonts.conf'
     _deploy '.config/alacritty/alacritty.toml'
+    _deploy '.config/micro/settings.json'
 }
 
-# begin script from here
+# start script execution
 main "${@}"
